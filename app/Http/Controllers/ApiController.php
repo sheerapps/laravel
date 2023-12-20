@@ -251,7 +251,7 @@ class ApiController extends Controller
         curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
         $res2 = curl_exec($ch2);
         $main2 = json_decode($res2); 
-        $this->sub_formatter($main2,$date);
+        $main2_final = $this->sub_formatter($main2,$date);
         //nl
         if($url_nl == "past"){
             //
@@ -274,7 +274,7 @@ class ApiController extends Controller
         curl_setopt($ch4, CURLOPT_CONNECTTIMEOUT, 1);
         $res4 = curl_exec($ch4);
         $main4 = json_decode($res4);
-        $this->bn_formatter($main4,$date);
+        $main4_final = $this->bn_formatter($main4,$date);
         //sbjp
         $date_sb = date("Ymd", strtotime($date));
         $url_sb = "https://www.check4d.org/liveosx.json";
@@ -329,11 +329,15 @@ class ApiController extends Controller
             }
 
         }
-        return $main1_final;
+        //$main1_final main
+        //$main2_final sub
+        //$main4_final bn
+        //$sbjp_formatter ee
+        return $main2_final;
     }
     public function sub_formatter($array,$date){
         $resultsJP = [
-            "jpDataPdn"=>[
+            "jpDataPd"=>[
                 "dd" => !isset($array->N6D->DrawDate) ? $date : $array->N6D->DrawDate,
                 "dn" => !isset($array->N6D->DrawID) ? "" : $array->N6D->DrawID,
                 "n1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
@@ -348,7 +352,7 @@ class ApiController extends Controller
             ]
         ];
         $results4D = [
-            "PDN"=>[
+            "PD"=>[
                 "dd" => !isset($array->N->DrawDate) ? $date : $array->N->DrawDate,
                 "dn" => !isset($array->N->DrawID) ? "" : $array->N->DrawID,
                 "c1" => !isset($array->N->C[0]) ? "----" : $array->N->C[0],
@@ -381,6 +385,40 @@ class ApiController extends Controller
                 "s12" => !isset($array->N->_P[11]) ? "----" : $array->N->_P[11],
                 "s13" => !isset($array->N->_P[12]) ? "----" : $array->N->_P[12],
                 "videoLink" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
+            ],
+            "LH"=>[
+                "dd" => !isset($array->R->DrawDate) ? $date : $array->R->DrawDate,
+                "dn" => !isset($array->R->DrawID) ? "" : $array->R->DrawID,
+                "c1" => !isset($array->R->C[0]) ? "----" : $array->R->C[0],
+                "c2" => !isset($array->R->C[1]) ? "----" : $array->R->C[1],
+                "c3" => !isset($array->R->C[2]) ? "----" : $array->R->C[2],
+                "c4" => !isset($array->R->C[3]) ? "----" : $array->R->C[3],
+                "c5" => !isset($array->R->C[4]) ? "----" : $array->R->C[4],
+                "c6" => !isset($array->R->C[5]) ? "----" : $array->R->C[5],
+                "c7" => !isset($array->R->C[6]) ? "----" : $array->R->C[6],
+                "c8" => !isset($array->R->C[7]) ? "----" : $array->R->C[7],
+                "c9" => !isset($array->R->C[8]) ? "----" : $array->R->C[8],
+                "c10" => !isset($array->R->C[9]) ? "----" : $array->R->C[9],
+                "n1" => !isset($array->R->_1[0]) ? "----" : $array->R->_1[0],
+                "n1_pos" => !isset($array->R->_1pos[0]) ? "" : $array->R->_1pos[0],
+                "n2" => !isset($array->R->_2[0]) ? "----" : $array->R->_2[0],
+                "n2_pos" => !isset($array->R->_2pos[0]) ? "" : $array->R->_2pos[0],
+                "n3" => !isset($array->R->_3[0]) ? "----" : $array->R->_3[0],
+                "n3_pos" => !isset($array->R->_3pos[0]) ? "" : $array->R->_3pos[0],
+                "s1" => !isset($array->R->_P[0]) ? "----" : $array->R->_P[0],
+                "s2" => !isset($array->R->_P[1]) ? "----" : $array->R->_P[1],
+                "s3" => !isset($array->R->_P[2]) ? "----" : $array->R->_P[2],
+                "s4" => !isset($array->R->_P[3]) ? "----" : $array->R->_P[3],
+                "s5" => !isset($array->R->_P[4]) ? "----" : $array->R->_P[4],
+                "s6" => !isset($array->R->_P[5]) ? "----" : $array->R->_P[5],
+                "s7" => !isset($array->R->_P[6]) ? "----" : $array->R->_P[6],
+                "s8" => !isset($array->R->_P[7]) ? "----" : $array->R->_P[7],
+                "s9" => !isset($array->R->_P[8]) ? "----" : $array->R->_P[8],
+                "s10" => !isset($array->R->_P[9]) ? "----" : $array->R->_P[9],
+                "s11" => !isset($array->R->_P[10]) ? "----" : $array->R->_P[10],
+                "s12" => !isset($array->R->_P[11]) ? "----" : $array->R->_P[11],
+                "s13" => !isset($array->R->_P[12]) ? "----" : $array->R->_P[12],
+                "videoLink" => ""
             ]
         ];
         return [$results4D,$resultsJP];
