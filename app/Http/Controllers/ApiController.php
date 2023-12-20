@@ -231,6 +231,13 @@ class ApiController extends Controller
             $url_sub = "https://4dyes2.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
+        //is Live
+
+        if($date == $today && date("Gi") <= 1829){
+            $today_live = new DateTime($today);
+            $today_live->modify('-1 days');
+            $date = $today_live->format('Y-m-d');
+        }
         //main DONE
         $ch1 = curl_init($url_main);
         curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
