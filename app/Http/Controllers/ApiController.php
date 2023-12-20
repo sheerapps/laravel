@@ -417,6 +417,7 @@ class ApiController extends Controller
         ];
     }
     public function bn_formatter($bn_arr,$date){
+        return $bn_arr;
         $bnt=array(
             0=>array(),
             1=>array()
