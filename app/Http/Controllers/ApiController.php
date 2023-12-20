@@ -369,7 +369,7 @@ class ApiController extends Controller
             [
                 "type"=> "SG",
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
-                "jpData"=>$finalFormatSG
+                "jpData"=>$sjpFinal
             ],
             [
                 "type"=> "CS",
