@@ -426,8 +426,7 @@ class ApiController extends Controller
     }
     public function bn_formatter($bn_arr,$date){
         $bnt=array(
-            0=>array(),
-            1=>array()
+            0=>array()
         );
         if($bn_arr && isset($bn_arr->P1)){
             $bnt[0]["dd"] = $date;
@@ -461,11 +460,11 @@ class ApiController extends Controller
             $bnt[0]["s11"] = $bn_arr->{11};
             $bnt[0]["s12"] = $bn_arr->{12};
             $bnt[0]["s13"] = $bn_arr->{13};
-            $bnt[1]['n1'] = $bn_arr->{'5D1'};
-            $bnt[1]['n2'] = $bn_arr->{'5D2'};
-            $bnt[1]['n3'] = $bn_arr->{'5D3'};
-            $bnt[1]['jp1'] = $bn_arr->{'6D1'};
-            $bnt[1]['jp2'] = $bn_arr->{'7D1'};
+            $bnt[0]['jp5d1'] = $bn_arr->{'5D1'};
+            $bnt[0]['jp5d2'] = $bn_arr->{'5D2'};
+            $bnt[0]['jp5d3'] = $bn_arr->{'5D3'};
+            $bnt[0]['jp6d1'] = $bn_arr->{'6D1'};
+            $bnt[0]['jp7d1'] = $bn_arr->{'7D1'};
         }else{
             $bnt[0]["dd"] = $date;
             $bnt[0]["dn"] = "";
@@ -498,11 +497,11 @@ class ApiController extends Controller
             $bnt[0]["s11"] = "----";
             $bnt[0]["s12"] = "----";
             $bnt[0]["s13"] = "----";
-            $bnt[1]['n1'] = "-----";
-            $bnt[1]['n2'] = "-----";
-            $bnt[1]['n3'] = "-----";
-            $bnt[1]['jp1'] = "------";
-            $bnt[1]['jp2'] = "-------";
+            $bnt[0]['jp5d1'] = "-----";
+            $bnt[0]['jp5d2'] = "-----";
+            $bnt[0]['jp5d3'] = "-----";
+            $bnt[0]['jp6d1'] = "------";
+            $bnt[0]['jp7d1'] = "-------";
         }
         
         return $bnt;
