@@ -338,10 +338,10 @@ class ApiController extends Controller
 
         }
         //$main1_final main
-        //$main2_final sub
+        //$main2_final lhpn
         //$main4_final bn
         //$sbjp_formatter ee
-        return $main2_final;
+        return $sbjp_formatter;
     }
     public function sub_formatter($array,$date){
         return [
