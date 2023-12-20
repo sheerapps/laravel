@@ -302,7 +302,7 @@ class ApiController extends Controller
 
         //sjp
         $main6 = null;
-        return $main1_final;
+
         if($date == "date" || $date >= $today){
             $main6 = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
         }else{
