@@ -306,7 +306,7 @@ class ApiController extends Controller
             echo 1;
             $sjpFinal = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
         }else{
-            echo 1;
+            echo 2;
             $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
             curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
