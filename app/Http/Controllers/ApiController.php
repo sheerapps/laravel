@@ -301,7 +301,9 @@ class ApiController extends Controller
         ];
 
         //sjp
+        $sjpFinal  = null;
         if($date == "date" || $date >= $today){
+            echo 1;
             $sjpFinal = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
         }else{
             $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
@@ -316,24 +318,19 @@ class ApiController extends Controller
                 $index = array_search('SGJP', $keys);
                 if(isset($index) && $index >= 0){
                     if(isset($main6[$index]->jpData)){
-                        $fomatter6 = $main6[$index]->jpData;
-                    }else{
-                        $fomatter6 = null;
+                        $sjpFinal = $main6[$index]->jpData;
                     }
                 }
-            } else {
-                $fomatter6 = null;
             }
-            $sjpFinal=null;
-            if(!isset($fomatter6)){
-                if(!isset($formatMain['SGJP6/45'])){
-                    $sjpFinal=null;
-                }else{
-                    $sjpFinal=$formatMain['SGJP6/45'];
-                }
-            }else{
-                $sjpFinal=$fomatter6;
-            }
+            // if(!isset($fomatter6)){
+            //     if(!isset($formatMain['SGJP6/45'])){
+            //         $sjpFinal=null;
+            //     }else{
+            //         $sjpFinal=$formatMain['SGJP6/45'];
+            //     }
+            // }else{
+            //     $sjpFinal=$fomatter6;
+            // }
 
         }
         return $sjpFinal;
