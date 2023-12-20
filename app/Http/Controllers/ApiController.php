@@ -271,7 +271,7 @@ class ApiController extends Controller
             $res3 = curl_exec($ch3);
             $main3 = json_decode($res3);
             $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
-            $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+            $main1_final["NLJP"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
         }
         //bn
         $date_bn = date("Ymd", strtotime($date));
@@ -341,7 +341,84 @@ class ApiController extends Controller
         //$main2_final lhpn
         //$main4_final bn
         //$sbjp_formatter ee
-        return $main1_final;
+
+        $final_array = [
+            [
+                "type"=> "M",
+                "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
+                "jpData"=>[
+                    "gold"=>!isset($main1_final['MJP_GOLD']) ? null : $main1_final['MJP_GOLD'],
+                    "life"=>!isset($main1_final['MJP_LIFE']) ? null : $main1_final['MJP_LIFE']
+                ]
+            ],
+            [
+                "type"=> "PMP",
+                "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
+                "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
+            ],
+            [
+                "type"=> "ST",
+                "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
+                "jpData"=>[
+                    "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
+                    "jp50"=>!isset($main1_final['STJP_6/50']) ? null : $main1_final['STJP_6/50'],
+                    "jp55"=>!isset($main1_final['STJP_6/55']) ? null : $main1_final['STJP_6/55'],
+                    "jp58"=>!isset($main1_final['STJP_6/58']) ? null : $main1_final['STJP_6/58']
+                ]
+            ],
+            [
+                "type"=> "SG",
+                "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
+                "jpData"=>$finalFormatSG
+            ],
+            [
+                "type"=> "CS",
+                "fdData"=>!isset($main1_final['CS']) ? null :$main1_final['CS']
+            ],
+            [
+                "type"=> "STC",
+                "fdData"=>!isset($main1_final['STC']) ? null :$main1_final['STC']
+            ],
+            [
+                "type"=> "EE",
+                "fdData"=>!isset($main1_final['EE']) ? null :$main1_final['EE'],
+                "jpData"=>!isset($formatSabahJP) ? null : $formatSabahJP
+            ],
+            [
+                "type"=> "GD",
+                "fdData"=>!isset($main1_final['GD']) ? null :$main1_final['GD'],
+                "jpData"=>!isset($main1_final['GD6D']) ? null : $main1_final['GD6D']
+            ],
+            [
+                "type"=> "NL",
+                "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
+                "jpData"=>!isset($main1_final["NLJP"]) ? null : $main1_final["NLJP"]
+            ],
+            [
+                "type"=> "PD",
+                "fdData"=>!isset($main2_final["PD"]) ? null : $main2_final["PD"]
+            ],
+            [
+                "type"=> "LH",
+                "fdData"=>!isset($main2_final["LH"]) ? null : $main2_final["LH"]
+            ],
+            [
+                "type"=> "BN",
+                "fdData"=>!isset($main4_final[0]) ? null : $main4_final[0]
+            ]
+        ];
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
+            }
+        }
+        return array_values($final_array);
     }
     public function sub_formatter($array,$date){
         return [
