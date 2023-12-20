@@ -283,13 +283,14 @@ class ApiController extends Controller
         curl_setopt($ch5, CURLOPT_TIMEOUT, 1);
         curl_setopt($ch5, CURLOPT_CONNECTTIMEOUT, 1);
         $res5 = curl_exec($ch5);
-        $main5 = json_decode($res5);
-        print_r($main5[0]);
+        $main5f = json_decode($res5);
+        $main5 = [$main5f];
+        print_r($main5[0]->SBLT);
         return;
         $sbjp_formatter = [
-            "jpData56"=>!isset($array[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,
-            "jpData1"=>!isset($array[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
-            "jpData2"=>!isset($array[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2
+            "jpData56"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,
+            "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
+            "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2
         ];
 
         //sjp
