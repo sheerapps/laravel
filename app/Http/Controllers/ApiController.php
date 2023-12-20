@@ -341,7 +341,7 @@ class ApiController extends Controller
         //$main2_final lhpn
         //$main4_final bn
         //$sbjp_formatter ee
-        return $sbjp_formatter;
+        return $main1_final;
     }
     public function sub_formatter($array,$date){
         return [
