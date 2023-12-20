@@ -232,8 +232,30 @@ class ApiController extends Controller
             $url_sub = "https://4dyes2.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
+        //sjp
+        $sjpFinal  = null;
+        if($date == "date" || $date >= $today){
+            $sjpFinal = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
+        }else{
+            $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
+            curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch6, CURLOPT_CONNECTTIMEOUT, 1);
+            $res6 = curl_exec($ch6);
+            $main6 = json_decode($res6);
+            //format
+            if (isset($main6)) {
+                $keys = array_column($main6, 'type');
+                $index = array_search('SGJP', $keys);
+                if(isset($index) && $index >= 0){
+                    if(isset($main6[$index]->jpData)){
+                        $sjpFinal = $main6[$index]->jpData;
+                    }
+                }
+            }
+        }
+        return $sjpFinal;
         //is Live
-
         if($date == $today && date("Gi") <= 1829){
             $today_live = new DateTime($today);
             $today_live->modify('-1 days');
@@ -299,42 +321,7 @@ class ApiController extends Controller
             "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2,
             "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
         ];
-
-        //sjp
-        $sjpFinal  = null;
-        if($date == "date" || $date >= $today){
-            echo 1;
-            $sjpFinal = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
-        }else{
-            echo 2;
-            $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
-            curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
-            curl_setopt($ch6, CURLOPT_CONNECTTIMEOUT, 1);
-            $res6 = curl_exec($ch6);
-            $main6 = json_decode($res6);
-            //format
-            if (isset($main6)) {
-                $keys = array_column($main6, 'type');
-                $index = array_search('SGJP', $keys);
-                if(isset($index) && $index >= 0){
-                    if(isset($main6[$index]->jpData)){
-                        $sjpFinal = $main6[$index]->jpData;
-                    }
-                }
-            }
-            // if(!isset($fomatter6)){
-            //     if(!isset($formatMain['SGJP6/45'])){
-            //         $sjpFinal=null;
-            //     }else{
-            //         $sjpFinal=$formatMain['SGJP6/45'];
-            //     }
-            // }else{
-            //     $sjpFinal=$fomatter6;
-            // }
-
-        }
-        return;
+        
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
