@@ -302,10 +302,9 @@ class ApiController extends Controller
 
         //sjp
         $main6 = null;
-        $main6 = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
-        return [$main6];
+
         if($date == "date" || $date >= $today){
-            $main6 = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
+            $sjpFinal = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
         }else{
             $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
             curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
