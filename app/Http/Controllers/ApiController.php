@@ -295,9 +295,9 @@ class ApiController extends Controller
         $main5 = [$main5f];
         
         $sbjp_formatter = [
-            "jpData56"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,
             "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
             "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2
+            "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
         ];
 
         //sjp
@@ -341,7 +341,7 @@ class ApiController extends Controller
         //$main2_final sub
         //$main4_final bn
         //$sbjp_formatter ee
-        return $sbjp_formatter;
+        return $main2_final;
     }
     public function sub_formatter($array,$date){
         return [
