@@ -224,7 +224,7 @@ class ApiController extends Controller
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
         if($date == "date" || $date >= $today){
-            //
+            $date = $today;
         }else{
             //past
             $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
@@ -268,14 +268,12 @@ class ApiController extends Controller
         //bn
         $date_bn = date("Ymd", strtotime($date));
         $url_bn = "https://publicapi.ace4dv2.live/publicAPI/bt4?date=$date_bn";
-        return $date."====".$date_bn;
         $ch4 = curl_init($url_bn);
         curl_setopt($ch4, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch4, CURLOPT_TIMEOUT, 1);
         curl_setopt($ch4, CURLOPT_CONNECTTIMEOUT, 1);
         $res4 = curl_exec($ch4);
         $main4 = json_decode($res4);
-
         $main4_final = $this->bn_formatter($main4,$date);
         //sbjp
         $date_sb = date("Ymd", strtotime($date));
@@ -419,7 +417,6 @@ class ApiController extends Controller
         ];
     }
     public function bn_formatter($bn_arr,$date){
-        return $bn_arr;
         $bnt=array(
             0=>array(),
             1=>array()
