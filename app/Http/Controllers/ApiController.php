@@ -336,22 +336,7 @@ class ApiController extends Controller
         return $main2_final;
     }
     public function sub_formatter($array,$date){
-        $resultsJP = [
-            "jpDataPd"=>[
-                "dd" => !isset($array->N6D->DrawDate) ? $date : $array->N6D->DrawDate,
-                "dn" => !isset($array->N6D->DrawID) ? "" : $array->N6D->DrawID,
-                "n1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
-                "n2" => !isset($array->N6D->_2[0]) ? "-----" : $array->N6D->_2[0],
-                "n3" => !isset($array->N6D->_2[1]) ? "-----" : $array->N6D->_2[1],
-                "n4" => !isset($array->N6D->_3[0]) ? "----" : $array->N6D->_3[0],
-                "n5" => !isset($array->N6D->_3[1]) ? "----" : $array->N6D->_3[1],
-                "n7" => !isset($array->N6D->_4[0]) ? "---" : $array->N6D->_4[0],
-                "n8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
-                "n9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
-                "n10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
-            ]
-        ];
-        $results4D = [
+        return [
             "PD"=>[
                 "dd" => !isset($array->N->DrawDate) ? $date : $array->N->DrawDate,
                 "dn" => !isset($array->N->DrawID) ? "" : $array->N->DrawID,
@@ -384,6 +369,15 @@ class ApiController extends Controller
                 "s11" => !isset($array->N->_P[10]) ? "----" : $array->N->_P[10],
                 "s12" => !isset($array->N->_P[11]) ? "----" : $array->N->_P[11],
                 "s13" => !isset($array->N->_P[12]) ? "----" : $array->N->_P[12],
+                "n1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
+                "n2" => !isset($array->N6D->_2[0]) ? "-----" : $array->N6D->_2[0],
+                "n3" => !isset($array->N6D->_2[1]) ? "-----" : $array->N6D->_2[1],
+                "n4" => !isset($array->N6D->_3[0]) ? "----" : $array->N6D->_3[0],
+                "n5" => !isset($array->N6D->_3[1]) ? "----" : $array->N6D->_3[1],
+                "n7" => !isset($array->N6D->_4[0]) ? "---" : $array->N6D->_4[0],
+                "n8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
+                "n9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
+                "n10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
                 "videoLink" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
             ],
             "LH"=>[
@@ -421,7 +415,6 @@ class ApiController extends Controller
                 "videoLink" => ""
             ]
         ];
-        return [$results4D,$resultsJP];
     }
     public function bn_formatter($bn_arr,$date){
         $bnt=array(
