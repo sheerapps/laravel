@@ -333,7 +333,7 @@ class ApiController extends Controller
         //$main2_final sub
         //$main4_final bn
         //$sbjp_formatter ee
-        return $main2_final;
+        return $main4_final;
     }
     public function sub_formatter($array,$date){
         return [
@@ -369,15 +369,15 @@ class ApiController extends Controller
                 "s11" => !isset($array->N->_P[10]) ? "----" : $array->N->_P[10],
                 "s12" => !isset($array->N->_P[11]) ? "----" : $array->N->_P[11],
                 "s13" => !isset($array->N->_P[12]) ? "----" : $array->N->_P[12],
-                "n1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
-                "n2" => !isset($array->N6D->_2[0]) ? "-----" : $array->N6D->_2[0],
-                "n3" => !isset($array->N6D->_2[1]) ? "-----" : $array->N6D->_2[1],
-                "n4" => !isset($array->N6D->_3[0]) ? "----" : $array->N6D->_3[0],
-                "n5" => !isset($array->N6D->_3[1]) ? "----" : $array->N6D->_3[1],
-                "n7" => !isset($array->N6D->_4[0]) ? "---" : $array->N6D->_4[0],
-                "n8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
-                "n9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
-                "n10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
+                "jp1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
+                "jp2" => !isset($array->N6D->_2[0]) ? "-----" : $array->N6D->_2[0],
+                "jp3" => !isset($array->N6D->_2[1]) ? "-----" : $array->N6D->_2[1],
+                "jp4" => !isset($array->N6D->_3[0]) ? "----" : $array->N6D->_3[0],
+                "jp5" => !isset($array->N6D->_3[1]) ? "----" : $array->N6D->_3[1],
+                "jp7" => !isset($array->N6D->_4[0]) ? "---" : $array->N6D->_4[0],
+                "jp8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
+                "jp9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
+                "jp10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
                 "videoLink" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
             ],
             "LH"=>[
