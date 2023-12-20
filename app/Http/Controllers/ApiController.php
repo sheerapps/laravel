@@ -268,7 +268,7 @@ class ApiController extends Controller
         //bn
         $date_bn = date("Ymd", strtotime($date));
         $url_bn = "https://publicapi.ace4dv2.live/publicAPI/bt4?date=$date_bn";
-        return $url_bn;
+        return $date."====".$date_bn;
         $ch4 = curl_init($url_bn);
         curl_setopt($ch4, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch4, CURLOPT_TIMEOUT, 1);
