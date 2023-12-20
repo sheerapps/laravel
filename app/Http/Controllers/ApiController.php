@@ -322,7 +322,7 @@ class ApiController extends Controller
         }else{
             $sjpFinal = $main1_final['SGJP6/45'];
         }
-        return $sjpFinal;
+
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
