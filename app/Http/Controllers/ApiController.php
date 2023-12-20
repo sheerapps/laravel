@@ -304,7 +304,7 @@ class ApiController extends Controller
         $main6 = null;
         return $main1_final;
         if($date == "date" || $date >= $today){
-            $main6 = !isset($main1_final['SGJP_6/45']) ? null : $main1_final['SGJP_6/45'];
+            $main6 = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
         }else{
             $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
             curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
@@ -328,10 +328,10 @@ class ApiController extends Controller
             }
             $sjpFinal=null;
             if(!isset($fomatter6)){
-                if(!isset($formatMain['SGJP_6/45'])){
+                if(!isset($formatMain['SGJP6/45'])){
                     $sjpFinal=null;
                 }else{
-                    $sjpFinal=$formatMain['SGJP_6/45'];
+                    $sjpFinal=$formatMain['SGJP6/45'];
                 }
             }else{
                 $sjpFinal=$fomatter6;
@@ -348,8 +348,8 @@ class ApiController extends Controller
                 "type"=> "M",
                 "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
                 "jpData"=>[
-                    "gold"=>!isset($main1_final['MJP_GOLD']) ? null : $main1_final['MJP_GOLD'],
-                    "life"=>!isset($main1_final['MJP_LIFE']) ? null : $main1_final['MJP_LIFE']
+                    "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
+                    "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
                 ]
             ],
             [
@@ -362,9 +362,9 @@ class ApiController extends Controller
                 "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
                 "jpData"=>[
                     "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
-                    "jp50"=>!isset($main1_final['STJP_6/50']) ? null : $main1_final['STJP_6/50'],
-                    "jp55"=>!isset($main1_final['STJP_6/55']) ? null : $main1_final['STJP_6/55'],
-                    "jp58"=>!isset($main1_final['STJP_6/58']) ? null : $main1_final['STJP_6/58']
+                    "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
+                    "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
+                    "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
                 ]
             ],
             [
