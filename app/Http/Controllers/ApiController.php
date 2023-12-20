@@ -306,6 +306,7 @@ class ApiController extends Controller
             echo 1;
             $sjpFinal = !isset($main1_final['SGJP6/45']) ? null : $main1_final['SGJP6/45'];
         }else{
+            echo 1;
             $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
             curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
@@ -313,7 +314,7 @@ class ApiController extends Controller
             $res6 = curl_exec($ch6);
             $main6 = json_decode($res6);
             //format
-            if (is_array($main6)) {
+            if (isset($main6)) {
                 $keys = array_column($main6, 'type');
                 $index = array_search('SGJP', $keys);
                 if(isset($index) && $index >= 0){
@@ -333,7 +334,7 @@ class ApiController extends Controller
             // }
 
         }
-        return $sjpFinal;
+        return;
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
