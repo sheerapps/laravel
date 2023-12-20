@@ -285,8 +285,7 @@ class ApiController extends Controller
         $res5 = curl_exec($ch5);
         $main5f = json_decode($res5);
         $main5 = [$main5f];
-        print_r($main5[0]->SBLT);
-        return;
+        
         $sbjp_formatter = [
             "jpData56"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,
             "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
