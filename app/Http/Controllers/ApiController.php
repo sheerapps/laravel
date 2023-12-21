@@ -28,7 +28,6 @@ class ApiController extends Controller
                     'type' => $item['type'],
                     'dd' => $fdData->dd,
                     'dn' => $fdData->dn,
-                    'videoLink' => $fdData->videoLink,
                     'n1' => $fdData->n1,
                     'n2' => $fdData->n2,
                     'n3' => $fdData->n3,
