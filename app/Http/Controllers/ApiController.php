@@ -90,8 +90,7 @@ class ApiController extends Controller
             curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
             curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
-            $res2 = curl_exec($ch2);
-            $res2json = json_decode($res2);
+            $res2json = curl_exec($ch2);
         }else{
             $typeArr = array(
                 "tua"=>"tpk",
