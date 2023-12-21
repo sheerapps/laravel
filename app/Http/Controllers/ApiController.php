@@ -22,6 +22,8 @@ class ApiController extends Controller
         $data = $this->getMainByDate($date);
         foreach ($data as $item) {
             $fdData = $item['fdData'];
+            echo $item['type'];
+            return;
             Sheerdata::updateOrInsert(
                 ['dd' => $fdData['dd'], 'type' => $item['type']],
                 [
