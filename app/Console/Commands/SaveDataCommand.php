@@ -11,7 +11,7 @@ class SaveDataCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'cron:daily_update';
 
     /**
      * The console command description.
@@ -37,6 +37,9 @@ class SaveDataCommand extends Command
      */
     public function handle()
     {
-        //
+        $apiController = new ApiController();
+        $apiController->saveData(date('Y-m-d'));
+        
+        $this->info('Data saved successfully!');
     }
 }
