@@ -22,15 +22,48 @@ class ApiController extends Controller
         $data = $this->getMainByDate($date);
         foreach ($data as $item) {
             $fdData = $item['fdData'];
-            echo $fdData->dd;
-            return;
             Sheerdata::updateOrInsert(
                 ['dd' => $fdData['dd'], 'type' => $item['type']],
                 [
                     'type' => $item['type'],
-                    'dd' => $fdData['dd'],
-                    'n1' => $fdData['n1'],
-                    'n2' => $fdData['n2'],
+                    'dd' => $fdData->dd,
+                    'dn' => $fdData->dn,
+                    'videoLink' => $fdData->videoLink,
+                    'n1' => $fdData->n1,
+                    'n2' => $fdData->n2,
+                    'n3' => $fdData->n3,
+                    'n1_pos' => $fdData->n1_pos,
+                    'n2_pos' => $fdData->n2_pos,
+                    'n3_pos' => $fdData->n3_pos,
+                    'n11' => $fdData->n11,
+                    'n12' => $fdData->n12,
+                    'n13' => $fdData->n13,
+                    's1' => $fdData->s1,
+                    's2' => $fdData->s2,
+                    's3' => $fdData->s3,
+                    's4' => $fdData->s4,
+                    's5' => $fdData->s5,
+                    's6' => $fdData->s6,
+                    's7' => $fdData->s7,
+                    's8' => $fdData->s8,
+                    's9' => $fdData->s9,
+                    's10' => $fdData->s10,
+                    's11' => $fdData->s11,
+                    's12' => $fdData->s12,
+                    's13' => $fdData->s13,
+                    'c1' => $fdData->c1,
+                    'c2' => $fdData->c2,
+                    'c3' => $fdData->c3,
+                    'c4' => $fdData->c4,
+                    'c5' => $fdData->c5,
+                    'c6' => $fdData->c6,
+                    'c7' => $fdData->c7,
+                    'c8' => $fdData->c8,
+                    'c9' => $fdData->c9,
+                    'c10' => $fdData->c10,
+                    'c11' => $fdData->c11,
+                    'c12' => $fdData->c12,
+                    'c13' => $fdData->c13,
                 ]
             );
             echo $item['type']." done <p>";
