@@ -23,7 +23,7 @@ class ApiController extends Controller
         foreach ($data as $item) {
             $fdData = $item['fdData'];
             Sheerdata::updateOrInsert(
-                ['dd' => $fdData['dd'], 'type' => $item['type']],
+                ['dd' => $fdData->dd, 'type' => $item['type']],
                 [
                     'type' => $item['type'],
                     'dd' => $fdData->dd,
