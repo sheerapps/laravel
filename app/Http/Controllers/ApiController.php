@@ -82,6 +82,7 @@ class ApiController extends Controller
     public function saveData($date){
         $data = $this->dataByDate($date);
         foreach ($data as $vars) {
+            
             return $vars;
         }
     }
@@ -488,86 +489,86 @@ class ApiController extends Controller
         ];
     }
     public function bn_formatter($bn_arr,$date){
-        $bnt=array(
+        $bn=array(
             0=>array()
         );
         if($bn_arr && isset($bn_arr->P1)){
-            $bnt[0]["dd"] = $date;
-            $bnt[0]["dn"] = "";
-            $bnt[0]["c1"] = $bn_arr->{14};
-            $bnt[0]["c2"] = $bn_arr->{15};
-            $bnt[0]["c3"] = $bn_arr->{16};
-            $bnt[0]["c4"] = $bn_arr->{17};
-            $bnt[0]["c5"] = $bn_arr->{18};
-            $bnt[0]["c6"] = $bn_arr->{19};
-            $bnt[0]["c7"] = $bn_arr->{20};
-            $bnt[0]["c8"] = $bn_arr->{21};
-            $bnt[0]["c9"] = $bn_arr->{22};
-            $bnt[0]["c10"] = $bn_arr->{23};
-            $bnt[0]["n1"] = $bn_arr->P1;
-            $bnt[0]["n1_pos"] = $bn_arr->P1OriPosition;
-            $bnt[0]["n2"] = $bn_arr->P2;
-            $bnt[0]["n2_pos"] = $bn_arr->P2OriPosition;
-            $bnt[0]["n3"] = $bn_arr->P3;
-            $bnt[0]["n3_pos"] = $bn_arr->P3OriPosition;
-            $bnt[0]["s1"] = $bn_arr->{1};
-            $bnt[0]["s2"] = $bn_arr->{2};
-            $bnt[0]["s3"] = $bn_arr->{3};
-            $bnt[0]["s4"] = $bn_arr->{4};
-            $bnt[0]["s5"] = $bn_arr->{5};
-            $bnt[0]["s6"] = $bn_arr->{6};
-            $bnt[0]["s7"] = $bn_arr->{7};
-            $bnt[0]["s8"] = $bn_arr->{8};
-            $bnt[0]["s9"] = $bn_arr->{9};
-            $bnt[0]["s10"] = $bn_arr->{10};
-            $bnt[0]["s11"] = $bn_arr->{11};
-            $bnt[0]["s12"] = $bn_arr->{12};
-            $bnt[0]["s13"] = $bn_arr->{13};
-            $bnt[0]['jp5d1'] = $bn_arr->{'5D1'};
-            $bnt[0]['jp5d2'] = $bn_arr->{'5D2'};
-            $bnt[0]['jp5d3'] = $bn_arr->{'5D3'};
-            $bnt[0]['jp6d1'] = $bn_arr->{'6D1'};
-            $bnt[0]['jp7d1'] = $bn_arr->{'7D1'};
+            $bn[0]["dd"] = $date;
+            $bn[0]["dn"] = "";
+            $bn[0]["c1"] = $bn_arr->{14};
+            $bn[0]["c2"] = $bn_arr->{15};
+            $bn[0]["c3"] = $bn_arr->{16};
+            $bn[0]["c4"] = $bn_arr->{17};
+            $bn[0]["c5"] = $bn_arr->{18};
+            $bn[0]["c6"] = $bn_arr->{19};
+            $bn[0]["c7"] = $bn_arr->{20};
+            $bn[0]["c8"] = $bn_arr->{21};
+            $bn[0]["c9"] = $bn_arr->{22};
+            $bn[0]["c10"] = $bn_arr->{23};
+            $bn[0]["n1"] = $bn_arr->P1;
+            $bn[0]["n1_pos"] = $bn_arr->P1OriPosition;
+            $bn[0]["n2"] = $bn_arr->P2;
+            $bn[0]["n2_pos"] = $bn_arr->P2OriPosition;
+            $bn[0]["n3"] = $bn_arr->P3;
+            $bn[0]["n3_pos"] = $bn_arr->P3OriPosition;
+            $bn[0]["s1"] = $bn_arr->{1};
+            $bn[0]["s2"] = $bn_arr->{2};
+            $bn[0]["s3"] = $bn_arr->{3};
+            $bn[0]["s4"] = $bn_arr->{4};
+            $bn[0]["s5"] = $bn_arr->{5};
+            $bn[0]["s6"] = $bn_arr->{6};
+            $bn[0]["s7"] = $bn_arr->{7};
+            $bn[0]["s8"] = $bn_arr->{8};
+            $bn[0]["s9"] = $bn_arr->{9};
+            $bn[0]["s10"] = $bn_arr->{10};
+            $bn[0]["s11"] = $bn_arr->{11};
+            $bn[0]["s12"] = $bn_arr->{12};
+            $bn[0]["s13"] = $bn_arr->{13};
+            $bn[0]['jp5d1'] = $bn_arr->{'5D1'};
+            $bn[0]['jp5d2'] = $bn_arr->{'5D2'};
+            $bn[0]['jp5d3'] = $bn_arr->{'5D3'};
+            $bn[0]['jp6d1'] = $bn_arr->{'6D1'};
+            $bn[0]['jp7d1'] = $bn_arr->{'7D1'};
         }else{
-            $bnt[0]["dd"] = $date;
-            $bnt[0]["dn"] = "";
-            $bnt[0]["c1"] = "----";
-            $bnt[0]["c2"] = "----";
-            $bnt[0]["c3"] = "----";
-            $bnt[0]["c4"] = "----";
-            $bnt[0]["c5"] = "----";
-            $bnt[0]["c6"] = "----";
-            $bnt[0]["c7"] = "----";
-            $bnt[0]["c8"] = "----";
-            $bnt[0]["c9"] = "----";
-            $bnt[0]["c10"] = "----";
-            $bnt[0]["n1"] = "----";
-            $bnt[0]["n1_pos"] = "";
-            $bnt[0]["n2"] = "----";
-            $bnt[0]["n2_pos"] = "";
-            $bnt[0]["n3"] = "----";
-            $bnt[0]["n3_pos"] = "";
-            $bnt[0]["s1"] = "----";
-            $bnt[0]["s2"] = "----";
-            $bnt[0]["s3"] = "----";
-            $bnt[0]["s4"] = "----";
-            $bnt[0]["s5"] = "----";
-            $bnt[0]["s6"] = "----";
-            $bnt[0]["s7"] = "----";
-            $bnt[0]["s8"] = "----";
-            $bnt[0]["s9"] = "----";
-            $bnt[0]["s10"] = "----";
-            $bnt[0]["s11"] = "----";
-            $bnt[0]["s12"] = "----";
-            $bnt[0]["s13"] = "----";
-            $bnt[0]['jp5d1'] = "-----";
-            $bnt[0]['jp5d2'] = "-----";
-            $bnt[0]['jp5d3'] = "-----";
-            $bnt[0]['jp6d1'] = "------";
-            $bnt[0]['jp7d1'] = "-------";
+            $bn[0]["dd"] = $date;
+            $bn[0]["dn"] = "";
+            $bn[0]["c1"] = "----";
+            $bn[0]["c2"] = "----";
+            $bn[0]["c3"] = "----";
+            $bn[0]["c4"] = "----";
+            $bn[0]["c5"] = "----";
+            $bn[0]["c6"] = "----";
+            $bn[0]["c7"] = "----";
+            $bn[0]["c8"] = "----";
+            $bn[0]["c9"] = "----";
+            $bn[0]["c10"] = "----";
+            $bn[0]["n1"] = "----";
+            $bn[0]["n1_pos"] = "";
+            $bn[0]["n2"] = "----";
+            $bn[0]["n2_pos"] = "";
+            $bn[0]["n3"] = "----";
+            $bn[0]["n3_pos"] = "";
+            $bn[0]["s1"] = "----";
+            $bn[0]["s2"] = "----";
+            $bn[0]["s3"] = "----";
+            $bn[0]["s4"] = "----";
+            $bn[0]["s5"] = "----";
+            $bn[0]["s6"] = "----";
+            $bn[0]["s7"] = "----";
+            $bn[0]["s8"] = "----";
+            $bn[0]["s9"] = "----";
+            $bn[0]["s10"] = "----";
+            $bn[0]["s11"] = "----";
+            $bn[0]["s12"] = "----";
+            $bn[0]["s13"] = "----";
+            $bn[0]['jp5d1'] = "-----";
+            $bn[0]['jp5d2'] = "-----";
+            $bn[0]['jp5d3'] = "-----";
+            $bn[0]['jp6d1'] = "------";
+            $bn[0]['jp7d1'] = "-------";
         }
         
-        return $bnt;
+        return $bn;
     }
     public function main1_formatter($data){
         $format_data = [];
