@@ -22,7 +22,7 @@ class ApiController extends Controller
         $data = $this->getMainByDate($date);
         foreach ($data as $item) {
             $fdData = $item['fdData'];
-            echo isset($fdData->dd) ? $fdData->dd : $fdData['dd']."===";
+            echo isset($fdData->dd) ? $fdData->dd : $item['type']."===";
             // Sheerdata::updateOrInsert(
             //     ['dd' => $fdData->dd, 'type' => $item['type']],
             //     [
@@ -609,7 +609,7 @@ class ApiController extends Controller
             $bn[0]['jp7d1'] = "-------";
         }
         
-        return $bn;
+        return (object)$bn;
     }
     public function main1_formatter($data){
         $format_data = [];
