@@ -214,7 +214,7 @@ class ApiController extends Controller
             "prize" => $przCount
         ];
     }
-    public function historyData($permutation,$sites,$number"){
+    public function historyData($permutation,$sites,$number){
         $sitesToArray = explode(",",$sites);
         $sitesFilter = "'" .implode("','",$sitesToArray). "'";
         // return $sitesFilter;
