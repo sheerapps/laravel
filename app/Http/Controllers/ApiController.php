@@ -80,7 +80,7 @@ class ApiController extends Controller
     }
     
     public function saveData($date){
-        $data = $this->dataByDate($date);
+        $data = $this->getMainByDate($date);
         foreach ($data as $vars) {
             
             return $vars;
