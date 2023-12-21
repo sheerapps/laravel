@@ -59,10 +59,7 @@ class ApiController extends Controller
                     'c7' => isset($fdData->c7) ? $fdData->c7 : "",
                     'c8' => isset($fdData->c8) ? $fdData->c8 : "",
                     'c9' => isset($fdData->c9) ? $fdData->c9 : "",
-                    'c10' => isset($fdData->c10) ? $fdData->c10 : "",
-                    'c11' => isset($fdData->c11) ? $fdData->c11 : "",
-                    'c12' => isset($fdData->c12) ? $fdData->c12 : "",
-                    'c13' => isset($fdData->c13) ? $fdData->c13 : "",
+                    'c10' => isset($fdData->c10) ? $fdData->c10 : ""
                 ]
             );
             echo $item['type']." done <p>";
