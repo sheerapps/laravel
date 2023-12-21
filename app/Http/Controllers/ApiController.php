@@ -18,6 +18,21 @@ class ApiController extends Controller
         $data = Sheerdata::where($columnName, $date)->get();
         return response()->json(['data' => $data]);
     }
+    public function saveData($date){
+        $data = $this->getMainByDate($date);
+        foreach ($data as $item) {
+            $fdData = $item['fdData'];
+            Sheerdata::updateOrInsert(
+                ['dd' => $fdData['dd'], 'type' => $item['type']],
+                [
+                    'type' => $item['type'],
+                    'dd' => $fdData['dd'],
+                    'n1' => $fdData['n1'],
+                    'n2' => $fdData['n2'],
+                ]
+            );
+        }
+    }
     public function getDicByData(Request $request)
     {
         $res1json = null;
@@ -79,13 +94,6 @@ class ApiController extends Controller
         }
     }
     
-    public function saveData($date){
-        $data = $this->getMainByDate($date);
-        foreach ($data as $vars) {
-            
-            return $vars;
-        }
-    }
     public function getDataBySearch(Request $request){
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
         $Perm = isset($request->Perm) ? "PM" : "nopm";
