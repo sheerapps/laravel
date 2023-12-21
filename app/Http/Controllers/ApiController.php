@@ -129,21 +129,21 @@ class ApiController extends Controller
     
     public function getDataBySearch(Request $request){
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
-        $Perm = isset($request->Perm) ? "PM" : "nopm";
+        $permutation = isset($request->multi) ? "true" : "false";
         $select4D = "";
         $selected4D = [];
         if(isset($request->service)){
             foreach ($request->service as $k => $s){
-                $select4D .= $k."-";
+                $select4D .= $k.",";
                 $selected4D[$k] = true;
             }
         }else{
-            $select4D = "M-PMP-ST";
+            $select4D = "M,PMP,ST";
             $selected4D["M"] = true;
             $selected4D["PMP"] = true;
             $selected4D["ST"] = true;
         }
-        $hisjson = $this->historyData($Perm,$select4D,$number,"en");
+        $hisjson = $this->historyData($permutation,$select4D,$number);
         // number pic API
         $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
         curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
@@ -214,11 +214,11 @@ class ApiController extends Controller
             "prize" => $przCount
         ];
     }
-    public function historyData($permutation,$sites,$number,$type = "en"){
-        $sitesToArray = explode("-",$sites);
+    public function historyData($permutation,$sites,$number"){
+        $sitesToArray = explode(",",$sites);
         $sitesFilter = "'" .implode("','",$sitesToArray). "'";
         // return $sitesFilter;
-        if($permutation == 'PM'){
+        if($permutation == 'true'){
             $number =  implode(",",$this->permute($number));
         }
         $sql = "select c.* from (";
