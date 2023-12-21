@@ -217,12 +217,26 @@ class ApiController extends Controller
             "prize" => $przCount
         ];
     }
+    public function multiPermutation($arg) {
+        $array = is_string($arg) ? str_split($arg) : $arg;
+        if(1 === count($array)) {
+            return $array;
+        }
+        $result = array();
+        foreach($array as $key => $item) {
+            foreach($this->multiPermutation(array_diff_key($array, array($key => $item))) as $p) {
+                $result[] = $item . $p;
+            }
+        }
+        sort($result);
+        return array_values(array_unique($result));
+    }
     public function historyData($permutation,$sites,$number){
         $sitesToArray = explode(",",$sites);
         $sitesFilter = "'" .implode("','",$sitesToArray). "'";
         // return $sitesFilter;
         if($permutation == 'true'){
-            $number =  implode(",",$this->permute($number));
+            $number =  implode(",",$this->multiPermutation($number));
         }
         $sql = "select c.* from (";
         $sql.= "(select dd,type,n1 as num, 'First' as prize from sheerdata a where n1 IN ($number) and type IN ($sitesFilter)) union ";
