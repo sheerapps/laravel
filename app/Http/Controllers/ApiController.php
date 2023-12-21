@@ -31,6 +31,7 @@ class ApiController extends Controller
                     'n2' => $fdData['n2'],
                 ]
             );
+            echo $item['type']." done <p>";
         }
     }
     public function getDicByData(Request $request)
