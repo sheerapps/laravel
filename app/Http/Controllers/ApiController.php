@@ -147,12 +147,12 @@ class ApiController extends Controller
         }
         $hisjson = $this->historyData($permutation,$select4D,$number);
         // number pic API
-        $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
-        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
-        curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
-        $res1 = curl_exec($ch1);
-        $direcjson = json_decode($res1);
+        // $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
+        // curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        // curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        // $res1 = curl_exec($ch1);
+        // $direcjson = json_decode($res1);
         // LOOP
         $sitesCount = array(
             "M" => 0,
@@ -209,7 +209,7 @@ class ApiController extends Controller
         }
         return [
             "history" => $hisjson,
-            "information" => $direcjson,
+            // "information" => $direcjson,
             "no" => $number,
             // "search_sites" => $selected4D,
             "sites" => $select4D,
