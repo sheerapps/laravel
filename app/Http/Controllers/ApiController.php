@@ -111,7 +111,7 @@ class ApiController extends Controller
                     $res1json->qzt[45]->no = "046";
                 }
             }
-            // $key = "KEY_NO";
+            $key = "KEY_NO";
             $resp = array(
                 "main"=>isset($res1json) ? $res1json : null,
                 "m4d"=>isset($res2json) ? json_decode($res2json) : null,
