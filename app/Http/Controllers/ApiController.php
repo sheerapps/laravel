@@ -432,7 +432,7 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "BN",
-                "fdData"=>!isset($main4_final[0]) ? null : $main4_final[0]
+                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0]
             ]
         ];
         foreach ($final_array as $key => $value) {
@@ -609,7 +609,7 @@ class ApiController extends Controller
             $bn[0]['jp7d1'] = "-------";
         }
         
-        return (object)$bn;
+        return $bn;
     }
     public function main1_formatter($data){
         $format_data = [];
