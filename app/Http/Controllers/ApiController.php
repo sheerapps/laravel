@@ -111,15 +111,14 @@ class ApiController extends Controller
                     $res1json->qzt[45]->no = "046";
                 }
             }
-            $key = "KEY_NO";
             $resp = array(
                 "main"=>isset($res1json) ? $res1json : null,
-                "m4d"=>isset($res2json) ? json_decode($res2json) : null,
+                "m4d"=>isset($res2json) ? json_decode($res2json[0]) : null,
                 "pic"=>array(
-                    "m4d"=>"https://magnum4d.my/Magnum4d/media/4D-Dictionary/$key.GIF?ext=.gif",
-                    "tua"=>"https://repo.4dmanager.com/qzt/tpk/$key.png",
-                    "kuan"=>"https://repo.4dmanager.com/qzt/gym/$key.png",
-                    "wanz"=>"https://prddmccms1.blob.core.windows.net/number-dictionary/$key.jpg",
+                    "m4d"=>"https://magnum4d.my/Magnum4d/media/4D-Dictionary/KEY_NO.gif",
+                    "kuan3d"=>"https://repo.4dmanager.com/qzt/gym/KEY_NO.png",
+                    "tua3d"=>"https://repo.4dmanager.com/qzt/tpk/KEY_NO.png",
+                    "wanz4d"=>"https://prddmccms1.blob.core.windows.net/number-dictionary/KEY_NO.jpg",
                 )
             );
             return $resp;
@@ -177,22 +176,23 @@ class ApiController extends Controller
         if(isset($hisjson)){
             foreach($hisjson as $v){
                 $sitesCount[$v->type]+=1; 
-                if($v->prize == "首獎"){
-                    $v->prize = "First";
-                    $przCount["st"]+=1;
-                }elseif($v->prize == "二獎"){
-                    $v->prize = "Second";
-                    $przCount["nd"]+=1;
-                }elseif($v->prize == "三獎"){
-                    $v->prize = "Third";
-                    $przCount["rd"]+=1;
-                }elseif($v->prize == "特別獎"){
-                    $v->prize = "Sp";
-                    $przCount["sp"]+=1;
-                }elseif($v->prize == "安慰獎"){
-                    $v->prize = "Cp";
-                    $przCount["cp"]+=1;
-                }elseif($v->prize == "First"){
+                // if($v->prize == "首獎"){
+                //     $v->prize = "First";
+                //     $przCount["st"]+=1;
+                // }elseif($v->prize == "二獎"){
+                //     $v->prize = "Second";
+                //     $przCount["nd"]+=1;
+                // }elseif($v->prize == "三獎"){
+                //     $v->prize = "Third";
+                //     $przCount["rd"]+=1;
+                // }elseif($v->prize == "特別獎"){
+                //     $v->prize = "Sp";
+                //     $przCount["sp"]+=1;
+                // }elseif($v->prize == "安慰獎"){
+                //     $v->prize = "Cp";
+                //     $przCount["cp"]+=1;
+                // }else
+                if($v->prize == "First"){
                     $przCount["st"]+=1;
                 }elseif($v->prize == "Second"){
                     $przCount["nd"]+=1;
@@ -222,32 +222,32 @@ class ApiController extends Controller
             $number =  implode(",",$this->permute($number));
         }
         $sql = "select c.* from (";
-        $sql.= "(select dd,type,n1 as num, '首獎' as prize from result a where n1 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,n2 as num, '二獎' as prize from result b where n2 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,n3 as num, '三獎' as prize from result b where n3 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s1 as num, '特別獎' as prize from result b where s1 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s2 as num, '特別獎' as prize from result b where s2 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s3 as num, '特別獎' as prize from result b where s3 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s4 as num, '特別獎' as prize from result b where s4 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s5 as num, '特別獎' as prize from result b where s5 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s6 as num, '特別獎' as prize from result b where s6 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s7 as num, '特別獎' as prize from result b where s7 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s8 as num, '特別獎' as prize from result b where s8 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s9 as num, '特別獎' as prize from result b where s9 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s10 as num, '特別獎' as prize from result b where s10 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s11 as num, '特別獎' as prize from result b where s11 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s12 as num, '特別獎' as prize from result b where s12 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,s13 as num, '特別獎' as prize from result b where s13 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c1 as num, '安慰獎' as prize from result b where c1 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c2 as num, '安慰獎' as prize from result b where c2 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c3 as num, '安慰獎' as prize from result b where c3 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c4 as num, '安慰獎' as prize from result b where c4 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c5 as num, '安慰獎' as prize from result b where c5 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c6 as num, '安慰獎' as prize from result b where c6 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c7 as num, '安慰獎' as prize from result b where c7 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c8 as num, '安慰獎' as prize from result b where c8 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c9 as num, '安慰獎' as prize from result b where c9 IN ($number) and type IN ($sitesFilter)) union ";
-        $sql.= "(select dd,type,c10 as num, '安慰獎' as prize from result b where c10 IN ($number) and type IN ($sitesFilter)))";
+        $sql.= "(select dd,type,n1 as num, 'First' as prize from result a where n1 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,n2 as num, 'Second' as prize from result b where n2 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,n3 as num, 'Third' as prize from result b where n3 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s1 as num, 'Sp' as prize from result b where s1 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s2 as num, 'Sp' as prize from result b where s2 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s3 as num, 'Sp' as prize from result b where s3 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s4 as num, 'Sp' as prize from result b where s4 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s5 as num, 'Sp' as prize from result b where s5 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s6 as num, 'Sp' as prize from result b where s6 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s7 as num, 'Sp' as prize from result b where s7 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s8 as num, 'Sp' as prize from result b where s8 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s9 as num, 'Sp' as prize from result b where s9 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s10 as num, 'Sp' as prize from result b where s10 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s11 as num, 'Sp' as prize from result b where s11 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s12 as num, 'Sp' as prize from result b where s12 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s13 as num, 'Sp' as prize from result b where s13 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c1 as num, 'Cp' as prize from result b where c1 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c2 as num, 'Cp' as prize from result b where c2 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c3 as num, 'Cp' as prize from result b where c3 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c4 as num, 'Cp' as prize from result b where c4 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c5 as num, 'Cp' as prize from result b where c5 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c6 as num, 'Cp' as prize from result b where c6 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c7 as num, 'Cp' as prize from result b where c7 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c8 as num, 'Cp' as prize from result b where c8 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c9 as num, 'Cp' as prize from result b where c9 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c10 as num, 'Cp' as prize from result b where c10 IN ($number) and type IN ($sitesFilter)))";
         $sql.= "c order by c.dd desc";
         $query = DB::select(DB::raw($sql));
         if($number == "0000"){
