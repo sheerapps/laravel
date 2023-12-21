@@ -132,17 +132,18 @@ class ApiController extends Controller
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
         $permutation = isset($request->multi) ? "true" : "false";
         $select4D = "";
-        $selected4D = [];
+        // $selected4D = [];
         if(isset($request->service)){
-            foreach ($request->service as $k => $s){
-                $select4D .= $k.",";
-                $selected4D[$k] = true;
-            }
+            // foreach ($request->service as $k => $s){
+                $select4D = $request->service;
+                // $select4D .= $k.",";
+                // $selected4D[$k] = true;
+            // }
         }else{
-            $select4D = "M,PMP,ST";
-            $selected4D["M"] = true;
-            $selected4D["PMP"] = true;
-            $selected4D["ST"] = true;
+            $select4D = "M,ST,PMP";
+            // $selected4D["M"] = true;
+            // $selected4D["PMP"] = true;
+            // $selected4D["ST"] = true;
         }
         $hisjson = $this->historyData($permutation,$select4D,$number);
         // number pic API
@@ -210,7 +211,8 @@ class ApiController extends Controller
             "history" => $hisjson,
             "information" => $direcjson,
             "no" => $number,
-            "search_no" => $selected4D,
+            // "search_sites" => $selected4D,
+            "sites" => $select4D,
             "count" => $sitesCount,
             "prize" => $przCount
         ];
