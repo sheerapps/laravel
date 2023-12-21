@@ -208,13 +208,11 @@ class ApiController extends Controller
             }
         }
         return [
-            "history" => $hisjson,
-            // "information" => $direcjson,
             "no" => $number,
-            // "search_sites" => $selected4D,
             "sites" => $select4D,
-            "count" => $sitesCount,
-            "prize" => $przCount
+            "history" => $hisjson,
+            "prize" => $przCount,
+            "count" => $sitesCount
         ];
     }
     public function multiPermutation($arg) {
