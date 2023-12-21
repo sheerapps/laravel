@@ -22,7 +22,7 @@ class ApiController extends Controller
         $data = $this->getMainByDate($date);
         foreach ($data as $item) {
             $fdData = $item['fdData'];
-            echo $fdData->dd"===";
+            echo isset($fdData->dd) ? $fdData->dd : $item['type']."===";
             // Sheerdata::updateOrInsert(
             //     ['dd' => $fdData->dd, 'type' => $item['type']],
             //     [
