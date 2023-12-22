@@ -47,6 +47,6 @@ class SaveDataCommand extends Command
 
         $apiController->saveData($date);
         
-        $this->info('Data saved successfully!');
+        $this->info('Data saved successfully! '.$date);
     }
 }
