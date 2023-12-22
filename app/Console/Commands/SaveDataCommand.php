@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use DateTim
+use DateTime;
 use Illuminate\Console\Command;
 
 class SaveDataCommand extends Command
