@@ -40,11 +40,11 @@ class SaveDataCommand extends Command
     {
         $apiController = new \App\Http\Controllers\ApiController;
         
-        $today = date('Y-m-d'); //$today
-        $today_live = new DateTime($today);
-        $today_live->modify('-1 days');
-        $date = $today_live->format('Y-m-d');
-
+        // $today = date('Y-m-d'); //$today
+        // $today_live = new DateTime($today);
+        // $today_live->modify('-1 days');
+        // $date = $today_live->format('Y-m-d');
+        $date = date('Y-m-d');
         $apiController->saveData($date);
         
         $this->info('Data saved successfully! '.$date);
