@@ -117,10 +117,10 @@ class ApiController extends Controller
                 "main"=>isset($res1json) ? $res1json : null,
                 "m4d"=>isset($res2json) ? $res2json : null,
                 "pic"=>array(
-                    "m4d"=>"https://magnum4d.my/Magnum4d/media/4D-Dictionary/KEY_NO.gif",
-                    // "kuan3d"=>"https://repo.4dmanager.com/qzt/gym/KEY_NO.png",
-                    // "tua3d"=>"https://repo.4dmanager.com/qzt/tpk/KEY_NO.png",
-                    "wanz4d"=>"https://prddmccms1.blob.core.windows.net/number-dictionary/KEY_NO.jpg",
+                    "qzt"=>"https://prddmccms1.blob.core.windows.net/number-dictionary/KEY_NO.jpg",
+                    "m"=>"https://magnum4d.my/Magnum4d/media/4D-Dictionary/KEY_NO.gif",
+                    "gym"=>"https://repo.4dmanager.com/qzt/gym/KEY_NO.png",
+                    "tpk"=>"https://repo.4dmanager.com/qzt/tpk/KEY_NO.png",
                 )
             );
             return $resp;
