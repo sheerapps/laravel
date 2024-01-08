@@ -91,7 +91,8 @@ class ApiController extends Controller
             curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
             curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
-            $res2json = curl_exec($ch2);
+            $res2 = curl_exec($ch2);
+            $res2json = json_decode($res2);
         }else{
             $typeArr = array(
                 "tua"=>"tpk",
@@ -114,7 +115,7 @@ class ApiController extends Controller
             }
             $resp = array(
                 "main"=>isset($res1json) ? $res1json : null,
-                "m4d"=>isset($res2json) ? json_decode($res2json[0]) : null,
+                "m4d"=>isset($res2json) ? $res2json : null,
                 "pic"=>array(
                     "m4d"=>"https://magnum4d.my/Magnum4d/media/4D-Dictionary/KEY_NO.gif",
                     "kuan3d"=>"https://repo.4dmanager.com/qzt/gym/KEY_NO.png",
