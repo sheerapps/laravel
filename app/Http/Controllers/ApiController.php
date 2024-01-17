@@ -128,7 +128,27 @@ class ApiController extends Controller
             return null;
         }
     }
-    
+
+    public function getDrawdateData(Request $request){
+        $year = $request->year;
+        $month = $request->month;
+        $t = $typeArr[$type];
+        $ch1 = curl_init("https://app-apdapi-prod-southeastasia-01.azurewebsites.net/draw-dates/past/$year/$month");
+        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        $res1 = curl_exec($ch1);
+        $res1json = json_decode($res1);
+
+        return  $resp = array(
+            "main"=>isset($res1json) ? $res1json : null,
+            "special"=>array(
+                "sp"=>false,
+                "dd"=>"2024-01-01"
+            )
+        );
+    }
+
     public function getDataBySearch(Request $request){
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
         $permutation = isset($request->multi) ? "true" : "false";
