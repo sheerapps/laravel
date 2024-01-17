@@ -132,7 +132,6 @@ class ApiController extends Controller
     public function getDrawdateData(Request $request){
         $year = $request->year;
         $month = $request->month;
-        $t = $typeArr[$type];
         $ch1 = curl_init("https://app-apdapi-prod-southeastasia-01.azurewebsites.net/draw-dates/past/$year/$month");
         curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
@@ -140,7 +139,7 @@ class ApiController extends Controller
         $res1 = curl_exec($ch1);
         $res1json = json_decode($res1);
 
-        return  $resp = array(
+        return array(
             "main"=>isset($res1json) ? $res1json : null,
             "special"=>array(
                 "sp"=>false,
