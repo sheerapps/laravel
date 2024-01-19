@@ -527,6 +527,7 @@ class ApiController extends Controller
                 "jp8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
                 "jp9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
                 "jp10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
+                "pm330" => "https://4dyes2.com/en/perdana",
                 "video" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
             ],
             "LH"=>[
@@ -561,6 +562,7 @@ class ApiController extends Controller
                 "s11" => !isset($array->R->_P[10]) ? "----" : $array->R->_P[10],
                 "s12" => !isset($array->R->_P[11]) ? "----" : $array->R->_P[11],
                 "s13" => !isset($array->R->_P[12]) ? "----" : $array->R->_P[12],
+                "pm330" => "https://4dyes2.com/en/hariharilucky",
                 "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams"
             ]
         ];
