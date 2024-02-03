@@ -24,3 +24,5 @@ Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
 Route::get('/data-by-dictionary', [ApiController::class, 'getDicByData']);
 Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);
 Route::get('/data-draw-date', [ApiController::class, 'getDrawdateData']);
+//tsheer
+Route::get('/tmain-by-date/{date}', [ApiController::class, 'getTMainByDate']);
