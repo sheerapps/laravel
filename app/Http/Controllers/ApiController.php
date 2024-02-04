@@ -142,8 +142,8 @@ class ApiController extends Controller
         return array(
             "main"=>isset($res1json) ? $res1json : null,
             "special"=>array(
-                "sp"=>false,
-                "dd"=>"2024-01-01"
+                "sp"=>true,
+                "dd"=>"2024-02-13"
             )
         );
     }
