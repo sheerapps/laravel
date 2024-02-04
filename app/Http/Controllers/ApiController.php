@@ -138,16 +138,14 @@ class ApiController extends Controller
         curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
         $res1 = curl_exec($ch1);
         $res1json = json_decode($res1);
-
-        if(isset($res1json)){
+        
+        $main = null;
+        if(isset($res1json) && isset($res1json->PastDrawDates->Draw)){
             if($res1json && is_array($res1json->PastDrawDates->Draw)){
                 $main = $res1json;
             }else if(!is_array($res1json->PastDrawDates->Draw)){
                 $res1json->PastDrawDates->Draw = [$res1json->PastDrawDates->Draw];
                 $main = $res1json;
-
-            }else{
-                $main = null;
             }
         }
         
