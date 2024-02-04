@@ -139,8 +139,20 @@ class ApiController extends Controller
         $res1 = curl_exec($ch1);
         $res1json = json_decode($res1);
 
+        if(isset($res1json)){
+            if($res1json && is_array($res1json->PastDrawDates->Draw)){
+                $main = $res1json;
+            }else if(!is_array($res1json->PastDrawDates->Draw)){
+                $res1json->PastDrawDates->Draw = [$res1json->PastDrawDates->Draw];
+                $main = $res1json;
+
+            }else{
+                $main = null;
+            }
+        }
+        
         return array(
-            "main"=>isset($res1json) ? $res1json : null,
+            "main"=>$main,
             "special"=>array(
                 "sp"=>true,
                 "dd"=>"2024-02-13"
