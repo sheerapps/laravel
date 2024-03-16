@@ -74,6 +74,7 @@ class ApiController extends Controller
             $string = urlencode($string);
             return $string;
         }
+        return $string;
     }
     public function getDicByData(Request $request)
     {
