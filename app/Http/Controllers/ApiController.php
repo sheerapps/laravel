@@ -69,15 +69,23 @@ class ApiController extends Controller
             }
         }
     }
+    public function encodeCH($string){
+        if(preg_match('/[\x{4e00}}-\x{9fa5}]/u', $string)){
+            $string = urlencode($string);
+            return $string;
+        }
+    }
     public function getDicByData(Request $request)
     {
         $res1json = null;
         $res2json = null;
         $resp = null;
         $search = $request->search ? $request->search : "search";
+        $search = str_replace(' ','%20',$search);
+        $search = $this->encodeCH($search);
         $type = $request->type ? $request->type : "def";
         $page = $request->page ? $request->page : "1";
-        if (preg_match('/[\'^£$%&*()}{#@#~?!><>,|=_&+¬-]/', $request->search)) { $search = "search"; }
+        // if (preg_match('/[\'^£$%&*()}{#@#~?!><>,|=_&+¬-]/', $request->search)) { $search = "search"; }
         if($type == "def"){
             // w
             $ch1 = curl_init("https://api.4dmanager.com/api/search_m?s=$search");
