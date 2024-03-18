@@ -166,9 +166,30 @@ class ApiController extends Controller
             )
         );
     }
+    function manipulateString($string) {
+    // Remove any non-numeric characters
+    $string = preg_replace("/[^0-9]/", "", $string);
 
+    // If the length of the string is between 3 and 4 and is a number
+    if (strlen($string) >= 3 && strlen($string) <= 4 && is_numeric($string)) {
+        return $string;
+    }
+    // If the string is longer than 4, keep only the first 4 digits
+    elseif (strlen($string) > 4) {
+        return substr($string, 0, 4);
+    }
+    // If the string is less than 3, add leading zeros until the string has 4 digits
+    elseif (strlen($string) < 3) {
+        while (strlen($string) < 4) {
+            $string = '0' . $string;
+        }
+        return $string;
+    }
+    return "1234";
+}
     public function getDataBySearch(Request $request){
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
+        $number = $this->manipulateString($number);
         $permutation = isset($request->multi) ? "true" : "false";
         $select4D = "";
         // $selected4D = [];
