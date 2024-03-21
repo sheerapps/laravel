@@ -336,6 +336,7 @@ class ApiController extends Controller
         return $query;
     }
     public function getMainByDate($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
         //live
         $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
@@ -526,6 +527,7 @@ class ApiController extends Controller
     }
     //tsheer
     public function getTMainByDate($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
         //live
         $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
