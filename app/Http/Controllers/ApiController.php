@@ -139,17 +139,17 @@ class ApiController extends Controller
     }
     public function getBookAll(Request $request){
         $page = $request->page;
-        $ch1 = curl_init("https://api.4dmanager.com/api/qzt?t=wzt&p=1");
+        $ch1 = curl_init("https://api.4dmanager.com/api/qzt?t=wzt&p=$page");
         curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
         curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
         $res1 = curl_exec($ch1);
         $res1json = json_decode($res1);
-        if(isset($res1json) && isset($res1json->qzt[45])){
-            if($res1json->qzt[45]->no == "0046"){
-                $res1json->qzt[45]->no = "046";
-            }
-        }
+        // if(isset($res1json) && isset($res1json->qzt[45])){
+        //     if($res1json->qzt[45]->no == "0046"){
+        //         $res1json->qzt[45]->no = "046";
+        //     }
+        // }
         $all = array(
             "main"=>isset($res1json) ? $res1json : null,
             "image"=>"https://prddmccms1.blob.core.windows.net/number-dictionary/KEY_NO.jpg"
