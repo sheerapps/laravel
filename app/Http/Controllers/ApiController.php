@@ -137,7 +137,20 @@ class ApiController extends Controller
             return null;
         }
     }
-
+    public function getBookAll(Request $request){
+        $page = $request->page;
+        $ch1 = curl_init("api.4dmanager.com/api/qzt?t=wzt&p=$page");
+        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        $res1 = curl_exec($ch1);
+        $res1json = json_decode($res1);
+        
+        return array(
+            "main"=>$res1json,
+            "image"=>"https://prddmccms1.blob.core.windows.net/number-dictionary/KEY_NO.jpg"
+        );
+    }
     public function getDrawdateData(Request $request){
         $year = $request->year;
         $month = $request->month;
