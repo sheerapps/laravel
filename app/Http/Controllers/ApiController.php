@@ -493,7 +493,20 @@ class ApiController extends Controller
             [
                 "type"=> "SG",
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
-                "jpData"=>$sjpFinal
+                "jpData"=>$sjpFinal,
+                "sweep"=>"https://lottery.nestia.com/sweep",
+                "decode"=>" document.body.style.padding = "0px";
+                var classNames = ["n-header", "result-header", "resultHeader", "adsbygoogle", "FDTitleText", "FDTitleText2", "Disclaimer"];
+                classNames.forEach(function(className) {
+                    var elements = document.querySelectorAll("." + className);
+                    elements.forEach(function(element) {
+                        element.style.display = "none";
+                    });
+                });
+                var taboolaElement = document.getElementById("taboola-below-article-thumbnails");
+                if (taboolaElement) {
+                    taboolaElement.style.display = "none";
+                }"
             ],
             [
                 "type"=> "CS",
@@ -684,7 +697,20 @@ class ApiController extends Controller
             [
                 "type"=> "SG",
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
-                "jpData"=>$sjpFinal
+                "jpData"=>$sjpFinal,
+                "sweep"=>"https://lottery.nestia.com/sweep",
+                "decode"=>" document.body.style.padding = "0px";
+                var classNames = ["n-header", "result-header", "resultHeader", "adsbygoogle", "FDTitleText", "FDTitleText2", "Disclaimer"];
+                classNames.forEach(function(className) {
+                    var elements = document.querySelectorAll("." + className);
+                    elements.forEach(function(element) {
+                        element.style.display = "none";
+                    });
+                });
+                var taboolaElement = document.getElementById("taboola-below-article-thumbnails");
+                if (taboolaElement) {
+                    taboolaElement.style.display = "none";
+                }"
             ],
             [
                 "type"=> "CS",
