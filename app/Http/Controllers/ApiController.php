@@ -494,12 +494,11 @@ class ApiController extends Controller
                 "type"=> "SG",
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
-                "sweep"=>"https://lottery.nestia.com/sweep",
-                "decode"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
+                "sweep"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
                 classNames1.forEach(function(className) {
-                    var elements = document.querySelectorAll("." + className);
+                    var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
-                        element.style.display = "none";
+                        element.style.display = 'none';
                     });
                 });
             
@@ -716,11 +715,11 @@ class ApiController extends Controller
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
                 "sweep"=>"https://lottery.nestia.com/sweep",
-                "decode"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
+                "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
                 classNames1.forEach(function(className) {
-                    var elements = document.querySelectorAll("." + className);
+                    var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
-                        element.style.display = "none";
+                        element.style.display = 'none';
                     });
                 });
             
