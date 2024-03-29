@@ -521,6 +521,7 @@ class ApiController extends Controller
                 var tblNextUpElement = document.getElementById('tbl-next-up');
                 if (tblNextUpElement) {
                     tblNextUpElement.style.display = 'none';
+                    tblNextUpElement.classList.add('tbl-next-up-mobile-position-bottom');
                 }"
             ],
             [
@@ -741,6 +742,7 @@ class ApiController extends Controller
                 var tblNextUpElement = document.getElementById('tbl-next-up');
                 if (tblNextUpElement) {
                     tblNextUpElement.style.display = 'none';
+                    tblNextUpElement.classList.add('tbl-next-up-mobile-position-bottom');
                 }"
             ],
             [
