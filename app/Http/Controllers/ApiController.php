@@ -494,7 +494,8 @@ class ApiController extends Controller
                 "type"=> "SG",
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
-                "sweep"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
+                "sweep"=>"https://lottery.nestia.com/sweep",
+                "decode"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
                 classNames1.forEach(function(className) {
                     var elements = document.querySelectorAll("." + className);
                     elements.forEach(function(element) {
