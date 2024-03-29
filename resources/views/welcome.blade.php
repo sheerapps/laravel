@@ -6,6 +6,6 @@
     <title>WebView</title>
 </head>
 <body>
-    <iframe src="https://www.singaporepools.com.sg/en/product/Pages/sweep_results.aspx" width="100%" height="1000px"></iframe>
+    <iframe src="https://www.google.com" width="100%" height="1000px"></iframe>
 </body>
 </html>
