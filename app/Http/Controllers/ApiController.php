@@ -505,7 +505,7 @@ class ApiController extends Controller
             
                 document.body.style.padding = '0px';
             
-                var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer'];
+                var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
                 classNames2.forEach(function(className) {
                     var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
@@ -729,7 +729,7 @@ class ApiController extends Controller
             
                 document.body.style.padding = '0px';
             
-                var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer'];
+                var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer', 'sticky_bottom','tbl-next-up-mobile-position-bottom'];
                 classNames2.forEach(function(className) {
                     var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
