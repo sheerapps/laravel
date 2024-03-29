@@ -494,11 +494,11 @@ class ApiController extends Controller
                 "type"=> "SG",
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
-                "sweep"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                "sweep"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
                 classNames1.forEach(function(className) {
-                    var elements = document.querySelectorAll('.' + className);
+                    var elements = document.querySelectorAll("." + className);
                     elements.forEach(function(element) {
-                        element.style.display = 'none';
+                        element.style.display = "none";
                     });
                 });
             
@@ -518,9 +518,12 @@ class ApiController extends Controller
                 }
             
                 var tblNextUpElement = document.getElementById('tbl-next-up');
-                if (tblNextUpElement) {
+                var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
                     tblNextUpElement.style.display = 'none';
-                    tblNextUpElement.classList.add('tbl-next-up-mobile-position-bottom');
+                    tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
                 }"
             ],
             [
@@ -715,11 +718,11 @@ class ApiController extends Controller
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
                 "sweep"=>"https://lottery.nestia.com/sweep",
-                "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                "decode"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
                 classNames1.forEach(function(className) {
-                    var elements = document.querySelectorAll('.' + className);
+                    var elements = document.querySelectorAll("." + className);
                     elements.forEach(function(element) {
-                        element.style.display = 'none';
+                        element.style.display = "none";
                     });
                 });
             
@@ -739,9 +742,12 @@ class ApiController extends Controller
                 }
             
                 var tblNextUpElement = document.getElementById('tbl-next-up');
-                if (tblNextUpElement) {
+                var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
                     tblNextUpElement.style.display = 'none';
-                    tblNextUpElement.classList.add('tbl-next-up-mobile-position-bottom');
+                    tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
                 }"
             ],
             [
