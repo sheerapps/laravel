@@ -495,17 +495,32 @@ class ApiController extends Controller
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
                 "sweep"=>"https://lottery.nestia.com/sweep",
-                "decode"=>"document.body.style.padding = '0px';
-                var classNames = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer'];
-                classNames.forEach(function(className) {
+                "decode"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
+                classNames1.forEach(function(className) {
+                    var elements = document.querySelectorAll("." + className);
+                    elements.forEach(function(element) {
+                        element.style.display = "none";
+                    });
+                });
+            
+                document.body.style.padding = '0px';
+            
+                var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer'];
+                classNames2.forEach(function(className) {
                     var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
                         element.style.display = 'none';
                     });
                 });
+            
                 var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
                 if (taboolaElement) {
                     taboolaElement.style.display = 'none';
+                }
+            
+                var tblNextUpElement = document.getElementById('tbl-next-up');
+                if (tblNextUpElement) {
+                    tblNextUpElement.style.display = 'none';
                 }"
             ],
             [
@@ -541,7 +556,8 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "BN",
-                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0]
+                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+                "bonus"=>"https://bt4dg.live/booms-bonus.html"
             ]
         ];
         foreach ($final_array as $key => $value) {
@@ -699,17 +715,32 @@ class ApiController extends Controller
                 "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
                 "jpData"=>$sjpFinal,
                 "sweep"=>"https://lottery.nestia.com/sweep",
-                "decode"=>"document.body.style.padding = '0px';
-                var classNames = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer'];
-                classNames.forEach(function(className) {
+                "decode"=>"var classNames1 = ["adsbygoogle", "adsbygoogle-noablate"];
+                classNames1.forEach(function(className) {
+                    var elements = document.querySelectorAll("." + className);
+                    elements.forEach(function(element) {
+                        element.style.display = "none";
+                    });
+                });
+            
+                document.body.style.padding = '0px';
+            
+                var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer'];
+                classNames2.forEach(function(className) {
                     var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
                         element.style.display = 'none';
                     });
                 });
+            
                 var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
                 if (taboolaElement) {
                     taboolaElement.style.display = 'none';
+                }
+            
+                var tblNextUpElement = document.getElementById('tbl-next-up');
+                if (tblNextUpElement) {
+                    tblNextUpElement.style.display = 'none';
                 }"
             ],
             [
@@ -745,7 +776,8 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "BN",
-                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0]
+                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+                "bonus"=>"https://bt4dg.live/booms-bonus.html"
             ]
         ];
         foreach ($final_array as $key => $value) {
