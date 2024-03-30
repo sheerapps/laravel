@@ -561,7 +561,29 @@ class ApiController extends Controller
             [
                 "type"=> "BN",
                 "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
-                "bonus"=>"https://bt4dg.live/booms-bonus.html"
+                "bonus"=>"https://bt4dg.live/booms-bonus.html",
+                "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
+                elementsById.forEach(function(id) {
+                    var element = document.getElementById(id);
+                    if (element) {
+                        element.style.display = 'none';
+                    }
+                });
+            
+                // Hide elements by class
+                var elementsByClass = document.querySelectorAll('.section-title');
+                elementsByClass.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+            
+                // Change body background color
+                document.body.style.backgroundColor = '#710b09';
+            
+                // Change content-wrap padding
+                var contentWrapElements = document.querySelectorAll('.content-wrap');
+                contentWrapElements.forEach(function(element) {
+                    element.style.padding = '0px';
+                });"
             ]
         ];
         foreach ($final_array as $key => $value) {
@@ -785,7 +807,29 @@ class ApiController extends Controller
             [
                 "type"=> "BN",
                 "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
-                "bonus"=>"https://bt4dg.live/booms-bonus.html"
+                "bonus"=>"https://bt4dg.live/booms-bonus.html",
+                "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
+                elementsById.forEach(function(id) {
+                    var element = document.getElementById(id);
+                    if (element) {
+                        element.style.display = 'none';
+                    }
+                });
+            
+                // Hide elements by class
+                var elementsByClass = document.querySelectorAll('.section-title');
+                elementsByClass.forEach(function(element) {
+                    element.style.display = 'none';
+                });
+            
+                // Change body background color
+                document.body.style.backgroundColor = '#710b09';
+            
+                // Change content-wrap padding
+                var contentWrapElements = document.querySelectorAll('.content-wrap');
+                contentWrapElements.forEach(function(element) {
+                    element.style.padding = '0px';
+                });"
             ]
         ];
         foreach ($final_array as $key => $value) {
