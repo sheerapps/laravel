@@ -561,7 +561,7 @@ class ApiController extends Controller
             [
                 "type"=> "BN",
                 "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
-                "bonus"=>"https://bt4dg.live/booms-bonus.html",
+                "bonus"=>"https://bt4dg.live/draw_result.html",
                 "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
                 elementsById.forEach(function(id) {
                     var element = document.getElementById(id);
@@ -807,7 +807,7 @@ class ApiController extends Controller
             [
                 "type"=> "BN",
                 "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
-                "bonus"=>"https://bt4dg.live/booms-bonus.html",
+                "bonus"=>"https://bt4dg.live/draw_result.html",
                 "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
                 elementsById.forEach(function(id) {
                     var element = document.getElementById(id);
