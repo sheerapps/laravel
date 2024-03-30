@@ -20,6 +20,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/data-by-date/{date}', [ApiController::class, 'getDataByDate']);
 Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
+Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_1_0']);
+
+
 Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
 Route::get('/data-by-dictionary', [ApiController::class, 'getDicByData']);
 Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);
