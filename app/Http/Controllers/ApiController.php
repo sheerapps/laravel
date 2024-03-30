@@ -246,6 +246,7 @@ class ApiController extends Controller
             "PD" => 0,
             "LH" => 0,
             "BN" => 0,
+            "G" => 0,
         );
         $przCount = array(
             "st" => 0,
@@ -584,7 +585,11 @@ class ApiController extends Controller
                 contentWrapElements.forEach(function(element) {
                     element.style.padding = '0px';
                 });"
-            ]
+            ],
+            [
+                "type"=> "G",
+                "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"]
+            ],
         ];
         foreach ($final_array as $key => $value) {
             if(isset($value["fdData"])){
@@ -934,6 +939,40 @@ class ApiController extends Controller
                 // "jp10" => !isset($array->R6D->_5[1]) ? "--" : $array->R6D->_5[1],
                 "pm330" => "https://4dyes3.com/en/hariharilucky",
                 "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams"
+            ],
+            "G"=>[
+                "dd" => !isset($array->G->DrawDate) ? $date : $array->G->DrawDate,
+                "dn" => !isset($array->G->DrawID) ? "" : $array->G->DrawID,
+                "c1" => !isset($array->G->C[0]) ? "----" : $array->G->C[0],
+                "c2" => !isset($array->G->C[1]) ? "----" : $array->G->C[1],
+                "c3" => !isset($array->G->C[2]) ? "----" : $array->G->C[2],
+                "c4" => !isset($array->G->C[3]) ? "----" : $array->G->C[3],
+                "c5" => !isset($array->G->C[4]) ? "----" : $array->G->C[4],
+                "c6" => !isset($array->G->C[5]) ? "----" : $array->G->C[5],
+                "c7" => !isset($array->G->C[6]) ? "----" : $array->G->C[6],
+                "c8" => !isset($array->G->C[7]) ? "----" : $array->G->C[7],
+                "c9" => !isset($array->G->C[8]) ? "----" : $array->G->C[8],
+                "c10" => !isset($array->G->C[9]) ? "----" : $array->G->C[9],
+                "n1" => !isset($array->G->_1[0]) ? "----" : $array->G->_1[0],
+                "n1_pos" => !isset($array->G->_1pos[0]) ? "" : $array->G->_1pos[0],
+                "n2" => !isset($array->G->_2[0]) ? "----" : $array->G->_2[0],
+                "n2_pos" => !isset($array->G->_2pos[0]) ? "" : $array->G->_2pos[0],
+                "n3" => !isset($array->G->_3[0]) ? "----" : $array->G->_3[0],
+                "n3_pos" => !isset($array->G->_3pos[0]) ? "" : $array->G->_3pos[0],
+                "s1" => !isset($array->G->_P[0]) ? "----" : $array->G->_P[0],
+                "s2" => !isset($array->G->_P[1]) ? "----" : $array->G->_P[1],
+                "s3" => !isset($array->G->_P[2]) ? "----" : $array->G->_P[2],
+                "s4" => !isset($array->G->_P[3]) ? "----" : $array->G->_P[3],
+                "s5" => !isset($array->G->_P[4]) ? "----" : $array->G->_P[4],
+                "s6" => !isset($array->G->_P[5]) ? "----" : $array->G->_P[5],
+                "s7" => !isset($array->G->_P[6]) ? "----" : $array->G->_P[6],
+                "s8" => !isset($array->G->_P[7]) ? "----" : $array->G->_P[7],
+                "s9" => !isset($array->G->_P[8]) ? "----" : $array->G->_P[8],
+                "s10" => !isset($array->G->_P[9]) ? "----" : $array->G->_P[9],
+                "s11" => !isset($array->G->_P[10]) ? "----" : $array->G->_P[10],
+                "s12" => !isset($array->G->_P[11]) ? "----" : $array->G->_P[11],
+                "s13" => !isset($array->G->_P[12]) ? "----" : $array->G->_P[12],
+                "pm330" => "https://4dyes3.com/en/good4d",
             ]
         ];
     }
