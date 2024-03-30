@@ -20,7 +20,7 @@ class ApiController extends Controller
         return response()->json(['data' => $data]);
     }
     public function saveData($date){
-        $data = $this->getMainByDate($date);
+        $data = $this->getMainByDateV1_1_0($date);
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];
