@@ -507,7 +507,7 @@ class ApiController extends Controller
             }
         }
         // union  to )
-        preg_replace('/(union)(?![\s\S]*\bunion\b)/', ')', $sql);
+        $sql = preg_replace('/(union)(?![\s\S]*\bunion\b)/', ')', $sql);
         $sql.= "c order by c.dd desc";
         echo $sql;
         return ;
