@@ -509,8 +509,7 @@ class ApiController extends Controller
         // union  to )
         $sql = preg_replace('/(union)(?![\s\S]*\bunion\b)/', ')', $sql);
         $sql.= "c order by c.dd desc";
-        echo $sql;
-        return ;
+
         $query = DB::select(DB::raw($sql));
         if($number == "0000"){
             for($i = 0; $i < sizeof($query); $i++) {
