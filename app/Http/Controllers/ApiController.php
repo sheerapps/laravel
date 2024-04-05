@@ -302,7 +302,7 @@ class ApiController extends Controller
         $number = $this->manipulateString($number);
         $permutation = isset($request->multi) ? "true" : "false";
         $view4d = "1234";
-        $prize = "First,Second,Third,"Sp",Cp;
+        $prize = "First,Second,Third,Sp,Cp";
         if(isset($request->prize)){
             $prize = $request->prize;
         }
