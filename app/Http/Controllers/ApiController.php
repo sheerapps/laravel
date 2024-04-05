@@ -503,11 +503,14 @@ class ApiController extends Controller
                 $sql.= "(select dd,type,c7 as num, 'Cp' as prize from sheerdata b where c7 IN ($number) and type IN ($sitesFilter)) union ";
                 $sql.= "(select dd,type,c8 as num, 'Cp' as prize from sheerdata b where c8 IN ($number) and type IN ($sitesFilter)) union ";
                 $sql.= "(select dd,type,c9 as num, 'Cp' as prize from sheerdata b where c9 IN ($number) and type IN ($sitesFilter)) union ";
-                $sql.= "(select dd,type,c10 as num, 'Cp' as prize from sheerdata b where c10 IN ($number) and type IN ($sitesFilter)))";
+                $sql.= "(select dd,type,c10 as num, 'Cp' as prize from sheerdata b where c10 IN ($number) and type IN ($sitesFilter)) union ";
             }
         }
-        
+        // union  to )
+        preg_replace('/(union)(?![\s\S]*\bunion\b)/', ')', $sql);
         $sql.= "c order by c.dd desc";
+        echo $sql;
+        return ;
         $query = DB::select(DB::raw($sql));
         if($number == "0000"){
             for($i = 0; $i < sizeof($query); $i++) {
