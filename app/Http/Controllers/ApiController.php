@@ -324,7 +324,7 @@ class ApiController extends Controller
             // $selected4D["ST"] = true;
         }
         $hisjson = $this->historyAdvanceData($permutation,$select4D,$number,$prize,$view4d);
-        return $hisjson;
+
         // number pic API
         // $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
         // curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
