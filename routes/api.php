@@ -24,6 +24,7 @@ Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_
 
 
 Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
+Route::get('/data-by-history-v120', [ApiController::class, 'getDataByAdvanceSearch']);
 Route::get('/data-by-dictionary', [ApiController::class, 'getDicByData']);
 Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);
 Route::get('/data-draw-date', [ApiController::class, 'getDrawdateData']);

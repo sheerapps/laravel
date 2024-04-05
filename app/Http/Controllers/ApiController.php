@@ -295,6 +295,101 @@ class ApiController extends Controller
             "count" => $sitesCount
         ];
     }
+
+    public function getDataByAdvanceSearch(Request $request){
+        //add prize & number
+        $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
+        $number = $this->manipulateString($number);
+        $permutation = isset($request->multi) ? "true" : "false";
+        $prize = "First,Sp";
+        $view4d = "1234,4321";
+        $select4D = "";
+        // $selected4D = [];
+        if(isset($request->service)){
+            // foreach ($request->service as $k => $s){
+                $select4D = $request->service;
+                // $select4D .= $k.",";
+                // $selected4D[$k] = true;
+            // }
+        }else{
+            $select4D = "M,ST,PMP";
+            // $selected4D["M"] = true;
+            // $selected4D["PMP"] = true;
+            // $selected4D["ST"] = true;
+        }
+        $hisjson = $this->historyAdvanceData($permutation,$select4D,$number,$prize,$view4d);
+        return $hisjson;
+        // number pic API
+        // $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
+        // curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        // curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        // $res1 = curl_exec($ch1);
+        // $direcjson = json_decode($res1);
+        // LOOP
+        $sitesCount = array(
+            "M" => 0,
+            "PMP" => 0,
+            "ST" => 0,
+            "STC" => 0,
+            "EE" => 0,
+            "CS" => 0,
+            "SG" => 0,
+            "GD" => 0,
+            "NL" => 0,
+            "PD" => 0,
+            "LH" => 0,
+            "BN" => 0,
+            "G" => 0,
+        );
+        $przCount = array(
+            "st" => 0,
+            "nd" => 0,
+            "rd" => 0,
+            "sp" => 0,
+            "cp" => 0
+        );
+        if(isset($hisjson)){
+            foreach($hisjson as $v){
+                $sitesCount[$v->type]+=1; 
+                // if($v->prize == "首獎"){
+                //     $v->prize = "First";
+                //     $przCount["st"]+=1;
+                // }elseif($v->prize == "二獎"){
+                //     $v->prize = "Second";
+                //     $przCount["nd"]+=1;
+                // }elseif($v->prize == "三獎"){
+                //     $v->prize = "Third";
+                //     $przCount["rd"]+=1;
+                // }elseif($v->prize == "特別獎"){
+                //     $v->prize = "Sp";
+                //     $przCount["sp"]+=1;
+                // }elseif($v->prize == "安慰獎"){
+                //     $v->prize = "Cp";
+                //     $przCount["cp"]+=1;
+                // }else
+                if($v->prize == "First"){
+                    $przCount["st"]+=1;
+                }elseif($v->prize == "Second"){
+                    $przCount["nd"]+=1;
+                }elseif($v->prize == "Third"){
+                    $przCount["rd"]+=1;
+                }elseif($v->prize == "Sp"){
+                    $przCount["sp"]+=1;
+                }elseif($v->prize == "Cp"){
+                    $przCount["cp"]+=1;
+                }
+            }
+        }
+        return [
+            "no" => $number,
+            "sites" => $select4D,
+            "history" => $hisjson,//all
+            "prize" => $przCount,//all
+            "count" => $sitesCount//all
+        ];
+    }
+
     public function multiPermutation($arg) {
         $array = is_string($arg) ? str_split($arg) : $arg;
         if(1 === count($array)) {
@@ -316,6 +411,56 @@ class ApiController extends Controller
         if($permutation == 'true'){
             $number =  implode(",",$this->multiPermutation($number));
         }
+        $sql = "select c.* from (";
+        $sql.= "(select dd,type,n1 as num, 'First' as prize from sheerdata a where n1 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,n2 as num, 'Second' as prize from sheerdata b where n2 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,n3 as num, 'Third' as prize from sheerdata b where n3 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s1 as num, 'Sp' as prize from sheerdata b where s1 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s2 as num, 'Sp' as prize from sheerdata b where s2 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s3 as num, 'Sp' as prize from sheerdata b where s3 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s4 as num, 'Sp' as prize from sheerdata b where s4 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s5 as num, 'Sp' as prize from sheerdata b where s5 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s6 as num, 'Sp' as prize from sheerdata b where s6 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s7 as num, 'Sp' as prize from sheerdata b where s7 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s8 as num, 'Sp' as prize from sheerdata b where s8 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s9 as num, 'Sp' as prize from sheerdata b where s9 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s10 as num, 'Sp' as prize from sheerdata b where s10 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s11 as num, 'Sp' as prize from sheerdata b where s11 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s12 as num, 'Sp' as prize from sheerdata b where s12 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,s13 as num, 'Sp' as prize from sheerdata b where s13 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c1 as num, 'Cp' as prize from sheerdata b where c1 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c2 as num, 'Cp' as prize from sheerdata b where c2 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c3 as num, 'Cp' as prize from sheerdata b where c3 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c4 as num, 'Cp' as prize from sheerdata b where c4 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c5 as num, 'Cp' as prize from sheerdata b where c5 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c6 as num, 'Cp' as prize from sheerdata b where c6 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c7 as num, 'Cp' as prize from sheerdata b where c7 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c8 as num, 'Cp' as prize from sheerdata b where c8 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c9 as num, 'Cp' as prize from sheerdata b where c9 IN ($number) and type IN ($sitesFilter)) union ";
+        $sql.= "(select dd,type,c10 as num, 'Cp' as prize from sheerdata b where c10 IN ($number) and type IN ($sitesFilter)))";
+        $sql.= "c order by c.dd desc";
+        $query = DB::select(DB::raw($sql));
+        if($number == "0000"){
+            for($i = 0; $i < sizeof($query); $i++) {
+                if($query[$i]->num == "----") {
+                    array_splice($query, $i, 1);
+                    $i--;
+                }
+            }
+        }
+        return $query;
+    }
+    public function historyAdvanceData($permutation,$sites,$number,$prize,$view4d){
+        $sitesToArray = explode(",",$sites);
+        $sitesFilter = "'" .implode("','",$sitesToArray). "'";
+        // return $sitesFilter;
+        if($permutation == 'true'){
+            $number =  implode(",",$this->multiPermutation($number));
+        }
+        echo "sarrs:".$sitesToArray."xx";
+        echo "sites:".$sitesFilter."xx";
+        echo "number:".$number."xx";
+        return "closed";
         $sql = "select c.* from (";
         $sql.= "(select dd,type,n1 as num, 'First' as prize from sheerdata a where n1 IN ($number) and type IN ($sitesFilter)) union ";
         $sql.= "(select dd,type,n2 as num, 'Second' as prize from sheerdata b where n2 IN ($number) and type IN ($sitesFilter)) union ";
