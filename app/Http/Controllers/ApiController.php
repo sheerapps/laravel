@@ -457,7 +457,6 @@ class ApiController extends Controller
         if($permutation == 'true'){
             $number =  implode(",",$this->multiPermutation($number));
         }
-        echo "sarrs:".$sitesToArray."xx";
         echo "sites:".$sitesFilter."xx";
         echo "number:".$number."xx";
         return "closed";
