@@ -301,8 +301,14 @@ class ApiController extends Controller
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
         $number = $this->manipulateString($number);
         $permutation = isset($request->multi) ? "true" : "false";
-        $prize = $request->prize;
-        $view4d = $request->view4d;
+        $view4d = "1234";
+        $prize = "First,Second,Third,"Sp",Cp;
+        if(isset($request->prize)){
+            $prize = $request->prize;
+        }
+        if(isset($request->view4d)){
+            $view4d = $request->view4d;
+        }
         $select4D = "";
         // $selected4D = [];
         if(isset($request->service)){
@@ -453,12 +459,16 @@ class ApiController extends Controller
     public function historyAdvanceData($permutation,$sites,$number,$prize,$view4d){
         $sitesToArray = explode(",",$sites);
         $sitesFilter = "'" .implode("','",$sitesToArray). "'";
-        // return $sitesFilter;
-        if($permutation == 'true'){
-            $number =  implode(",",$this->multiPermutation($number));
+        // if($permutation == 'true'){
+        //     $number =  implode(",",$this->multiPermutation($number));
+        // }
+        $number = $view4d;
+        echo "$number= ".$number;
+        $prizeToArray  = explode(",",$prize);
+        foreach ($prizeToArray as $key => $value) {
+            echo " ~ " . $key." - ".$value." ~ ";
         }
-        echo "sites:".$sitesFilter."xx";
-        echo "number:".$number."xx";
+        //
         return "closed";
         $sql = "select c.* from (";
         $sql.= "(select dd,type,n1 as num, 'First' as prize from sheerdata a where n1 IN ($number) and type IN ($sitesFilter)) union ";
