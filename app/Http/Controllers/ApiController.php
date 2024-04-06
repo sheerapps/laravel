@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Sheerdata;
+use App\Sheerlive;
+
 use Illuminate\Http\Request;
 use DateTime;
 use \DB;
@@ -19,6 +21,16 @@ class ApiController extends Controller
         $data = Sheerdata::where($columnName, $date)->get();
         return response()->json(['data' => $data]);
     }
+    public function saveLive($date){
+        $dateNow = now()->toDateString(); // Get current date in YYYY-MM-DD format
+        $timeNow = now()->format('H:i:s'); // Get current time in h:i:s format
+        $data = json_encode([$timeNow]); // Encode current time as JSON array
+        Sheerlive::updateOrInsert(
+            ['date' => $dateNow],
+            ['data' => $data]
+        );
+    }
+
     public function saveData($date){
         $data = $this->getMainByDateV1_1_0($date);
         foreach ($data as $item) {
