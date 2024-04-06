@@ -576,7 +576,7 @@ class ApiController extends Controller
             $res3 = curl_exec($ch3);
             $main3 = json_decode($res3);
             $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
-            $main1_final["NLJP"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+            $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
         }
         //bn
         $date_bn = date("Ymd", strtotime($date));
@@ -715,7 +715,7 @@ class ApiController extends Controller
             [
                 "type"=> "NL",
                 "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
-                "jpData"=>!isset($main1_final["NLJP"]) ? null : $main1_final["NLJP"]
+                "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
             ],
             [
                 "type"=> "PD",
@@ -821,7 +821,7 @@ class ApiController extends Controller
             $res3 = curl_exec($ch3);
             $main3 = json_decode($res3);
             $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
-            $main1_final["NLJP"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+            $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
         }
         //bn
         $date_bn = date("Ymd", strtotime($date));
@@ -960,7 +960,7 @@ class ApiController extends Controller
             [
                 "type"=> "NL",
                 "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
-                "jpData"=>!isset($main1_final["NLJP"]) ? null : $main1_final["NLJP"]
+                "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
             ],
             [
                 "type"=> "PD",
@@ -1071,7 +1071,7 @@ class ApiController extends Controller
             $res3 = curl_exec($ch3);
             $main3 = json_decode($res3);
             $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
-            $main1_final["NLJP"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+            $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
         }
         //bn
         $date_bn = date("Ymd", strtotime($date));
@@ -1210,7 +1210,7 @@ class ApiController extends Controller
             [
                 "type"=> "NL",
                 "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
-                "jpData"=>!isset($main1_final["NLJP"]) ? null : $main1_final["NLJP"]
+                "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
             ],
             [
                 "type"=> "PD",
