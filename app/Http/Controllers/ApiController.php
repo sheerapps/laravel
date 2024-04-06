@@ -21,7 +21,7 @@ class ApiController extends Controller
         $data = Sheerdata::where($columnName, $date)->get();
         return response()->json(['data' => $data]);
     }
-    public function saveLive($date){
+    public function saveLive(){
         $dateNow = now()->toDateString(); // Get current date in YYYY-MM-DD format
         $timeNow = now()->format('H:i:s'); // Get current time in h:i:s format
         $data = json_encode([$timeNow]); // Encode current time as JSON array
