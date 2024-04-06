@@ -27,6 +27,8 @@ Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
 Route::get('/data-by-history-v120', [ApiController::class, 'getDataByAdvanceSearch']);
 Route::get('/data-by-dictionary', [ApiController::class, 'getDicByData']);
 Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);
+Route::get('/save-by-live', [ApiController::class, 'saveLive']);
+
 Route::get('/data-draw-date', [ApiController::class, 'getDrawdateData']);
 Route::get('/all-book-data', [ApiController::class, 'getBookAll']);
 //tsheer

@@ -29,6 +29,7 @@ class ApiController extends Controller
             ['date' => $dateNow],
             ['data' => $data]
         );
+        echo "done";
     }
 
     public function saveData($date){
