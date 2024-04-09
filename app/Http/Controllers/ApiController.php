@@ -1396,6 +1396,15 @@ class ApiController extends Controller
                 "s11" => !isset($array->G->_P[10]) ? "----" : $array->G->_P[10],
                 "s12" => !isset($array->G->_P[11]) ? "----" : $array->G->_P[11],
                 "s13" => !isset($array->G->_P[12]) ? "----" : $array->G->_P[12],
+                "jp1" => !isset($array->G6D->_1[0]) ? "------" : $array->G6D->_1[0],
+                "jp2" => !isset($array->G6D->_2[0]) ? "-----" : $array->G6D->_2[0],
+                "jp3" => !isset($array->G6D->_2[1]) ? "-----" : $array->G6D->_2[1],
+                "jp4" => !isset($array->G6D->_3[0]) ? "----" : $array->G6D->_3[0],
+                "jp5" => !isset($array->G6D->_3[1]) ? "----" : $array->G6D->_3[1],
+                "jp7" => !isset($array->G6D->_4[0]) ? "---" : $array->G6D->_4[0],
+                "jp8" => !isset($array->G6D->_4[1]) ? "---" : $array->G6D->_4[1],
+                "jp9" => !isset($array->G6D->_5[0]) ? "--" : $array->G6D->_5[0],
+                "jp10" => !isset($array->G6D->_5[1]) ? "--" : $array->G6D->_5[1],
                 "pm330" => "https://good4d.net/en/home",
             ]
         ];
