@@ -978,13 +978,19 @@ class ApiController extends Controller
             [
                 "type"=> "PD",
                 "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
-                "decode"=>"var classNames2 = ['mobile-navbar','marquee', 'twitch-embed-container', 'banner'];
+                "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
                 classNames2.forEach(function(className) {
                     var elements = document.querySelectorAll('.' + className);
                     elements.forEach(function(element) {
                         element.style.display = 'none';
                     });
-                });"
+                });
+                var iframes = document.getElementsByTagName('iframe');
+
+                // Loop through each <iframe> tag and set its display style property to 'none'
+                for (var i = 0; i < iframes.length; i++) {
+                    iframes[i].style.display = 'none';
+                }"
             ],
             [
                 "type"=> "LH",
@@ -1331,7 +1337,7 @@ class ApiController extends Controller
                 "jp8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
                 "jp9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
                 "jp10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
-                "pm330" => "https://www.perdana4d.net",
+                "pm330" => "https://www.perdana4d.net/results/4d",
                 "video" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
             ],
             "LH"=>[
