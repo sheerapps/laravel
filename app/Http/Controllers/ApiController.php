@@ -1317,7 +1317,7 @@ class ApiController extends Controller
                 "jp8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
                 "jp9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
                 "jp10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
-                "pm330" => "https://my4dlive.com/en/perdana",
+                "pm330" => "https://www.perdana4d.com",
                 "video" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
             ],
             "LH"=>[
@@ -1361,7 +1361,7 @@ class ApiController extends Controller
                 // "jp8" => !isset($array->R6D->_4[1]) ? "---" : $array->R6D->_4[1],
                 // "jp9" => !isset($array->R6D->_5[0]) ? "--" : $array->R6D->_5[0],
                 // "jp10" => !isset($array->R6D->_5[1]) ? "--" : $array->R6D->_5[1],
-                "pm330" => "https://my4dlive.com/en/hariharilucky",
+                "pm330" => "https://hari4d.com/draw-result.php",
                 "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams"
             ],
             "G"=>[
@@ -1396,7 +1396,7 @@ class ApiController extends Controller
                 "s11" => !isset($array->G->_P[10]) ? "----" : $array->G->_P[10],
                 "s12" => !isset($array->G->_P[11]) ? "----" : $array->G->_P[11],
                 "s13" => !isset($array->G->_P[12]) ? "----" : $array->G->_P[12],
-                "pm330" => "https://my4dlive.com/en/good4d",
+                "pm330" => "https://good4d.net/en/home",
             ]
         ];
     }
