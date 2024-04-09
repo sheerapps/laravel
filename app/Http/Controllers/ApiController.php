@@ -733,13 +733,6 @@ class ApiController extends Controller
             [
                 "type"=> "PD",
                 "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
-                "decode"=>"var classNames2 = ['main-navbar','marquee', 'twitch-embed-container', 'banner'];
-                classNames2.forEach(function(className) {
-                    var elements = document.querySelectorAll('.' + className);
-                    elements.forEach(function(element) {
-                        element.style.display = 'none';
-                    });
-                });"
             ],
             [
                 "type"=> "LH",
@@ -984,7 +977,14 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "PD",
-                "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"]
+                "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                "decode"=>"var classNames2 = ['main-navbar','marquee', 'twitch-embed-container', 'banner'];
+                classNames2.forEach(function(className) {
+                    var elements = document.querySelectorAll('.' + className);
+                    elements.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                });"
             ],
             [
                 "type"=> "LH",
