@@ -314,7 +314,7 @@ class ApiController extends Controller
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
         $number = $this->manipulateString($number);
         $permutation = isset($request->multi) ? "true" : "false";
-        $view4d = "1234";
+        $view4d = isset($request->no) ? $request->no : "1234";
         $prize = "First,Second,Third,Sp,Cp";
         if(isset($request->prize)){
             $prize = $request->prize;
