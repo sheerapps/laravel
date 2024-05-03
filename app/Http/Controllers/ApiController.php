@@ -539,7 +539,7 @@ class ApiController extends Controller
         $today = date("Y-m-d");
         //live
         $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
-        $url_sub = "https://my4dlive.com/getLiveResult.php";
+        $url_sub = "https://4dyes3.com/getLiveResult.php";
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
         if($date == "date" || $date >= $today){
@@ -547,7 +547,7 @@ class ApiController extends Controller
         }else{
             //past
             $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
-            $url_sub = "https://my4dlive.com/getLiveResult.php?date=".$date;
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
         //is Live
@@ -571,7 +571,7 @@ class ApiController extends Controller
         $main1_final = $this->main1_formatter($main1);
         //sub
         $ch2 = curl_init($url_sub);
-        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://my4dlive.com/en/past-result']);
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
         curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
@@ -784,7 +784,7 @@ class ApiController extends Controller
         $today = date("Y-m-d");
         //live
         $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
-        $url_sub = "https://my4dlive.com/getLiveResult.php";
+        $url_sub = "https://4dyes3.com/getLiveResult.php";
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
         if($date == "date" || $date >= $today){
@@ -792,7 +792,7 @@ class ApiController extends Controller
         }else{
             //past
             $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
-            $url_sub = "https://my4dlive.com/getLiveResult.php?date=".$date;
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
         //is Live
@@ -816,7 +816,7 @@ class ApiController extends Controller
         $main1_final = $this->main1_formatter($main1);
         //sub
         $ch2 = curl_init($url_sub);
-        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://my4dlive.com/en/past-result']);
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
         curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
@@ -1054,7 +1054,7 @@ class ApiController extends Controller
         $today = date("Y-m-d");
         //live
         $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
-        $url_sub = "https://my4dlive.com/getLiveResult.php";
+        $url_sub = "https://4dyes3.com/getLiveResult.php";
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
         if($date == "date" || $date >= $today){
@@ -1062,7 +1062,7 @@ class ApiController extends Controller
         }else{
             //past
             $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
-            $url_sub = "https://my4dlive.com/getLiveResult.php?date=".$date;
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
         //is Live
@@ -1086,7 +1086,7 @@ class ApiController extends Controller
         $main1_final = $this->main1_formatter($main1);
         //sub
         $ch2 = curl_init($url_sub);
-        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://my4dlive.com/en/past-result']);
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
         curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
