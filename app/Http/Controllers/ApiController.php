@@ -322,7 +322,7 @@ class ApiController extends Controller
         if(isset($request->view4d)){
             $view4d = $request->view4d;
         }
-        $select4D = "";
+        $select4D = ""; 
         // $selected4D = [];
         if(isset($request->service)){
             // foreach ($request->service as $k => $s){
