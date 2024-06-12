@@ -556,6 +556,7 @@ class ApiController extends Controller
             $today_live = new DateTime($today);
             $today_live->modify('-1 days');
             $date = $today_live->format('Y-m-d');
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
         }
         //main DONE
         $ch1 = curl_init($url_main);
@@ -817,7 +818,6 @@ class ApiController extends Controller
         }
         $main1_final = $this->main1_formatter($main1);
 
-        // $ch2 = curl_init($url_sub);
         $ch2 = curl_init($url_sub);
         curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
         curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
@@ -1093,6 +1093,7 @@ class ApiController extends Controller
             $today_live = new DateTime($today);
             $today_live->modify('-1 days');
             $date = $today_live->format('Y-m-d');
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
         }
         //main DONE
         $ch1 = curl_init($url_main);
@@ -1382,6 +1383,7 @@ class ApiController extends Controller
             $today_live = new DateTime($today);
             $today_live->modify('-1 days');
             $date = $today_live->format('Y-m-d');
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
         }
         //main DONE
         $ch1 = curl_init($url_main);
