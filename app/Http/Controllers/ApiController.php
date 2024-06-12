@@ -785,7 +785,8 @@ class ApiController extends Controller
         $today = date("Y-m-d");
         //live
         $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
-        $url_sub = "https://4dyes3.com/getLiveResult.php";
+        // $url_sub = "https://4dyes3.com/getLiveResult.php";
+        $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
         if($date == "date" || $date >= $today){
