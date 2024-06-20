@@ -1663,7 +1663,7 @@ class ApiController extends Controller
                 "jp8" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
                 "jp9" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
                 "jp10" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
-                "pm330" => "https://www.perdana4d.net",
+                "pm330" => "https://www.perdana4d.net/Results/4D",
                 "video" => "https://player.twitch.tv/?channel=perdana4d&enableExtensions=true&muted=false&parent=twitch.tv&player=popout&volume=0.5"
             ],
             "LH"=>[
