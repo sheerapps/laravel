@@ -34,3 +34,12 @@ Route::get('/data-draw-date', [ApiController::class, 'getDrawdateData']);
 Route::get('/all-book-data', [ApiController::class, 'getBookAll']);
 //tsheer
 Route::get('/tmain-by-date/{date}', [ApiController::class, 'getTMainByDate']);
+Route::get('/t', function() {
+    $ch = curl_init(); 
+    curl_setopt( $ch, CURLOPT_URL, "https://backend.4dnum.com/api/v1/result/2024-06-06");
+    curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
+    $res = curl_exec($ch);
+    $all = json_decode($res);
+    print_r($all);
+});
