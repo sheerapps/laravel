@@ -1468,7 +1468,14 @@ class ApiController extends Controller
         }else{
             $sjpFinal = $main1_final['SGJP6/45'];
         }
-
+        $sgFinal = null;
+        if(!isset($main1_final['SG'])){
+            if($sjpFinal !== null){
+                $sgFinal = array("dd"->$date);
+            }
+        }else{
+            $sgFinal = $main1_final['SG'];
+        }
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
@@ -1500,7 +1507,7 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "SG",
-                "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
+                "fdData"=>$sgFinal,
                 "jpData"=>$sjpFinal,
                 "sweep"=>"https://lottery.nestia.com/sweep",
                 "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
