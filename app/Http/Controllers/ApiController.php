@@ -1976,7 +1976,7 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "SG",
-                    "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
+                    "fdData"=>!isset($main1_final['SG']) ? array("dd"=>"YYYY-MM-DD") :$main1_final['SG'],
                     "jpData"=>$sjpFinal,
                     "sweep"=>"https://lottery.nestia.com/sweep",
                     "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
@@ -2128,8 +2128,8 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "SG",
-                    "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
-                    "jpData"=>!isset($results[3]['jpData']) ? array("dd"=>"YYYY-MM-DD") : $results[3]['jpData'],
+                    "fdData"=>!isset($results[3]['fdData']) ? array("dd"=>"YYYY-MM-DD") : $results[3]['fdData'],
+                    "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
                     "sweep"=>"https://lottery.nestia.com/sweep",
                     "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
                     classNames1.forEach(function(className) {
