@@ -997,7 +997,7 @@ class ApiController extends Controller
         $array = array_values($final_array);
         $dataCases = "";
         $updatedAtCases = "";
-        $type = [];
+        $types = [];
         $now = now()->toDateTimeString();
 
         foreach($array as $item){
@@ -1005,10 +1005,10 @@ class ApiController extends Controller
             $fdData = json_encode($item);
             $dataCases .= "WHEN '$type' THEN '$fdData' ";
             $updatedAtCases .= "WHEN '$type' THEN '$now' ";
-            $type[] = "'$type'";
+            $types[] = "'$type'";
         }
 
-        $dataCases = "CASE `type` $dateCases END";
+        $dataCases = "CASE `type` $dateCases END"; 
         $updatedAtCases = "CASE `type` $updatedAtCases END";
         $typeList = implode(",", $types);
 
