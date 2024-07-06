@@ -2128,7 +2128,7 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "SG",
-                    "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
+                    "fdData"=>!isset($results[3]['fdData']) ? array("dd"=>"YYYY-MM-DD") : $results[3]['fdData'],
                     "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
                     "sweep"=>"https://lottery.nestia.com/sweep",
                     "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
