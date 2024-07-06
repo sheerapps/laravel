@@ -33,7 +33,7 @@ class ApiController extends Controller
     }
 
     public function saveData($date){
-        $data = $this->getMainByDateV1_1_0($date);
+        $data = $this->getMainByDateV1_2_0_DB($date);
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];
@@ -1385,6 +1385,448 @@ class ApiController extends Controller
             }
         }
         return $format_array;
+    }
+    public function getMainByDateV1_2_0_DB($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $today = date("Y-m-d");
+        $status = "";
+        //live
+        $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
+        $url_sub = "https://4dyes3.com/getLiveResult.php";
+        $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
+        //bydate
+        if($date == "date" || $date >= $today){
+            $status = "today";
+            $date = $today;
+        }else{
+            //past
+            $status = "past";
+            $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
+            $url_nl = "past";
+        }
+        //is Live
+        if($status == "past"){ //fetch from api
+            if($date == $today && date("Gi") <= 1829){
+                $today_live = new DateTime($today);
+                $today_live->modify('-1 days');
+                $date = $today_live->format('Y-m-d');
+                $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
+            }
+            //main DONE
+            $ch1 = curl_init($url_main);
+            curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+            $res1 = curl_exec($ch1);
+            $main1 = json_decode($res1);
+            //main api format
+            if(!isset($main1)){
+                $main1 = [];
+            }
+            $main1_final = $this->main1_formatter($main1);
+    
+            $ch2 = curl_init($url_sub);
+            curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
+            $res2 = curl_exec($ch2);
+            $main2 = json_decode($res2); 
+            $main2_final = $this->sub_formatter($main2,$date);
+            //nl
+            if($url_nl == "past"){
+                //
+            }else{
+                $ch3 = curl_init($url_nl);
+                curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch3, CURLOPT_TIMEOUT, 2);
+                curl_setopt($ch3, CURLOPT_CONNECTTIMEOUT, 2);
+                $res3 = curl_exec($ch3);
+                $main3 = json_decode($res3);
+                $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
+                $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+            }
+            //bn
+            $date_bn = date("Ymd", strtotime($date));
+            $url_bn = "https://publicapi.ace4dv2.live/publicAPI/bt4?date=$date_bn";
+            $ch4 = curl_init($url_bn);
+            curl_setopt($ch4, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch4, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch4, CURLOPT_CONNECTTIMEOUT, 1);
+            $res4 = curl_exec($ch4);
+            $main4 = json_decode($res4);
+            $main4_final = $this->bn_formatter($main4,$date);
+            //sbjp
+            $date_sb = date("Ymd", strtotime($date));
+            $url_sb = "https://www.check4d.org/liveosx.json";
+            $ch5 = curl_init($url_sb);
+            curl_setopt($ch5, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch5, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch5, CURLOPT_CONNECTTIMEOUT, 1);
+            $res5 = curl_exec($ch5);
+            $main5f = json_decode($res5);
+            $main5 = [$main5f];
+            $sbjp_formatter = [
+                "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
+                "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2,
+                "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
+            ];
+            //sjp
+            $sjpFinal  = null;
+            if(!isset($main1_final['SGJP6/45'])){
+                $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
+                curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
+                curl_setopt($ch6, CURLOPT_CONNECTTIMEOUT, 1);
+                $res6 = curl_exec($ch6);
+                $main6 = json_decode($res6);
+                //format
+                if (isset($main6)) {
+                    $keys = array_column($main6, 'type');
+                    $index = array_search('SGJP', $keys);
+                    if(isset($index) && $index >= 0){
+                        if(isset($main6[$index]->jpData)){
+                            $sjpFinal = $main6[$index]->jpData;
+                        }
+                    }
+                }
+            }else{
+                $sjpFinal = $main1_final['SGJP6/45'];
+            }
+            //PH330
+            $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
+            curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
+            $res7 = curl_exec($ch7);
+            $main7 = json_decode($res7);
+            $main7_final = $this->formatPerdanaGood37($main7,$date);
+    
+            //$main1_final main
+            //$main2_final lhpn
+            //$main4_final bn
+            //$sbjp_formatter ee
+    
+            $final_array = [
+                [
+                    "type"=> "M",
+                    "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
+                    "jpData"=>[
+                        "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
+                        "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
+                    ]
+                ],
+                [
+                    "type"=> "PMP",
+                    "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
+                    "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
+                ],
+                [
+                    "type"=> "ST",
+                    "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
+                    "jpData"=>[
+                        "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
+                        "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
+                        "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
+                        "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
+                    ]
+                ],
+                [
+                    "type"=> "SG",
+                    "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
+                    "jpData"=>$sjpFinal,
+                    "sweep"=>"https://lottery.nestia.com/sweep",
+                    "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                    classNames1.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                
+                    document.body.style.padding = '0px';
+                
+                    var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                
+                    var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
+                    if (taboolaElement) {
+                        taboolaElement.style.display = 'none';
+                    }
+                
+                    var tblNextUpElement = document.getElementById('tbl-next-up');
+                    var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                    if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
+                        tblNextUpElement.style.display = 'none';
+                        tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    }"
+                ],
+                [
+                    "type"=> "CS",
+                    "fdData"=>!isset($main1_final['CS']) ? null :$main1_final['CS']
+                ],
+                [
+                    "type"=> "STC",
+                    "fdData"=>!isset($main1_final['STC']) ? null :$main1_final['STC']
+                ],
+                [
+                    "type"=> "EE",
+                    "fdData"=>!isset($main1_final['EE']) ? null :$main1_final['EE'],
+                    "jpData"=>!isset($sbjp_formatter) ? null : $sbjp_formatter
+                ],
+                [
+                    "type"=> "GD",
+                    "fdData"=>!isset($main1_final['GD']) ? null :$main1_final['GD'],
+                    "jpData"=>!isset($main1_final['GD6D']) ? null : $main1_final['GD6D']
+                ],
+                [
+                    "type"=> "NL",
+                    "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
+                    "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
+                ],
+                [
+                    "type"=> "PD",
+                    "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                    "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
+                    "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                    "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+                    "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                    var iframes = document.getElementsByTagName('iframe');
+    
+                    // Loop through each <iframe> tag and set its display style property to 'none'
+                    for (var i = 0; i < iframes.length; i++) {
+                        iframes[i].style.display = 'none';
+                    }"
+                ],
+                [
+                    "type"=> "LH",
+                    "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
+                    "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                    "fdData330"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                    "jpData330"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                    "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });"
+                ],
+                [
+                    "type"=> "BN",
+                    "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+                    "bonus"=>"https://bt4dg.live/draw_result.html",
+                    "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
+                    elementsById.forEach(function(id) {
+                        var element = document.getElementById(id);
+                        if (element) {
+                            element.style.display = 'none';
+                        }
+                    });
+                
+                    // Hide elements by class
+                    var elementsByClass = document.querySelectorAll('.section-title');
+                    elementsByClass.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                
+                    // Change body background color
+                    document.body.style.backgroundColor = '#710b09';
+                
+                    // Change content-wrap padding
+                    var contentWrapElements = document.querySelectorAll('.content-wrap');
+                    contentWrapElements.forEach(function(element) {
+                        element.style.padding = '0px';
+                    });"
+                ],
+                [
+                    "type"=> "G",
+                    "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
+                    "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                    "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                    "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                ],
+            ];
+        }else{ //fetch from db
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13])->get(['data']);
+            $r = [];
+            foreach ($records as $key => $record) {
+                $r[] = json_decode($record->data,true);
+            }
+            $results = $r;
+            $final_array = [
+                [
+                    "type"=> "M",
+                    "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
+                    "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
+                ],
+                [
+                    "type"=> "PMP",
+                    "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
+                    "jpData"=>!isset($results[1]['jpData']) ? null : $results[1]['jpData'],
+                ],
+                [
+                    "type"=> "ST",
+                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
+                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
+                ],
+                [
+                    "type"=> "SG",
+                    "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
+                    "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
+                    "sweep"=>"https://lottery.nestia.com/sweep",
+                    "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                    classNames1.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                
+                    document.body.style.padding = '0px';
+                
+                    var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                
+                    var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
+                    if (taboolaElement) {
+                        taboolaElement.style.display = 'none';
+                    }
+                
+                    var tblNextUpElement = document.getElementById('tbl-next-up');
+                    var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                    if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
+                        tblNextUpElement.style.display = 'none';
+                        tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    }"
+                ],
+                [
+                    "type"=> "CS",
+                    "fdData"=>!isset($results[4]['fdData']) ? null : $results[4]['fdData'],
+                ],
+                [
+                    "type"=> "STC",
+                    "fdData"=>!isset($results[6]['fdData']) ? null : $results[6]['fdData'],
+                ],
+                [
+                    "type"=> "EE",
+                    "fdData"=>!isset($results[5]['fdData']) ? null : $results[5]['fdData'],
+                    "jpData"=>!isset($results[5]['jpData']) ? null : $results[5]['jpData'],
+                ],
+                [
+                    "type"=> "GD",
+                    "fdData"=>!isset($results[7]['fdData']) ? null : $results[7]['fdData'],
+                    "jpData"=>!isset($results[7]['jpData']) ? null : $results[7]['jpData'],
+                ],
+                [
+                    "type"=> "NL",
+                    "fdData"=>!isset($results[8]['fdData']) ? null : $results[8]['fdData'],
+                    "jpData"=>!isset($results[8]['jpData']) ? null : $results[8]['jpData'],
+                ],
+                [
+                    "type"=> "PD",
+                    "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
+                    "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
+                    "fdData330"=>!isset($results[9]['fdData330']) ? null : $results[9]['fdData330'],
+                    "jpData330"=>!isset($results[9]['jpData330']) ? null : $results[9]['jpData330'],
+                    "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                    var iframes = document.getElementsByTagName('iframe');
+    
+                    // Loop through each <iframe> tag and set its display style property to 'none'
+                    for (var i = 0; i < iframes.length; i++) {
+                        iframes[i].style.display = 'none';
+                    }"
+                ],
+                [
+                    "type"=> "LH",
+                    "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
+                    "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
+                    "fdData330"=>!isset($results[10]['fdData330']) ? null : $results[10]['fdData330'],
+                    "jpData330"=>!isset($results[10]['jpData330']) ? null : $results[10]['jpData330'],
+                    "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });"
+                ],
+                [
+                    "type"=> "BN",
+                    "fdData"=>!isset($results[11]['fdData']) ? null : $results[11]['fdData'],
+                    "bonus"=>"https://bt4dg.live/draw_result.html",
+                    "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
+                    elementsById.forEach(function(id) {
+                        var element = document.getElementById(id);
+                        if (element) {
+                            element.style.display = 'none';
+                        }
+                    });
+                
+                    // Hide elements by class
+                    var elementsByClass = document.querySelectorAll('.section-title');
+                    elementsByClass.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                
+                    // Change body background color
+                    document.body.style.backgroundColor = '#710b09';
+                
+                    // Change content-wrap padding
+                    var contentWrapElements = document.querySelectorAll('.content-wrap');
+                    contentWrapElements.forEach(function(element) {
+                        element.style.padding = '0px';
+                    });"
+                ],
+                [
+                    "type"=> "G",
+                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
+                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
+                    "fdData330"=>!isset($results[12]['fdData330']) ? null : $results[12]['fdData330'],
+                    "jpData330"=>!isset($results[12]['jpData330']) ? null : $results[12]['jpData330'],
+                ],
+            ];
+        }
+        
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
+            }
+        }
+        return array_values($final_array);
     }
     public function getMainByDateV1_2_0($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
