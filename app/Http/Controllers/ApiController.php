@@ -1945,11 +1945,19 @@ class ApiController extends Controller
             $main7 = json_decode($res7);
             $main7_final = $this->formatPerdanaGood37($main7,$date);
     
+            $sg = null;
+            if(!isset($main1_final['SG'])){
+                if(sjpFinal !== null){
+                    $sg = $array("dd"=>"YYYY-MM-DD");
+                }
+            }else{
+                $sg = $main1_final['SG'];
+            }
             //$main1_final main
             //$main2_final lhpn
             //$main4_final bn
             //$sbjp_formatter ee
-    
+            
             $final_array = [
                 [
                     "type"=> "ST",
@@ -1976,7 +1984,7 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "SG",
-                    "fdData"=>!isset($main1_final['SG']) ? array("dd"=>"YYYY-MM-DD") :$main1_final['SG'],
+                    "fdData"=>$sg,
                     "jpData"=>$sjpFinal,
                     "sweep"=>"https://lottery.nestia.com/sweep",
                     "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
@@ -2128,7 +2136,7 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "SG",
-                    "fdData"=>!isset($results[3]['fdData']) ? array("dd"=>"YYYY-MM-DD") : $results[3]['fdData'],
+                    "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
                     "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
                     "sweep"=>"https://lottery.nestia.com/sweep",
                     "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
