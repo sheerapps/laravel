@@ -1947,7 +1947,7 @@ class ApiController extends Controller
     
             $sg = null;
             if(!isset($main1_final['SG'])){
-                if(sjpFinal !== null){
+                if($sjpFinal !== null){
                     $sg = array("dd"=>"YYYY-MM-DD");
                 }
             }else{
