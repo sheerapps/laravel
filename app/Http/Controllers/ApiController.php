@@ -781,7 +781,7 @@ class ApiController extends Controller
         return array_values($final_array);
     }
     
-    public function saveLive($date){
+    public function saveLiveDB($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
         //live
