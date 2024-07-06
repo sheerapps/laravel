@@ -39,7 +39,7 @@ class ApiController extends Controller
                 $fdData = $item['fdData'];
                 // echo isset($fdData->dd) ? $fdData->dd : $item['type']."===";
                 Sheerdata::updateOrInsert(
-                    ['dd' => $fdData->dd, 'type' => $item['type']],
+                    ['dd' => $fdData->dd ? $fdData->dd : $date, 'type' => $item['type']],
                     [
                         'type' => $item['type'],
                         'dd' => isset($fdData->dd) ? $fdData->dd : "",
