@@ -1012,7 +1012,7 @@ class ApiController extends Controller
         $updatedAtCases = "CASE `type` $updatedAtCases END";
         $typeList = implode(",", $types);
 
-        $sql = "UPDATE `sheerlive` SET `date` = $dataCases, `updated_at` = $updatedAtCases WHERE `type` IN ($typeList)";
+        $sql = "UPDATE `sheerlive` SET `data` = $dataCases, `updated_at` = $updatedAtCases WHERE `type` IN ($typeList)";
         DB::statement($sql);
         
         return 1;
