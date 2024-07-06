@@ -25,8 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('cron:daily_update')->timezone('Asia/Kuala_Lumpur')->everyThirtyMinutes()->between('19:00', '21:00');
-        // $schedule->command('inspire')
-        //          ->hourly();
+        $schedule->command('cron:live_update')->timezone('Asia/Kuala_Lumpur')->everyMinute()->runInBackground();
     }
 
     /**

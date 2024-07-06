@@ -780,7 +780,326 @@ class ApiController extends Controller
         }
         return array_values($final_array);
     }
+    
+    public function saveLive($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $today = date("Y-m-d");
+        //live
+        $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
+        $url_sub = "https://4dyes3.com/getLiveResult.php";
+        $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
+        //bydate
+        if($date == "date" || $date >= $today){
+            $date = $today;
+        }else{
+            //past
+            $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
+            $url_nl = "past";
+        }
+        //is Live
 
+        if($date == $today && date("Gi") <= 1829){
+            $today_live = new DateTime($today);
+            $today_live->modify('-1 days');
+            $date = $today_live->format('Y-m-d');
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
+        }
+        //main DONE
+        $ch1 = curl_init($url_main);
+        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        $res1 = curl_exec($ch1);
+        $main1 = json_decode($res1);
+        //main api format
+        if(!isset($main1)){
+            $main1 = [];
+        }
+        $main1_final = $this->main1_formatter($main1);
+
+        //sub
+        $ch2 = curl_init($url_sub);
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
+        $res2 = curl_exec($ch2);
+        $main2 = json_decode($res2); 
+        $main2_final = $this->sub_formatter($main2,$date);
+       
+        //nl
+        if($url_nl == "past"){
+            //
+        }else{
+            $ch3 = curl_init($url_nl);
+            curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch3, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch3, CURLOPT_CONNECTTIMEOUT, 2);
+            $res3 = curl_exec($ch3);
+            $main3 = json_decode($res3);
+            $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
+            $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+        }
+
+        //bn
+        $date_bn = date("Ymd", strtotime($date));
+        $url_bn = "https://publicapi.ace4dv2.live/publicAPI/bt4?date=$date_bn";
+        $ch4 = curl_init($url_bn);
+        curl_setopt($ch4, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch4, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch4, CURLOPT_CONNECTTIMEOUT, 1);
+        $res4 = curl_exec($ch4);
+        $main4 = json_decode($res4);
+        $main4_final = $this->bn_formatter($main4,$date);
+
+        //sbjp
+        $date_sb = date("Ymd", strtotime($date));
+        $url_sb = "https://www.check4d.org/liveosx.json";
+        $ch5 = curl_init($url_sb);
+        curl_setopt($ch5, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch5, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch5, CURLOPT_CONNECTTIMEOUT, 1);
+        $res5 = curl_exec($ch5);
+        $main5f = json_decode($res5);
+        $main5 = [$main5f];
+        $sbjp_formatter = [
+            "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
+            "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2,
+            "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
+        ];
+
+        //sjp
+        $sjpFinal  = null;
+        if(!isset($main1_final['SGJP6/45'])){
+            $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
+            curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch6, CURLOPT_CONNECTTIMEOUT, 1);
+            $res6 = curl_exec($ch6);
+            $main6 = json_decode($res6);
+            //format
+            if (isset($main6)) {
+                $keys = array_column($main6, 'type');
+                $index = array_search('SGJP', $keys);
+                if(isset($index) && $index >= 0){
+                    if(isset($main6[$index]->jpData)){
+                        $sjpFinal = $main6[$index]->jpData;
+                    }
+                }
+            }
+        }else{
+            $sjpFinal = $main1_final['SGJP6/45'];
+        }
+        //PH330
+        $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
+        curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
+        $res7 = curl_exec($ch7);
+        $main7 = json_decode($res7);
+        $main7_final = $this->formatPerdanaGood37($main7,$date);
+
+        //$main1_final main
+        //$main2_final lhpn
+        //$main4_final bn
+        //$sbjp_formatter ee
+
+        $final_array = [
+            [
+                "type"=> "M",
+                "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
+                "jpData"=>[
+                    "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
+                    "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
+                ]
+            ],
+            [
+                "type"=> "PMP",
+                "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
+                "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
+            ],
+            [
+                "type"=> "ST",
+                "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
+                "jpData"=>[
+                    "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
+                    "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
+                    "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
+                    "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
+                ]
+            ],
+            [
+                "type"=> "SG",
+                "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
+                "jpData"=>$sjpFinal,
+            ],
+            [
+                "type"=> "CS",
+                "fdData"=>!isset($main1_final['CS']) ? null :$main1_final['CS']
+            ],
+            [
+                "type"=> "STC",
+                "fdData"=>!isset($main1_final['STC']) ? null :$main1_final['STC']
+            ],
+            [
+                "type"=> "EE",
+                "fdData"=>!isset($main1_final['EE']) ? null :$main1_final['EE'],
+                "jpData"=>!isset($sbjp_formatter) ? null : $sbjp_formatter
+            ],
+            [
+                "type"=> "GD",
+                "fdData"=>!isset($main1_final['GD']) ? null :$main1_final['GD'],
+                "jpData"=>!isset($main1_final['GD6D']) ? null : $main1_final['GD6D']
+            ],
+            [
+                "type"=> "NL",
+                "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
+                "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
+            ],
+            [
+                "type"=> "PD",
+                "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
+                "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+            ],
+            [
+                "type"=> "LH",
+                "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
+                "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                "fdData330"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                "jpData330"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+            ],
+            [
+                "type"=> "BN",
+                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+            ],
+            [
+                "type"=> "G",
+                "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
+                "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+            ],
+        ];
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
+            }
+        }
+        $array = array_values($final_array);
+        $dataCases = "";
+        $updatedAtCases = "";
+        $type = [];
+        $now = now()->toDateTimeString();
+
+        foreach($array as $item){
+            $type = $item["type"];
+            $fdData = json_encode($item);
+            $dataCases .= "WHEN '$type' THEN '$fdData' ";
+            $updatedAtCases .= "WHEN '$type' THEN '$now' ";
+            $type[] = "'$type'";
+        }
+
+        $dataCases = "CASE `type` $dateCases END";
+        $updatedAtCases = "CASE `type` $updatedAtCases END";
+        $typeList = implode(",", $types);
+
+        $sql = "UPDATE `sheerlive` SET `date` = $dataCases, `updated_at` = $updatedAtCases WHERE `type` IN ($typeList)";
+        DB::statement($sql);
+        
+        return 1;
+    }
+    function processValue($values,$key) {
+        // Try to decode the value assuming it's JSON encoded
+        $decodedValue = json_decode($values, true);
+        
+        // Check if the decoding was successful and resulted in an array
+        if (is_array($decodedValue)) {
+            return $decodedValue[$key];
+        } else {
+            // If not encoded, assume $value is already an array
+            return $values[$key];
+        }
+    }
+    public function formatPerdanaGood37($jsonhari){
+        $results = array(
+            "G"=>array(),
+            "N"=>array(),
+            "L"=>array(),
+            "G3"=>array(),
+            "N3"=>array(),
+            "L3"=>array(),
+            "G6D"=>array(),
+            "N6D"=>array(),
+            "L6D"=>array(),
+            "G63"=>array(),
+            "N63"=>array(),
+            "L63"=>array(),
+        );
+        $topick4d = array("G","N","L","G3","N3","L3");
+        $topick6d = array("G6D","N6D","L6D","G63","N63","L63");
+        if(isset($jsonhari->data) && isset($jsonhari->data[0])){
+            foreach ($jsonhari->data as $key => $value) {
+                $dateString = $value->date;
+                if(in_array($value->game_code, $topick4d, true)){
+                    $formattedDate = preg_replace('/\s*\(.*?\)/', '', $dateString);
+                    $results[$value->game_code]["dd"] = $formattedDate;
+                    $results[$value->game_code]["dn"] = "";
+                    $results[$value->game_code]["n1"] = isset($value->number_1) ? $value->number_1 : "----";
+                    $results[$value->game_code]["n1_pos"] = "";
+                    $results[$value->game_code]["n2"] = isset($value->number_2) ? $value->number_2 : "----";
+                    $results[$value->game_code]["n2_pos"] = "";
+                    $results[$value->game_code]["n3"] = isset($value->number_3) ? $value->number_3 : "----";
+                    $results[$value->game_code]["n3_pos"] = "";
+                    $results[$value->game_code]["s1"] = isset($value->participation_prize[0]) ? $value->participation_prize[0] : "----";
+                    $results[$value->game_code]["s2"] = isset($value->participation_prize[1]) ? $value->participation_prize[1] : "----";
+                    $results[$value->game_code]["s3"] = isset($value->participation_prize[2]) ? $value->participation_prize[2] : "----";
+                    $results[$value->game_code]["s4"] = isset($value->participation_prize[3]) ? $value->participation_prize[3] : "----";
+                    $results[$value->game_code]["s5"] = isset($value->participation_prize[4]) ? $value->participation_prize[4] : "----";
+                    $results[$value->game_code]["s6"] = isset($value->participation_prize[5]) ? $value->participation_prize[5] : "----";
+                    $results[$value->game_code]["s7"] = isset($value->participation_prize[6]) ? $value->participation_prize[6] : "----";
+                    $results[$value->game_code]["s8"] = isset($value->participation_prize[7]) ? $value->participation_prize[7] : "----";
+                    $results[$value->game_code]["s9"] = isset($value->participation_prize[8]) ? $value->participation_prize[8] : "----";
+                    $results[$value->game_code]["s10"] = isset($value->participation_prize[9]) ? $value->participation_prize[9] : "----";
+                    $results[$value->game_code]["s11"] = isset($value->participation_prize[10]) ? $value->participation_prize[10] : "----";
+                    $results[$value->game_code]["s12"] = isset($value->participation_prize[11]) ? $value->participation_prize[11] : "----";
+                    $results[$value->game_code]["s13"] = isset($value->participation_prize[12]) ? $value->participation_prize[12] : "----";
+                    $results[$value->game_code]["c1"] = isset($value->consolidation_prize[0]) ? $value->consolidation_prize[0] : "----";
+                    $results[$value->game_code]["c2"] = isset($value->consolidation_prize[1]) ? $value->consolidation_prize[1] : "----";
+                    $results[$value->game_code]["c3"] = isset($value->consolidation_prize[2]) ? $value->consolidation_prize[2] : "----";
+                    $results[$value->game_code]["c4"] = isset($value->consolidation_prize[3]) ? $value->consolidation_prize[3] : "----";
+                    $results[$value->game_code]["c5"] = isset($value->consolidation_prize[4]) ? $value->consolidation_prize[4] : "----";
+                    $results[$value->game_code]["c6"] = isset($value->consolidation_prize[5]) ? $value->consolidation_prize[5] : "----";
+                    $results[$value->game_code]["c7"] = isset($value->consolidation_prize[6]) ? $value->consolidation_prize[6] : "----";
+                    $results[$value->game_code]["c8"] = isset($value->consolidation_prize[7]) ? $value->consolidation_prize[7] : "----";
+                    $results[$value->game_code]["c9"] = isset($value->consolidation_prize[8]) ? $value->consolidation_prize[8] : "----";
+                    $results[$value->game_code]["c10"] = isset($value->consolidation_prize[9]) ? $value->consolidation_prize[9] : "----";
+                    $results[$value->game_code]["jackpotAmount"] = "1,000,000.00";
+                    $results[$value->game_code]["videoUrl"] = null;
+                }else if(in_array($value->game_code, $topick6d, true)){
+                    $results[$value->game_code]["n1"] = isset($value->number_1) ? $value->number_1 : "----";
+                    $results[$value->game_code]["n2"] = isset($value->number_2) ? $this->processValue($value->number_2,0) : "----";
+                    $results[$value->game_code]["n3"] = isset($value->number_2) ? $this->processValue($value->number_2,1) : "----";
+                    $results[$value->game_code]["n4"] = isset($value->number_3) ? $this->processValue($value->number_3,0) : "----";
+                    $results[$value->game_code]["n5"] = isset($value->number_3) ? $this->processValue($value->number_3,1) : "----";
+                    $results[$value->game_code]["n6"] = isset($value->number_4) ? $value->number_4[0] : "----";
+                    $results[$value->game_code]["n7"] = isset($value->number_4) ? $value->number_4[1] : "----";
+                    $results[$value->game_code]["n8"] = isset($value->number_5) ? $value->number_5[0] : "----";
+                    $results[$value->game_code]["n9"] = isset($value->number_5) ? $value->number_5[1] : "----";
+                }
+            }
+        }
+
+        return $results;
+    }
     public function getMainByDateV1_1_0($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
@@ -859,13 +1178,11 @@ class ApiController extends Controller
         $res5 = curl_exec($ch5);
         $main5f = json_decode($res5);
         $main5 = [$main5f];
-        
         $sbjp_formatter = [
             "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
             "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2,
             "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
         ];
-
         //sjp
         $sjpFinal  = null;
         if(!isset($main1_final['SGJP6/45'])){
@@ -888,7 +1205,7 @@ class ApiController extends Controller
         }else{
             $sjpFinal = $main1_final['SGJP6/45'];
         }
-
+        //PH330
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
