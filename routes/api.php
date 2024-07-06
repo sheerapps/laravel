@@ -22,7 +22,7 @@ Route::get('/tsave/{date}', [ApiController::class, 'saveLiveDB']);
 
 Route::get('/data-by-date/{date}', [ApiController::class, 'getDataByDate']);
 Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
-Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_1_0']);
+Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_2_0']);
 Route::get('/main-by-date-v120/{date}', [ApiController::class, 'getMainByDateV1_2_0']); // no use
 
 
