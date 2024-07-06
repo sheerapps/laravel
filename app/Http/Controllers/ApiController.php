@@ -2095,13 +2095,13 @@ class ApiController extends Controller
                         element.style.padding = '0px';
                     });"
                 ],
-                [
-                    "type"=> "G",
-                    "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
-                    "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
-                    "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
-                    "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
-                ],
+                // [
+                //     "type"=> "G",
+                //     "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
+                //     "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                //     "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                //     "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                // ],
             ];
         }else{ //fetch from db
             $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13])->get(['data']);
@@ -2247,13 +2247,13 @@ class ApiController extends Controller
                         element.style.padding = '0px';
                     });"
                 ],
-                [
-                    "type"=> "G",
-                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
-                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
-                    "fdData330"=>!isset($results[12]['fdData330']) ? null : $results[12]['fdData330'],
-                    "jpData330"=>!isset($results[12]['jpData330']) ? null : $results[12]['jpData330'],
-                ],
+                // [
+                //     "type"=> "G",
+                //     "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
+                //     "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
+                //     "fdData330"=>!isset($results[12]['fdData330']) ? null : $results[12]['fdData330'],
+                //     "jpData330"=>!isset($results[12]['jpData330']) ? null : $results[12]['jpData330'],
+                // ],
             ];
         }
         
