@@ -1008,7 +1008,7 @@ class ApiController extends Controller
             $types[] = "'$type'";
         }
 
-        $dataCases = "CASE `type` $dateCases END"; 
+        $dataCases = "CASE `type` $dataCases END"; 
         $updatedAtCases = "CASE `type` $updatedAtCases END";
         $typeList = implode(",", $types);
 
