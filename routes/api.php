@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     //return $request->user();
 });
 
+Route::get('/tsave/{date}', [ApiController::class, 'saveLive']);
+
 Route::get('/data-by-date/{date}', [ApiController::class, 'getDataByDate']);
 Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
 Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_1_0']);
