@@ -44,8 +44,8 @@ class SaveDataCommand extends Command
         // $today_live = new DateTime($today);
         // $today_live->modify('-1 days');
         // $date = $today_live->format('Y-m-d');
-        // $date = date('Y-m-d');
-        $apiController->saveData("date");
+        $date = date('Y-m-d');
+        $apiController->saveData($date);
         
         $this->info('Data saved successfully! '.$date);
     }
