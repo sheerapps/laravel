@@ -1720,8 +1720,8 @@ class ApiController extends Controller
                     "type"=> "PD",
                     "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
                     "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
-                    "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
-                    "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+                    // "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                    // "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
                     "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -1786,7 +1786,7 @@ class ApiController extends Controller
                 ],
             ];
         }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13])->get(['data']);
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])->get(['data']);
             $r = [];
             foreach ($records as $key => $record) {
                 $r[] = json_decode($record->data,true);
@@ -1873,8 +1873,8 @@ class ApiController extends Controller
                     "type"=> "PD",
                     "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
                     "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
-                    "fdData330"=>!isset($results[9]['fdData330']) ? null : $results[9]['fdData330'],
-                    "jpData330"=>!isset($results[9]['jpData330']) ? null : $results[9]['jpData330'],
+                    "fdData330"=>!isset($results[13]['fdData']) ? null : $results[13]['fdData'],
+                    "jpData330"=>!isset($results[13]['jpData']) ? null : $results[13]['jpData'],
                     "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -1893,8 +1893,8 @@ class ApiController extends Controller
                     "type"=> "LH",
                     "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
                     "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
-                    "fdData330"=>!isset($results[10]['fdData330']) ? null : $results[10]['fdData330'],
-                    "jpData330"=>!isset($results[10]['jpData330']) ? null : $results[10]['jpData330'],
+                    "fdData330"=>!isset($results[14]['fdData']) ? null : $results[14]['fdData'],
+                    "jpData330"=>!isset($results[14]['jpData']) ? null : $results[14]['jpData'],
                     "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -1934,8 +1934,8 @@ class ApiController extends Controller
                     "type"=> "G",
                     "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
                     "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
-                    "fdData330"=>!isset($results[12]['fdData330']) ? null : $results[12]['fdData330'],
-                    "jpData330"=>!isset($results[12]['jpData330']) ? null : $results[12]['jpData330'],
+                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
+                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
                 ],
             ];
         }
@@ -2231,7 +2231,7 @@ class ApiController extends Controller
                 
             ];
         }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13])->get(['data']);
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])->get(['data']);
             $r = [];
             foreach ($records as $key => $record) {
                 $r[] = json_decode($record->data,true);
@@ -2318,15 +2318,15 @@ class ApiController extends Controller
                     "type"=> "G",
                     "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
                     "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
-                    "fdData330"=>!isset($results[12]['fdData330']) ? null : $results[12]['fdData330'],
-                    "jpData330"=>!isset($results[12]['jpData330']) ? null : $results[12]['jpData330'],
+                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
+                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
                 ],
                 [
                     "type"=> "PD",
                     "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
                     "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
-                    "fdData330"=>!isset($results[9]['fdData330']) ? null : $results[9]['fdData330'],
-                    "jpData330"=>!isset($results[9]['jpData330']) ? null : $results[9]['jpData330'],
+                    "fdData330"=>!isset($results[13]['fdData']) ? null : $results[13]['fdData'],
+                    "jpData330"=>!isset($results[13]['jpData']) ? null : $results[13]['jpData'],
                     "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -2345,8 +2345,8 @@ class ApiController extends Controller
                     "type"=> "LH",
                     "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
                     "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
-                    "fdData330"=>!isset($results[10]['fdData330']) ? null : $results[10]['fdData330'],
-                    "jpData330"=>!isset($results[10]['jpData330']) ? null : $results[10]['jpData330'],
+                    "fdData330"=>!isset($results[14]['fdData']) ? null : $results[14]['fdData'],
+                    "jpData330"=>!isset($results[14]['jpData']) ? null : $results[14]['jpData'],
                     "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -2684,7 +2684,7 @@ class ApiController extends Controller
                 // ],
             ];
         }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13])->get(['data']);
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])->get(['data']);
             $r = [];
             foreach ($records as $key => $record) {
                 $r[] = json_decode($record->data,true);
@@ -2771,8 +2771,8 @@ class ApiController extends Controller
                     "type"=> "PD",
                     "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
                     "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
-                    "fdData330"=>!isset($results[9]['fdData330']) ? null : $results[9]['fdData330'],
-                    "jpData330"=>!isset($results[9]['jpData330']) ? null : $results[9]['jpData330'],
+                    "fdData330"=>!isset($results[13]['fdData']) ? null : $results[13]['fdData'],
+                    "jpData330"=>!isset($results[13]['jpData']) ? null : $results[13]['jpData'],
                     "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -2791,8 +2791,8 @@ class ApiController extends Controller
                     "type"=> "LH",
                     "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
                     "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
-                    "fdData330"=>!isset($results[10]['fdData330']) ? null : $results[10]['fdData330'],
-                    "jpData330"=>!isset($results[10]['jpData330']) ? null : $results[10]['jpData330'],
+                    "fdData330"=>!isset($results[14]['fdData']) ? null : $results[14]['fdData'],
+                    "jpData330"=>!isset($results[14]['jpData']) ? null : $results[14]['jpData'],
                     "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
