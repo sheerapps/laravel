@@ -39,10 +39,11 @@ class ApiController extends Controller
                 if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G"){
                     //330
                     $fdData330 = $item['fdData330'];
+                    $type330 = $item['type']."3";
                     Sheerdata::updateOrInsert(
-                        ['dd' => $fdData->dd, 'type' => $item['type']."3"],
+                        ['dd' => $fdData->dd, 'type' => $type330],
                         [
-                            'type' => $item['type']."3",
+                            'type' => $type330,
                             'dd' => isset($fdData330->dd) ? $fdData330->dd : "",
                             'dn' => isset($fdData330->dn) ? $fdData330->dn : "",
                             'n1' => isset($fdData330->n1) ? $fdData330->n1 : "",
