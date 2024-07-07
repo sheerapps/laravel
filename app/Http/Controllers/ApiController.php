@@ -1500,22 +1500,24 @@ class ApiController extends Controller
             $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
-        //PHG330
-        $date330 = $date;
-        if($date == $today && date("Gi") <= 1529){
-            $today_live330 = new DateTime($today);
-            $today_live330->modify('-1 days');
-            $date330 = $today_live330->format('Y-m-d');
-        }
-        $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date330);
-        curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
-        curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
-        $res7 = curl_exec($ch7);
-        $main7 = json_decode($res7);
-        $main7_final = $this->formatPerdanaGood37($main7,$date330);
+        
         //is Live
         if($status == "past"){ //fetch from api
+            //PHG330
+            $date330 = $date;
+            if($date == $today && date("Gi") <= 1529){
+                $today_live330 = new DateTime($today);
+                $today_live330->modify('-1 days');
+                $date330 = $today_live330->format('Y-m-d');
+            }
+            $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date330);
+            curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
+            $res7 = curl_exec($ch7);
+            $main7 = json_decode($res7);
+            $main7_final = $this->formatPerdanaGood37($main7,$date330);
+
             if($date == $today && date("Gi") <= 1829){
                 $today_live = new DateTime($today);
                 $today_live->modify('-1 days');
