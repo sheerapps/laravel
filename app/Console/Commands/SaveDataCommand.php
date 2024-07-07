@@ -55,7 +55,7 @@ class SaveDataCommand extends Command
         // }
         $apiController->saveDataV1_2_0("date");
 
-        $this->info('Data saved successfully! fetch '.$date);
+        $this->info('Data saved successfully!');
         // $this->info('Data saved successfully! fetch '.$date.' now = '.$date = date('Y-m-d H:i:s', strtotime('now', strtotime('Asia/Kuala_Lumpur'))));
     }
 }
