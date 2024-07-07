@@ -894,6 +894,21 @@ class ApiController extends Controller
         }
         //is Live
 
+        //PHG330
+        $date330 = $date;
+        if($date == $today && date("Gi") <= 1529){
+            $today_live330 = new DateTime($today);
+            $today_live330->modify('-1 days');
+            $date330 = $today_live330->format('Y-m-d');
+        }
+        $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date330);
+        curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
+        $res7 = curl_exec($ch7);
+        $main7 = json_decode($res7);
+        $main7_final = $this->formatPerdanaGood37($main7,$date330);
+
         if($date == $today && date("Gi") <= 1829){
             $today_live = new DateTime($today);
             $today_live->modify('-1 days');
@@ -986,15 +1001,15 @@ class ApiController extends Controller
         }else{
             $sjpFinal = $main1_final['SGJP6/45'];
         }
-        //PH330
-        $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
-        curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
-        curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
-        $res7 = curl_exec($ch7);
-        $main7 = json_decode($res7);
-        $main7_final = $this->formatPerdanaGood37($main7,$date);
 
+        //PHG730 6D
+        $ch8 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
+        curl_setopt($ch8, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch8, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch8, CURLOPT_CONNECTTIMEOUT, 2);
+        $res8 = curl_exec($ch8);
+        $main8 = json_decode($res8);
+        $main8_final = $this->formatPerdanaGood37($main8,$date);
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
@@ -1055,14 +1070,14 @@ class ApiController extends Controller
             [
                 "type"=> "PD",
                 "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
-                "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
+                "jpData"=>!isset($main8_final["N6D"]) ? null : $main8_final["N6D"],
                 "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
                 "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
             ],
             [
                 "type"=> "LH",
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
-                "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                "jpData"=>!isset($main8_final["L6D"]) ? null : $main8_final["L6D"],
                 "fdData330"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
                 "jpData330"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
             ],
@@ -1073,7 +1088,7 @@ class ApiController extends Controller
             [
                 "type"=> "G",
                 "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
-                "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                "jpData"=>!isset($main8_final["G6D"]) ? null : $main8_final["G6D"],
                 "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
                 "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
             ],
@@ -1500,24 +1515,8 @@ class ApiController extends Controller
             $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
             $url_nl = "past";
         }
-        
         //is Live
         if($status == "past"){ //fetch from api
-            //PHG330
-            $date330 = $date;
-            if($date == $today && date("Gi") <= 1529){
-                $today_live330 = new DateTime($today);
-                $today_live330->modify('-1 days');
-                $date330 = $today_live330->format('Y-m-d');
-            }
-            $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date330);
-            curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
-            curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
-            $res7 = curl_exec($ch7);
-            $main7 = json_decode($res7);
-            $main7_final = $this->formatPerdanaGood37($main7,$date330);
-
             if($date == $today && date("Gi") <= 1829){
                 $today_live = new DateTime($today);
                 $today_live->modify('-1 days');
@@ -1605,6 +1604,15 @@ class ApiController extends Controller
             }else{
                 $sjpFinal = $main1_final['SGJP6/45'];
             }
+            //PHG330
+            $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
+            curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
+            $res7 = curl_exec($ch7);
+            $main7 = json_decode($res7);
+            $main7_final = $this->formatPerdanaGood37($main7,$date);
+    
             //$main1_final main
             //$main2_final lhpn
             //$main4_final bn
