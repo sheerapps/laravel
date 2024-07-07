@@ -36,7 +36,7 @@ class ApiController extends Controller
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];
-                echo $fdData->dd;
+                echo $fdData["dd"];
             }
         }
     }
