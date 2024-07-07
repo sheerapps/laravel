@@ -31,13 +31,20 @@ class ApiController extends Controller
         );
         echo "done";
     }
-
+    public function saveDataTest($date){
+        $data = $this->getMainByDateV1_2_0($date);
+        foreach ($data as $item) {
+            if(isset($item['fdData'])){
+                $fdData = $item['fdData'];
+                echo $fdData->dd;
+            }
+        }
+    }
     public function saveData($date){
         $data = $this->getMainByDateV1_1_0($date);
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];
-                // echo isset($fdData->dd) ? $fdData->dd : $item['type']."===";
                 Sheerdata::updateOrInsert(
                     ['dd' => $fdData->dd, 'type' => $item['type']],
                     [
