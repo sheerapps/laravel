@@ -1003,13 +1003,13 @@ class ApiController extends Controller
         }
 
         //PHG730 6D
-        $ch8 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
-        curl_setopt($ch8, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch8, CURLOPT_TIMEOUT, 2);
-        curl_setopt($ch8, CURLOPT_CONNECTTIMEOUT, 2);
-        $res8 = curl_exec($ch8);
-        $main8 = json_decode($res8);
-        $main8_final = $this->formatPerdanaGood37($main8,$date);
+        // $ch8 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
+        // curl_setopt($ch8, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch8, CURLOPT_TIMEOUT, 2);
+        // curl_setopt($ch8, CURLOPT_CONNECTTIMEOUT, 2);
+        // $res8 = curl_exec($ch8);
+        // $main8 = json_decode($res8);
+        // $main8_final = $this->formatPerdanaGood37($main8,$date);
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
@@ -1070,16 +1070,12 @@ class ApiController extends Controller
             [
                 "type"=> "PD",
                 "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
-                "jpData"=>!isset($main8_final["N6D"]) ? null : $main8_final["N6D"],
-                "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
-                "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+                "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
             ],
             [
                 "type"=> "LH",
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
-                "jpData"=>!isset($main8_final["L6D"]) ? null : $main8_final["L6D"],
-                "fdData330"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
-                "jpData330"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
             ],
             [
                 "type"=> "BN",
@@ -1088,9 +1084,22 @@ class ApiController extends Controller
             [
                 "type"=> "G",
                 "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
-                "jpData"=>!isset($main8_final["G6D"]) ? null : $main8_final["G6D"],
-                "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
-                "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+            ],
+            [
+                "type"=> "PD3",
+                "fdData"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                "jpData"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+            ],
+            [
+                "type"=> "LH3",
+                "fdData"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                "jpData"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+            ],
+            [
+                "type"=> "G3",
+                "fdData"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                "jpData"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
             ],
         ];
         foreach ($final_array as $key => $value) {
@@ -1113,9 +1122,13 @@ class ApiController extends Controller
         foreach($array as $item){
             $type = $item["type"];
             $fdData = json_encode($item);
-            $dataCases .= "WHEN '$type' THEN '$fdData' ";
-            $updatedAtCases .= "WHEN '$type' THEN '$now' ";
-            $types[] = "'$type'";
+            if($fdData == '{"type"=> "G3","fdData":[],"jpData":[]}' || '{"type"=> "PD3","fdData":[],"jpData":[]}' || '{"type"=> "LH3","fdData":[],"jpData":[]}'){
+
+            }else{
+                $dataCases .= "WHEN '$type' THEN '$fdData' ";
+                $updatedAtCases .= "WHEN '$type' THEN '$now' ";
+                $types[] = "'$type'";
+            }
         }
 
         $dataCases = "CASE `type` $dataCases END"; 
