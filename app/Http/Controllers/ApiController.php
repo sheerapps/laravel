@@ -38,8 +38,8 @@ class ApiController extends Controller
                 $fdData = $item['fdData'];
                 $arr = [
                     'type' => $item['type'],
-                    'dd' => isset($fdData['dd']) ? $fdData['dd'] : "",
-                    'dn' => isset($fdData['dn']) ? $fdData['dn'] : "",
+                    'dd' => isset($fdData->dd) ? $fdData->dd : "",
+                    'dn' => isset($fdData->dn) ? $fdData->dn : "",
                     'n1' => isset($fdData->n1) ? $fdData->n1 : "",
                     'n2' => isset($fdData->n2) ? $fdData->n2 : "",
                     'n3' => isset($fdData->n3) ? $fdData->n3 : "",
