@@ -40,7 +40,7 @@ class ApiController extends Controller
                     //330
                     $fdData330 = $item['fdData330'];
                     $type330 = $item['type']."3";
-                    return $fdData330;
+                    return $fdData330->n1;
                     return [
                         'type' => $type330,
                         'dd' => isset($fdData330->dd) ? $fdData330->dd : "",
