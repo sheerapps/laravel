@@ -1217,7 +1217,7 @@ class ApiController extends Controller
                 "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
                 "jpData"=>[
                     "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
-                    "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
+                    "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
                 ]
             ],
             [
@@ -1395,7 +1395,7 @@ class ApiController extends Controller
         $url_sub = "https://4dyes3.com/getLiveResult.php";
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
-        if($date == "date" || $date >= $today){
+        if($date == "date" || $date == "today" || $date >= $today){
             $status = "today";
             $date = $today;
         }else{
@@ -1514,7 +1514,8 @@ class ApiController extends Controller
                     "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
                     "jpData"=>[
                         "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
-                        "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
+                        "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
+                        "status"=>$status
                     ]
                 ],
                 [
@@ -1673,6 +1674,7 @@ class ApiController extends Controller
                     "type"=> "M",
                     "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
                     "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
+                    "status"=>$status
                 ],
                 [
                     "type"=> "PMP",
@@ -1837,7 +1839,7 @@ class ApiController extends Controller
         $url_sub = "https://4dyes3.com/getLiveResult.php";
         $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
         //bydate
-        if($date == "date" || $date >= $today){
+        if($date == "date" || $date == "today" || $date >= $today){
             $status = "today";
             $date = $today;
         }else{
@@ -1974,7 +1976,8 @@ class ApiController extends Controller
                     "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
                     "jpData"=>[
                         "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
-                        "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
+                        "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
+                        "status"=>$status
                     ]
                 ],
                 [
@@ -2128,6 +2131,7 @@ class ApiController extends Controller
                     "type"=> "M",
                     "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
                     "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
+                    "status"=>$status
                 ],
                 [
                     "type"=> "PMP",
