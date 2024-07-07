@@ -121,7 +121,7 @@ class ApiController extends Controller
                         'c10' => isset($fdData->c10) ? $fdData->c10 : ""
                     ]
                 );
-                echo $item['type']."dd=".$fdData->dd." done <p>";
+                echo $item['type']." dd=".$fdData->dd." done <p>";
             }
         }
     }
