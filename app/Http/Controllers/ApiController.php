@@ -1515,8 +1515,8 @@ class ApiController extends Controller
                     "jpData"=>[
                         "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
                         "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
-                        "status"=>$status
-                    ]
+                    ],
+                    "status"=>$status
                 ],
                 [
                     "type"=> "PMP",
@@ -1977,8 +1977,8 @@ class ApiController extends Controller
                     "jpData"=>[
                         "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
                         "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
-                        "status"=>$status
-                    ]
+                    ],
+                    "status"=>$status
                 ],
                 [
                     "type"=> "PMP",
