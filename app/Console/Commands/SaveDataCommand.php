@@ -44,9 +44,9 @@ class SaveDataCommand extends Command
         // $today_live = new DateTime($today);
         // $today_live->modify('-1 days');
         // $date = $today_live->format('Y-m-d');
-        $date = date('Y-m-d');
+        $date = date('Y-m-d', strtotime('now', strtotime('Asia/Kuala_Lumpur')));
         if(date("Gi") <= 1829){
-            $today = new DateTime($date);
+            $today = new DateTime($date, new DateTimeZone('Asia/Kuala_Lumpur'));
             $today->modify('-1 days');
             $date = $today->format('Y-m-d');
         }
