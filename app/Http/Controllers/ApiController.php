@@ -1027,7 +1027,7 @@ class ApiController extends Controller
         curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
         $res9 = curl_exec($ch9);
         $main9 = json_decode($res9);
-        $main9_final = $this->formatMain9($main2);
+        $main9_final = $this->formatMain9($main9);
 
         //$main1_final main
         //$main2_final lhpn
@@ -1138,7 +1138,7 @@ class ApiController extends Controller
         }
         $array = array_values($final_array);
 
-        return $main9_final;
+        return $array;
         $dataCases = "";
         $updatedAtCases = "";
         $types = [];
