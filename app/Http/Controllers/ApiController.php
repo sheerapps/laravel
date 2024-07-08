@@ -875,7 +875,15 @@ class ApiController extends Controller
         }
         return array_values($final_array);
     }
-    
+    public function formatMain9($array){
+        $finalArray = [];
+        foreach ($array as $key => $value) {
+            if(isset($value->fdData)){
+                $finalArray[$value->type] = $value->fdData;
+            }
+        }
+        return $finalArray;
+    }
     public function saveLiveDB($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
@@ -1010,6 +1018,17 @@ class ApiController extends Controller
         // $res8 = curl_exec($ch8);
         // $main8 = json_decode($res8);
         // $main8_final = $this->formatPerdanaGood37($main8,$date);
+
+        // 4dnum for GPH330 & 730 JP
+
+        $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/");
+        curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
+        $res9 = curl_exec($ch9);
+        $main9 = json_decode($res9);
+        $main9_final = $this->formatMain9($main2);
+
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
@@ -1070,12 +1089,13 @@ class ApiController extends Controller
             [
                 "type"=> "PD",
                 "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
-                "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
+                "jpData"=>!isset($main2_final["PDJP"]) ? null : $main2_final["PDJP"],
             ],
             [
                 "type"=> "LH",
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
-                "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                // "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
             ],
             [
                 "type"=> "BN",
@@ -1084,17 +1104,20 @@ class ApiController extends Controller
             [
                 "type"=> "G",
                 "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
-                "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                "jpData"=>!isset($main2_final["GJP"]) ? null : $main2_final["GJP"],
             ],
             [
                 "type"=> "PD3",
-                "fdData"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                // "fdData"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                "fdData"=>!isset($main9_final['PT15:30']) ? null : $main9_final['PT15:30'],
                 "jpData"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
             ],
             [
                 "type"=> "LH3",
-                "fdData"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
-                "jpData"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                // "fdData"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                // "jpData"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                "fdData"=>!isset($main9_final['HT15:30']) ? null : $main9_final['HT15:30'],
+                "jpData"=>!isset($main9_final['HJPT15:30']) ? null : $main9_final['HJPT15:30'],
             ],
             [
                 "type"=> "G3",
@@ -1114,6 +1137,8 @@ class ApiController extends Controller
             }
         }
         $array = array_values($final_array);
+
+        return $array;
         $dataCases = "";
         $updatedAtCases = "";
         $types = [];
@@ -3110,16 +3135,29 @@ class ApiController extends Controller
             "PDJP"=>[
                 "dd" => !isset($array->N6D->DrawDate) ? $date : $array->N6D->DrawDate,
                 "dn" => !isset($array->N6D->DrawID) ? "" : $array->N6D->DrawID,
-                "c1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
-                "c2" => !isset($array->N6D->_2[0]) ? "-----" : $array->N6D->_2[0],
-                "c3" => !isset($array->N6D->_2[1]) ? "-----" : $array->N6D->_2[1],
-                "c4" => !isset($array->N6D->_3[0]) ? "----" : $array->N6D->_3[0],
-                "c5" => !isset($array->N6D->_3[1]) ? "----" : $array->N6D->_3[1],
-                "c6" => !isset($array->N6D->_4[0]) ? "---" : $array->N6D->_4[0],
-                "c7" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
-                "c8" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
-                "c9" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
+                "n1" => !isset($array->N6D->_1[0]) ? "------" : $array->N6D->_1[0],
+                "n2" => !isset($array->N6D->_2[0]) ? "-----" : $array->N6D->_2[0],
+                "n3" => !isset($array->N6D->_2[1]) ? "-----" : $array->N6D->_2[1],
+                "n4" => !isset($array->N6D->_3[0]) ? "----" : $array->N6D->_3[0],
+                "n5" => !isset($array->N6D->_3[1]) ? "----" : $array->N6D->_3[1],
+                "n6" => !isset($array->N6D->_4[0]) ? "---" : $array->N6D->_4[0],
+                "n7" => !isset($array->N6D->_4[1]) ? "---" : $array->N6D->_4[1],
+                "n8" => !isset($array->N6D->_5[0]) ? "--" : $array->N6D->_5[0],
+                "n9" => !isset($array->N6D->_5[1]) ? "--" : $array->N6D->_5[1],
             ],
+            "GJP"=>[
+                "dd" => !isset($array->G6D->DrawDate) ? $date : $array->G6D->DrawDate,
+                "dn" => !isset($array->G6D->DrawID) ? "" : $array->G6D->DrawID,
+                "n1" => !isset($array->G6D->_1[0]) ? "------" : $array->G6D->_1[0],
+                "n2" => !isset($array->G6D->_2[0]) ? "-----" : $array->G6D->_2[0],
+                "n3" => !isset($array->G6D->_2[1]) ? "-----" : $array->G6D->_2[1],
+                "n4" => !isset($array->G6D->_3[0]) ? "----" : $array->G6D->_3[0],
+                "n5" => !isset($array->G6D->_3[1]) ? "----" : $array->G6D->_3[1],
+                "n6" => !isset($array->G6D->_4[0]) ? "---" : $array->G6D->_4[0],
+                "n7" => !isset($array->G6D->_4[1]) ? "---" : $array->G6D->_4[1],
+                "n8" => !isset($array->G6D->_5[0]) ? "--" : $array->G6D->_5[0],
+                "n9" => !isset($array->G6D->_5[1]) ? "--" : $array->G6D->_5[1],
+            ]
             "PD"=>[
                 "dd" => !isset($array->N->DrawDate) ? $date : $array->N->DrawDate,
                 "dn" => !isset($array->N->DrawID) ? "" : $array->N->DrawID,
