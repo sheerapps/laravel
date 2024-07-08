@@ -1021,16 +1021,14 @@ class ApiController extends Controller
 
         // 4dnum for GPH330 & 730 JP
 
-        $ch9 = curl_init(); 
-        curl_setopt( $ch9, CURLOPT_URL, "https://backend.4dnum.com/api/v1/result/");
-        curl_setopt( $ch9, CURLOPT_RETURNTRANSFER, 1 );
-        curl_setopt($ch9, CURLOPT_SSL_VERIFYHOST,  2);
+        $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/date");
+        curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
         $res9 = curl_exec($ch9);
         $main9 = json_decode($res9);
-        
-        return $main9;
         $main9_final = $this->formatMain9($main9);
-        
+        return $main9_final;
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
