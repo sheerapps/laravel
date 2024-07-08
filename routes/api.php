@@ -40,7 +40,7 @@ Route::get('/all-book-data', [ApiController::class, 'getBookAll']);
 
 Route::get('/t', function() {
     $ch = curl_init(); 
-    curl_setopt( $ch, CURLOPT_URL, "https://backend.4dnum.com/api/v1/result/2024-06-06");
+    curl_setopt( $ch, CURLOPT_URL, "https://backend.4dnum.com/api/v1/result/");
     curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST,  2);
     $res = curl_exec($ch);
