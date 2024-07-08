@@ -1138,7 +1138,7 @@ class ApiController extends Controller
         }
         $array = array_values($final_array);
 
-        return $array;
+        return $main9_final;
         $dataCases = "";
         $updatedAtCases = "";
         $types = [];
