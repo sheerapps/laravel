@@ -3157,7 +3157,7 @@ class ApiController extends Controller
                 "n7" => !isset($array->G6D->_4[1]) ? "---" : $array->G6D->_4[1],
                 "n8" => !isset($array->G6D->_5[0]) ? "--" : $array->G6D->_5[0],
                 "n9" => !isset($array->G6D->_5[1]) ? "--" : $array->G6D->_5[1],
-            ]
+            ],
             "PD"=>[
                 "dd" => !isset($array->N->DrawDate) ? $date : $array->N->DrawDate,
                 "dn" => !isset($array->N->DrawID) ? "" : $array->N->DrawID,
