@@ -1149,7 +1149,7 @@ class ApiController extends Controller
         foreach($array as $item){
             $type = $item["type"];
             $fdData = json_encode($item);
-            if($fdData == '{"type"=> "G3","fdData":[],"jpData":[]}' || $fdData == '{"type"=> "PD3","fdData":[],"jpData":[]}' || $fdData == '{"type"=> "LH3","fdData":[],"jpData":[]}'){
+            if($fdData == '{"type":"G3","fdData":[],"jpData":[]}' || $fdData == '{"type":"PD3","fdData":[],"jpData":[]}' || $fdData == '{"type":"LH3","fdData":[],"jpData":[]}'){
 
             }else{
                 $dataCases .= "WHEN '$type' THEN '$fdData' ";
