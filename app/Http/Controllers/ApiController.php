@@ -877,9 +877,11 @@ class ApiController extends Controller
     }
     public function formatMain9($array){
         $finalArray = [];
-        foreach ($array as $key => $value) {
-            if(isset($value->fdData)){
-                $finalArray[$value->type] = $value->fdData;
+        if($array){
+            foreach ($array as $key => $value) {
+                if(isset($value->fdData)){
+                    $finalArray[$value->type] = $value->fdData;
+                }
             }
         }
         return $finalArray;
