@@ -42,7 +42,7 @@ class SaveLiveCommand extends Command
         while (time() - $start < 60) {
             $apiController = new \App\Http\Controllers\ApiController;
             $apiController->saveLiveDB("date");
-            sleep(7);
+            sleep(6);
         }
     }
 }
