@@ -1535,7 +1535,7 @@ class ApiController extends Controller
         return $format_array;
     }
     public function getDataPH(){
-        $records = Sheerlive::whereIn("id", [10,13,14])->get(['data']);
+        $records = Sheerlive::whereIn("id", [11,14,15])->get(['data']);
         $results = [];
         foreach ($records as $key => $record) {
             $results[] = json_decode($record->data,true);
