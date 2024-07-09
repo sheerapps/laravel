@@ -1534,6 +1534,40 @@ class ApiController extends Controller
         }
         return $format_array;
     }
+    public function getDataGPH(){
+        $records = Sheerlive::whereIn("id", [10,13,14])->get(['data']);
+        $r = [];
+        foreach ($records as $key => $record) {
+            $r[] = json_decode($record->data,true);
+        }
+        $results = $r;
+        $final_array = [
+            [
+                    "type"=> "PD3",
+                    "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
+                ],
+                [
+                    "type"=> "LH",
+                    "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
+                    "fdData330"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
+                    "jpData330"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
+                ],
+            ];
+        }
+
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
+            }
+        }
+        return array_values($final_array);
+    }
     public function getMainByDateV1_2_0($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
