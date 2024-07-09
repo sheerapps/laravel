@@ -1540,6 +1540,7 @@ class ApiController extends Controller
         foreach ($records as $key => $record) {
             $results[] = json_decode($record->data,true);
         }
+        return $results;
         $final_array = [
             [
                 "type"=> "PD3",
@@ -1552,8 +1553,6 @@ class ApiController extends Controller
                 "jpData330"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
             ],
         ];
-        
-
         return $final_array;
     }
     public function getMainByDateV1_2_0($date){
