@@ -1534,7 +1534,7 @@ class ApiController extends Controller
         }
         return $format_array;
     }
-    public function getDataGPH(){
+    public function getDataPH(){
         $records = Sheerlive::whereIn("id", [10,13,14])->get(['data']);
         $r = [];
         foreach ($records as $key => $record) {
