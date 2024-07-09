@@ -1542,11 +1542,11 @@ class ApiController extends Controller
         }
 
         $final_array = [
-            [
+            "PD3"=>[
                 "type"=> "PD3",
                 "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
             ],
-            [
+            "LH"=>[
                 "type"=> "LH",
                 "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
                 "fdData330"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
