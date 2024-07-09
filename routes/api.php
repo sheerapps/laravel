@@ -38,4 +38,4 @@ Route::get('/data-draw-date', [ApiController::class, 'getDrawdateData']);
 Route::get('/all-book-data', [ApiController::class, 'getBookAll']);
 //tsheer
 
-Route::get('/ph-by-db', [ApiController::class, 'getDataPH']);
+Route::get('/results', [ApiController::class, 'getDataPH']);
