@@ -1165,7 +1165,8 @@ class ApiController extends Controller
         $sql = "UPDATE `sheerlive` SET `data` = $dataCases, `updated_at` = $updatedAtCases WHERE `type` IN ($typeList)";
         DB::statement($sql);
         
-        return 1;
+        // return 1;
+        return $array;
     }
     function processValue($values,$key) {
         // Try to decode the value assuming it's JSON encoded
