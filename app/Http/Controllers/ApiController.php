@@ -1540,7 +1540,7 @@ class ApiController extends Controller
         foreach ($records as $key => $record) {
             $results[] = json_decode($record->data,true);
         }
-        return $results;
+
         $final_array = [
             [
                 "type"=> "PD3",
