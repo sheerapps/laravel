@@ -1551,6 +1551,7 @@ class ApiController extends Controller
             ],
             "LH"=>[
                 "type"=> "LH",
+                "jpData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
                 "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
                 "fdData330"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
                 "jpData330"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
