@@ -1151,6 +1151,8 @@ class ApiController extends Controller
             $fdData = json_encode($item);
             if($fdData == '{"type":"G3","fdData":[],"jpData":[]}' || $fdData == '{"type":"PD3","fdData":[],"jpData":[]}' || $fdData == '{"type":"LH3","fdData":[],"jpData":[]}'){
 
+            }else if($item["type"] == "PD3" && !$item["jpData"]){
+
             }else{
                 $dataCases .= "WHEN '$type' THEN '$fdData' ";
                 $updatedAtCases .= "WHEN '$type' THEN '$now' ";
