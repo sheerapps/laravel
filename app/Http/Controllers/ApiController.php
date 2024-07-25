@@ -1145,13 +1145,14 @@ class ApiController extends Controller
         $updatedAtCases = "";
         $types = [];
         $now = now()->toDateTimeString();
-
+        echo date("Gi");
+        return ;
         foreach($array as $item){
             $type = $item["type"];
             $fdData = json_encode($item);
             if($fdData == '{"type":"G3","fdData":[],"jpData":[]}' || $fdData == '{"type":"PD3","fdData":[],"jpData":[]}' || $fdData == '{"type":"LH3","fdData":[],"jpData":[]}'){
 
-            }else if($item["type"] == "PD3" && !$item["jpData"] &&  date("Gi") > 1800){
+            }else if($item["type"] == "PD3" && !$item["jpData"] && date("Gi") > 1800){
 
             }else{
                 $dataCases .= "WHEN '$type' THEN '$fdData' ";
