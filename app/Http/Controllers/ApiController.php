@@ -1145,8 +1145,8 @@ class ApiController extends Controller
         $updatedAtCases = "";
         $types = [];
         $now = now()->toDateTimeString();
-        echo date("Gi");
-        return ;
+        // echo date("Gi");
+        // return ;
         foreach($array as $item){
             $type = $item["type"];
             $fdData = json_encode($item);
