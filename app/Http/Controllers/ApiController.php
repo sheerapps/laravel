@@ -1031,6 +1031,13 @@ class ApiController extends Controller
         $main9 = json_decode($res9);
         $main9_final = $this->formatMain9($main9);
 
+        $ch10 = curl_init("https://kweelohstudio.com/api/results");
+        curl_setopt($ch10, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch10, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch10, CURLOPT_CONNECTTIMEOUT, 3);
+        $res10 = curl_exec($ch10);
+        $main10_final = json_decode($res10);
+
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
@@ -1126,6 +1133,20 @@ class ApiController extends Controller
                 "fdData"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
                 "jpData"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
             ],
+            [
+                "type"=> "DL",
+                "fdData"=>!isset($main10_final->DL->fdData) ? null : $main10_final->DL->fdData,
+            ],
+            [
+                "type"=> "GT",
+                "fdData"=>!isset($main10_final->GT->fdData) ? null : $main10_final->GT->fdData,
+                "jpData"=>!isset($main10_final->GT->jpData) ? null : $main10_final->GT->jpData,
+            ],
+            [
+                "type"=> "MH",
+                "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
+            ],
+            
         ];
         foreach ($final_array as $key => $value) {
             if(isset($value["fdData"])){
@@ -1145,8 +1166,7 @@ class ApiController extends Controller
         $updatedAtCases = "";
         $types = [];
         $now = now()->toDateTimeString();
-        // echo date("Gi");
-        // return ;
+  
         foreach($array as $item){
             $type = $item["type"];
             $fdData = json_encode($item);
