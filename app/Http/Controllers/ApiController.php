@@ -2590,7 +2590,13 @@ class ApiController extends Controller
             $res7 = curl_exec($ch7);
             $main7 = json_decode($res7);
             $main7_final = $this->formatPerdanaGood37($main7,$date);
-            
+            //DLGTMC
+            $ch10 = curl_init("https://kweelohstudio.com/api/resultsbydate/".$date);
+            curl_setopt($ch10, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch10, CURLOPT_TIMEOUT, 3);
+            curl_setopt($ch10, CURLOPT_CONNECTTIMEOUT, 3);
+            $res10 = curl_exec($ch10);
+            $main10_final = json_decode($res10);
             //$main1_final main
             //$main2_final lhpn
             //$main4_final bn
@@ -2749,7 +2755,19 @@ class ApiController extends Controller
                         element.style.padding = '0px';
                     });"
                 ],
-                
+                [
+                    "type"=> "DL",
+                    "fdData"=>!isset($main10_final->DL->fdData) ? null : $main10_final->DL->fdData,
+                ],
+                [
+                    "type"=> "GT",
+                    "fdData"=>!isset($main10_final->GT->fdData) ? null : $main10_final->GT->fdData,
+                    "jpData"=>!isset($main10_final->GT->jpData) ? null : $main10_final->GT->jpData,
+                ],
+                [
+                    "type"=> "MH",
+                    "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
+                ], 
             ];
         }else{ //fetch from db
             $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20])->get(['data']);
