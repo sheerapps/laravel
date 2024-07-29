@@ -32,7 +32,8 @@ class ApiController extends Controller
         echo "done";
     }
     public function saveDataV1_2_0($date){
-        $data = $this->getMainByDateV1_2_0($date);
+        // $data = $this->getMainByDateV1_2_0($date);
+        $data = $this->getMainByDateV1_3_0($date);
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];

@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     //return $request->user();
 });
 
-// Route::get('/tsave/{date}', [ApiController::class, 'saveDataV1_2_0']);
+Route::get('/tsave/{date}', [ApiController::class, 'saveDataV1_2_0']);
 
 Route::get('/data-by-date/{date}', [ApiController::class, 'getDataByDate']);
 Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
