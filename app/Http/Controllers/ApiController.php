@@ -37,97 +37,92 @@ class ApiController extends Controller
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];
-                if (is_object($fdData)) {
-                    echo $item['type']."=object.";
-                } elseif (is_array($fdData)) {
-                    echo $item['type']."array.";
+                if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G"){
+                    //330
+                    $fdData330 = $item['fdData330'];
+                    Sheerdata::updateOrInsert(
+                        ['dd' => $fdData330['dd'], 'type' => $item['type']."3"],
+                        [
+                            'type' => $item['type']."3",
+                            'dd' => isset($fdData330['dd']) ? $fdData330['dd'] : "",
+                            'dn' => isset($fdData330['dn']) ? $fdData330['dn'] : "",
+                            'n1' => isset($fdData330['n1']) ? $fdData330['n1'] : "",
+                            'n2' => isset($fdData330['n2']) ? $fdData330['n2'] : "",
+                            'n3' => isset($fdData330['n3']) ? $fdData330['n3'] : "",
+                            'n1_pos' => isset($fdData330['n1_pos']) ? $fdData330['n1_pos'] : "",
+                            'n2_pos' => isset($fdData330['n2_pos']) ? $fdData330['n2_pos'] : "",
+                            'n3_pos' => isset($fdData330['n3_pos']) ? $fdData330['n3_pos'] : "",
+                            'n11' => isset($fdData330['n11']) ? $fdData330['n11'] : "",
+                            'n12' => isset($fdData330['n12']) ? $fdData330['n12'] : "",
+                            'n13' => isset($fdData330['n13']) ? $fdData330['n13'] : "",
+                            's1' => isset($fdData330['s1']) ? $fdData330['s1'] : "",
+                            's2' => isset($fdData330['s2']) ? $fdData330['s2'] : "",
+                            's3' => isset($fdData330['s3']) ? $fdData330['s3'] : "",
+                            's4' => isset($fdData330['s4']) ? $fdData330['s4'] : "",
+                            's5' => isset($fdData330['s5']) ? $fdData330['s5'] : "",
+                            's6' => isset($fdData330['s6']) ? $fdData330['s6'] : "",
+                            's7' => isset($fdData330['s7']) ? $fdData330['s7'] : "",
+                            's8' => isset($fdData330['s8']) ? $fdData330['s8'] : "",
+                            's9' => isset($fdData330['s9']) ? $fdData330['s9'] : "",
+                            's10' => isset($fdData330['s10']) ? $fdData330['s10'] : "",
+                            's11' => isset($fdData330['s11']) ? $fdData330['s11'] : "",
+                            's12' => isset($fdData330['s12']) ? $fdData330['s12'] : "",
+                            's13' => isset($fdData330['s13']) ? $fdData330['s13'] : "",
+                            'c1' => isset($fdData330['c1']) ? $fdData330['c1'] : "",
+                            'c2' => isset($fdData330['c2']) ? $fdData330['c2'] : "",
+                            'c3' => isset($fdData330['c3']) ? $fdData330['c3'] : "",
+                            'c4' => isset($fdData330['c4']) ? $fdData330['c4'] : "",
+                            'c5' => isset($fdData330['c5']) ? $fdData330['c5'] : "",
+                            'c6' => isset($fdData330['c6']) ? $fdData330['c6'] : "",
+                            'c7' => isset($fdData330['c7']) ? $fdData330['c7'] : "",
+                            'c8' => isset($fdData330['c8']) ? $fdData330['c8'] : "",
+                            'c9' => isset($fdData330['c9']) ? $fdData330['c9'] : "",
+                            'c10' => isset($fdData330['c10']) ? $fdData330['c10'] : ""
+                        ]
+                    );
+                    echo $item['type']."3"." dd=".$fdData330['dd']." done <p>";
                 }
-                // if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G"){
-                //     //330
-                //     $fdData330 = $item['fdData330'];
-                //     Sheerdata::updateOrInsert(
-                //         ['dd' => $fdData330['dd'], 'type' => $item['type']."3"],
-                //         [
-                //             'type' => $item['type']."3",
-                //             'dd' => isset($fdData330['dd']) ? $fdData330['dd'] : "",
-                //             'dn' => isset($fdData330['dn']) ? $fdData330['dn'] : "",
-                //             'n1' => isset($fdData330['n1']) ? $fdData330['n1'] : "",
-                //             'n2' => isset($fdData330['n2']) ? $fdData330['n2'] : "",
-                //             'n3' => isset($fdData330['n3']) ? $fdData330['n3'] : "",
-                //             'n1_pos' => isset($fdData330['n1_pos']) ? $fdData330['n1_pos'] : "",
-                //             'n2_pos' => isset($fdData330['n2_pos']) ? $fdData330['n2_pos'] : "",
-                //             'n3_pos' => isset($fdData330['n3_pos']) ? $fdData330['n3_pos'] : "",
-                //             'n11' => isset($fdData330['n11']) ? $fdData330['n11'] : "",
-                //             'n12' => isset($fdData330['n12']) ? $fdData330['n12'] : "",
-                //             'n13' => isset($fdData330['n13']) ? $fdData330['n13'] : "",
-                //             's1' => isset($fdData330['s1']) ? $fdData330['s1'] : "",
-                //             's2' => isset($fdData330['s2']) ? $fdData330['s2'] : "",
-                //             's3' => isset($fdData330['s3']) ? $fdData330['s3'] : "",
-                //             's4' => isset($fdData330['s4']) ? $fdData330['s4'] : "",
-                //             's5' => isset($fdData330['s5']) ? $fdData330['s5'] : "",
-                //             's6' => isset($fdData330['s6']) ? $fdData330['s6'] : "",
-                //             's7' => isset($fdData330['s7']) ? $fdData330['s7'] : "",
-                //             's8' => isset($fdData330['s8']) ? $fdData330['s8'] : "",
-                //             's9' => isset($fdData330['s9']) ? $fdData330['s9'] : "",
-                //             's10' => isset($fdData330['s10']) ? $fdData330['s10'] : "",
-                //             's11' => isset($fdData330['s11']) ? $fdData330['s11'] : "",
-                //             's12' => isset($fdData330['s12']) ? $fdData330['s12'] : "",
-                //             's13' => isset($fdData330['s13']) ? $fdData330['s13'] : "",
-                //             'c1' => isset($fdData330['c1']) ? $fdData330['c1'] : "",
-                //             'c2' => isset($fdData330['c2']) ? $fdData330['c2'] : "",
-                //             'c3' => isset($fdData330['c3']) ? $fdData330['c3'] : "",
-                //             'c4' => isset($fdData330['c4']) ? $fdData330['c4'] : "",
-                //             'c5' => isset($fdData330['c5']) ? $fdData330['c5'] : "",
-                //             'c6' => isset($fdData330['c6']) ? $fdData330['c6'] : "",
-                //             'c7' => isset($fdData330['c7']) ? $fdData330['c7'] : "",
-                //             'c8' => isset($fdData330['c8']) ? $fdData330['c8'] : "",
-                //             'c9' => isset($fdData330['c9']) ? $fdData330['c9'] : "",
-                //             'c10' => isset($fdData330['c10']) ? $fdData330['c10'] : ""
-                //         ]
-                //     );
-                //     echo $item['type']."3"." dd=".$fdData330['dd']." done <p>";
-                // }
-                // Sheerdata::updateOrInsert(
-                //     ['dd' => $fdData['dd'], 'type' => $item['type']],
-                //     [
-                //         'type' => $item['type'],
-                //         'dd' => isset($fdData['dd']) ? $fdData['dd'] : "",
-                //         'dn' => isset($fdData['dn']) ? $fdData['dn'] : "",
-                //         'n1' => isset($fdData['n1']) ? $fdData['n1'] : "",
-                //         'n2' => isset($fdData['n2']) ? $fdData['n2'] : "",
-                //         'n3' => isset($fdData['n3']) ? $fdData['n3'] : "",
-                //         'n1_pos' => isset($fdData['n1_pos']) ? $fdData['n1_pos'] : "",
-                //         'n2_pos' => isset($fdData['n2_pos']) ? $fdData['n2_pos'] : "",
-                //         'n3_pos' => isset($fdData['n3_pos']) ? $fdData['n3_pos'] : "",
-                //         'n11' => isset($fdData['n11']) ? $fdData['n11'] : "",
-                //         'n12' => isset($fdData['n12']) ? $fdData['n12'] : "",
-                //         'n13' => isset($fdData['n13']) ? $fdData['n13'] : "",
-                //         's1' => isset($fdData['s1']) ? $fdData['s1'] : "",
-                //         's2' => isset($fdData['s2']) ? $fdData['s2'] : "",
-                //         's3' => isset($fdData['s3']) ? $fdData['s3'] : "",
-                //         's4' => isset($fdData['s4']) ? $fdData['s4'] : "",
-                //         's5' => isset($fdData['s5']) ? $fdData['s5'] : "",
-                //         's6' => isset($fdData['s6']) ? $fdData['s6'] : "",
-                //         's7' => isset($fdData['s7']) ? $fdData['s7'] : "",
-                //         's8' => isset($fdData['s8']) ? $fdData['s8'] : "",
-                //         's9' => isset($fdData['s9']) ? $fdData['s9'] : "",
-                //         's10' => isset($fdData['s10']) ? $fdData['s10'] : "",
-                //         's11' => isset($fdData['s11']) ? $fdData['s11'] : "",
-                //         's12' => isset($fdData['s12']) ? $fdData['s12'] : "",
-                //         's13' => isset($fdData['s13']) ? $fdData['s13'] : "",
-                //         'c1' => isset($fdData['c1']) ? $fdData['c1'] : "",
-                //         'c2' => isset($fdData['c2']) ? $fdData['c2'] : "",
-                //         'c3' => isset($fdData['c3']) ? $fdData['c3'] : "",
-                //         'c4' => isset($fdData['c4']) ? $fdData['c4'] : "",
-                //         'c5' => isset($fdData['c5']) ? $fdData['c5'] : "",
-                //         'c6' => isset($fdData['c6']) ? $fdData['c6'] : "",
-                //         'c7' => isset($fdData['c7']) ? $fdData['c7'] : "",
-                //         'c8' => isset($fdData['c8']) ? $fdData['c8'] : "",
-                //         'c9' => isset($fdData['c9']) ? $fdData['c9'] : "",
-                //         'c10' => isset($fdData['c10']) ? $fdData['c10'] : ""
-                //     ]
-                // );
-                // echo $item['type']." dd=".$fdData['dd']." done <p>";
+                Sheerdata::updateOrInsert(
+                    ['dd' => $fdData['dd'], 'type' => $item['type']],
+                    [
+                        'type' => $item['type'],
+                        'dd' => isset($fdData['dd']) ? $fdData['dd'] : "",
+                        'dn' => isset($fdData['dn']) ? $fdData['dn'] : "",
+                        'n1' => isset($fdData['n1']) ? $fdData['n1'] : "",
+                        'n2' => isset($fdData['n2']) ? $fdData['n2'] : "",
+                        'n3' => isset($fdData['n3']) ? $fdData['n3'] : "",
+                        'n1_pos' => isset($fdData['n1_pos']) ? $fdData['n1_pos'] : "",
+                        'n2_pos' => isset($fdData['n2_pos']) ? $fdData['n2_pos'] : "",
+                        'n3_pos' => isset($fdData['n3_pos']) ? $fdData['n3_pos'] : "",
+                        'n11' => isset($fdData['n11']) ? $fdData['n11'] : "",
+                        'n12' => isset($fdData['n12']) ? $fdData['n12'] : "",
+                        'n13' => isset($fdData['n13']) ? $fdData['n13'] : "",
+                        's1' => isset($fdData['s1']) ? $fdData['s1'] : "",
+                        's2' => isset($fdData['s2']) ? $fdData['s2'] : "",
+                        's3' => isset($fdData['s3']) ? $fdData['s3'] : "",
+                        's4' => isset($fdData['s4']) ? $fdData['s4'] : "",
+                        's5' => isset($fdData['s5']) ? $fdData['s5'] : "",
+                        's6' => isset($fdData['s6']) ? $fdData['s6'] : "",
+                        's7' => isset($fdData['s7']) ? $fdData['s7'] : "",
+                        's8' => isset($fdData['s8']) ? $fdData['s8'] : "",
+                        's9' => isset($fdData['s9']) ? $fdData['s9'] : "",
+                        's10' => isset($fdData['s10']) ? $fdData['s10'] : "",
+                        's11' => isset($fdData['s11']) ? $fdData['s11'] : "",
+                        's12' => isset($fdData['s12']) ? $fdData['s12'] : "",
+                        's13' => isset($fdData['s13']) ? $fdData['s13'] : "",
+                        'c1' => isset($fdData['c1']) ? $fdData['c1'] : "",
+                        'c2' => isset($fdData['c2']) ? $fdData['c2'] : "",
+                        'c3' => isset($fdData['c3']) ? $fdData['c3'] : "",
+                        'c4' => isset($fdData['c4']) ? $fdData['c4'] : "",
+                        'c5' => isset($fdData['c5']) ? $fdData['c5'] : "",
+                        'c6' => isset($fdData['c6']) ? $fdData['c6'] : "",
+                        'c7' => isset($fdData['c7']) ? $fdData['c7'] : "",
+                        'c8' => isset($fdData['c8']) ? $fdData['c8'] : "",
+                        'c9' => isset($fdData['c9']) ? $fdData['c9'] : "",
+                        'c10' => isset($fdData['c10']) ? $fdData['c10'] : ""
+                    ]
+                );
+                echo $item['type']." dd=".$fdData['dd']." done <p>";
             }
         }
     }
