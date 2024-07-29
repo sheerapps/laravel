@@ -1583,7 +1583,7 @@ class ApiController extends Controller
         return $final_array;
     }
     public function drawDrawList(){
-        $url_main = "https://app-apdapi-prod-southeastasia-01.azurewebsites.net/draw-dates/available-for-year"
+        $url_main = "https://app-apdapi-prod-southeastasia-01.azurewebsites.net/draw-dates/available-for-year";
         $ch1 = curl_init($url_main);
         curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
