@@ -37,7 +37,7 @@ class ApiController extends Controller
         foreach ($data as $item) {
             if(isset($item['fdData'])){
                 $fdData = $item['fdData'];
-                if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G"){
+                if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G" || $item['type'] == "MC"){
                     //330
                     $fdData330 = $item['fdData330'];
                     Sheerdata::updateOrInsert(
