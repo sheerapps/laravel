@@ -1147,7 +1147,14 @@ class ApiController extends Controller
                 "type"=> "MH",
                 "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
             ],
-            
+            [
+                "type"=> "MC",
+                "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
+            ],
+            [
+                "type"=> "MC3",
+                "fdData"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
+            ],
         ];
         foreach ($final_array as $key => $value) {
             if(isset($value["fdData"])){
@@ -2779,9 +2786,14 @@ class ApiController extends Controller
                     "type"=> "MH",
                     "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
                 ], 
+                [
+                    "type"=> "MC",
+                    "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
+                    "fdData330"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
+                ]
             ];
         }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20])->get(['data']);
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22])->get(['data']);
             $r = [];
             foreach ($records as $key => $record) {
                 $r[] = json_decode($record->data,true);
@@ -2944,6 +2956,11 @@ class ApiController extends Controller
                 [
                     "type"=> "MH",
                     "fdData"=>!isset($results[18]['fdData']) ? null : $results[18]['fdData'],
+                ],
+                [
+                    "type"=> "MC",
+                    "fdData"=>!isset($results[19]['fdData']) ? null : $results[19]['fdData'],
+                    "fdData330"=>!isset($results[20]['fdData']) ? null : $results[20]['fdData'],
                 ],
             ];
         }
