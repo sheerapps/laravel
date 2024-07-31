@@ -3072,21 +3072,21 @@ class ApiController extends Controller
                         element.style.padding = '0px';
                     });"
                 ],
-                [
+                [//DL/GT/MH >> GT/MH/DL
                     "type"=> "DL",
-                    "ftype"=>!isset($results[16]['type']) ? null : $results[16]['type'],
-                    "fdData"=>!isset($results[16]['fdData']) ? null : $results[16]['fdData'],
+                    "ftype"=>!isset($results[18]['type']) ? null : $results[18]['type'],
+                    "fdData"=>!isset($results[18]['fdData']) ? null : $results[18]['fdData'],
                 ],
                 [
                     "type"=> "GT",
-                    "ftype"=>!isset($results[17]['type']) ? null : $results[17]['type'],
-                    "fdData"=>!isset($results[17]['fdData']) ? null : $results[17]['fdData'],
-                    "jpData"=>!isset($results[17]['jpData']) ? null : $results[17]['jpData'],
+                    "ftype"=>!isset($results[16]['type']) ? null : $results[16]['type'],
+                    "fdData"=>!isset($results[16]['fdData']) ? null : $results[16]['fdData'],
+                    "jpData"=>!isset($results[16]['jpData']) ? null : $results[16]['jpData'],
                 ],
                 [
                     "type"=> "MH",
-                    "ftype"=>!isset($results[18]['type']) ? null : $results[18]['type'],
-                    "fdData"=>!isset($results[18]['fdData']) ? null : $results[18]['fdData'],
+                    "ftype"=>!isset($results[17]['type']) ? null : $results[17]['type'],
+                    "fdData"=>!isset($results[17]['fdData']) ? null : $results[17]['fdData'],
                 ],
                 [
                     "type"=> "MC",
