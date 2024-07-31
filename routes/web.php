@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,3 +15,4 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/video/{id}', [ApiController::class, 'videoComponent']);

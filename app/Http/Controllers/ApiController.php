@@ -15,6 +15,10 @@ class ApiController extends Controller
     {
         return 1;
     }
+    public function videoComponent($id)
+    {
+        return view("video", compact("id"));
+    }
     public function getDataByDate($date)
     {
         $columnName = 'dd';
