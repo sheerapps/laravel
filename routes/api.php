@@ -30,6 +30,8 @@ Route::get('/tmain-by-date/{date}', [ApiController::class, 'getTMainByDateV1_2_0
 Route::get('/save-to-db/{date}', [ApiController::class, 'saveLiveDB']);
 Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
 Route::get('/data-by-history-v120', [ApiController::class, 'getDataByAdvanceSearch']);
+Route::get('/data-by-history-v130', [ApiController::class, 'getDataByAdvanceSearchv130']);
+
 Route::get('/data-by-dictionary', [ApiController::class, 'getDicByData']);
 Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);
 Route::get('/save-by-live', [ApiController::class, 'saveLive']);
