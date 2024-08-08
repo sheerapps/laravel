@@ -1210,7 +1210,8 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "PD",
-                "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                // "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                "fdData"=>!isset($main9_final["PT19:30"]) ? null : $main9_final["PT19:30"],
                 "jpData"=>!isset($main2_final["PDJP"]) ? null : $main2_final["PDJP"],
             ],
             [
@@ -1681,7 +1682,7 @@ class ApiController extends Controller
         return $format_array;
     }
     public function getDataPH(){
-        $records = Sheerlive::whereIn("id", [11,14,15])->get(['data']);
+        $records = Sheerlive::whereIn("id", [10,11,14,15])->get(['data']);
         $results = [];
         foreach ($records as $key => $record) {
             $results[] = json_decode($record->data,true);
@@ -1690,14 +1691,15 @@ class ApiController extends Controller
         $final_array = [
             "PD3"=>[
                 "type"=> "PD3",
-                "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
+                "fdData"=>!isset($results[2]['fdData']) ? null : $results[1]['fdData'],
+                "fdData730"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
             ],
             "LH"=>[
                 "type"=> "LH",
-                "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
-                "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
-                "fdData330"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
-                "jpData330"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
+                "fdData"=>!isset($results[1]['fdData']) ? null : $results[0]['fdData'],
+                "jpData"=>!isset($results[1]['jpData']) ? null : $results[0]['jpData'],
+                "fdData330"=>!isset($results[3]['fdData']) ? null : $results[2]['fdData'],
+                "jpData330"=>!isset($results[3]['jpData']) ? null : $results[2]['jpData'],
             ],
         ];
         return $final_array;
