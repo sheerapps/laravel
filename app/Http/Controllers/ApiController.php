@@ -1691,15 +1691,15 @@ class ApiController extends Controller
         $final_array = [
             "PD3"=>[
                 "type"=> "PD3",
-                "type330"=>$results[2]['fdData']->c1,
-                "type730"=>$results[0]['fdData']->c1,
+                "type330"=>$results[2]['fdData']["c1"],
+                "type730"=>$results[0]['fdData']["c1"],
                 "fdData"=>!isset($results[2]['fdData']) ? null : $results[1]['fdData'],
                 "fdData730"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
             ],
             "LH"=>[
                 "type"=> "LH",
-                "type330"=>$results[3]['fdData']->c1,
-                "type730"=>$results[1]['fdData']->c1,
+                "type330"=>$results[3]['fdData']["c1"],
+                "type730"=>$results[1]['fdData']["c1"],
                 "fdData"=>!isset($results[1]['fdData']) ? null : $results[0]['fdData'],
                 "jpData"=>!isset($results[1]['jpData']) ? null : $results[0]['jpData'],
                 "fdData330"=>!isset($results[3]['fdData']) ? null : $results[2]['fdData'],
