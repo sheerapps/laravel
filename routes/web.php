@@ -15,4 +15,7 @@ use App\Http\Controllers\ApiController;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/privacy-policy', function () {
+    return view('policy');
+});
 Route::get('/video/{id}', [ApiController::class, 'videoComponent']);

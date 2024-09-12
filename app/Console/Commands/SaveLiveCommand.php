@@ -38,11 +38,11 @@ class SaveLiveCommand extends Command
      */
     public function handle()
     {
-        $start = time();
-        while (time() - $start < 60) {
-            $apiController = new \App\Http\Controllers\ApiController;
-            $apiController->saveLiveDB("date");
-            sleep(6);
-        }
+        // $start = time();
+        // while (time() - $start < 60) {
+        //     $apiController = new \App\Http\Controllers\ApiController;
+        //     $apiController->saveLiveDB("date");
+        //     sleep(6);
+        // }
     }
 }

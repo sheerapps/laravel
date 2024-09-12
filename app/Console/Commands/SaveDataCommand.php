@@ -53,9 +53,9 @@ class SaveDataCommand extends Command
         //     $today->modify('-18 hours');
         //     $date = $today->format('Y-m-d');
         // }
-        $apiController->saveDataV1_2_0("date");
+        // $apiController->saveDataV1_2_0("date");
 
-        $this->info('Data saved successfully!');
+        // $this->info('Data saved successfully!');
         // $this->info('Data saved successfully! fetch '.$date.' now = '.$date = date('Y-m-d H:i:s', strtotime('now', strtotime('Asia/Kuala_Lumpur'))));
     }
 }
