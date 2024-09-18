@@ -49,6 +49,11 @@
             <h2>Ads Information</h2>
             <p>This app contains advertisements. These ads may be displayed at various times within the app, such as during interstitials, banners, or video ads.</p>
         </div>
+
+        <div class="section">
+            <h2>Declare</h2>
+            <p>This app is developed and provided independent of the involvement of Any Provider. To the extent that the reporting of results may be inaccurate, please note that such inaccuracies are not the responsibility of and should not be attributed to any Provider.</p>
+        </div>
         
         <div class="section">
             <h2>Security</h2>
