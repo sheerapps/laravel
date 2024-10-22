@@ -3,13 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Fine Enterprise</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
+        <title>Tan Production</title>
         <style>
             html, body {
                 background-color: #fff;
@@ -65,33 +59,9 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
             <div class="content">
                 <div class="title m-b-md">
-                    Fine Enterprise
-                </div>
-
-                <div class="links">
-                    <a href="/">JavaScript</a>
-                    <a href="/">PHP</a>
-                    <a href="/">Laravel</a>
-                    <a href="/">HTML</a>
-                    <a href="/">ReactNative</a>
-                    <a href="/">CSS</a>
-                    <a href="/">GitHub</a>
+                    Tan Prooductions
                 </div>
             </div>
         </div>

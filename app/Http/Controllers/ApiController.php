@@ -654,9 +654,9 @@ public function getDataByAdvanceSearchv130s(Request $request){
         // $direcjson = json_decode($res1);
         // LOOP
         $sitesCount = array(
+            "ST" => 0,
             "M" => 0,
             "PMP" => 0,
-            "ST" => 0,
             "STC" => 0,
             "EE" => 0,
             "CS" => 0,
@@ -2843,6 +2843,16 @@ public function getDataByAdvanceSearchv130s(Request $request){
     
             $final_array = [
                 [
+                    "type"=> "ST",
+                    "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
+                    "jpData"=>[
+                        "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
+                        "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
+                        "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
+                        "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
+                    ]
+                ],
+                [
                     "type"=> "M",
                     "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
                     "jpData"=>[
@@ -2855,16 +2865,6 @@ public function getDataByAdvanceSearchv130s(Request $request){
                     "type"=> "PMP",
                     "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
                     "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
-                ],
-                [
-                    "type"=> "ST",
-                    "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
-                    "jpData"=>[
-                        "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
-                        "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
-                        "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
-                        "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
-                    ]
                 ],
                 [
                     "type"=> "SG",
@@ -3022,6 +3022,12 @@ public function getDataByAdvanceSearchv130s(Request $request){
             $results = $r;
             $final_array = [
                 [
+                    "type"=> "ST",
+                    "ftype"=>!isset($results[2]['type']) ? null : $results[2]['type'],
+                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
+                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
+                ],
+                [
                     "type"=> "M",
                     "ftype"=>!isset($results[0]['type']) ? null : $results[0]['type'],
                     "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
@@ -3033,12 +3039,6 @@ public function getDataByAdvanceSearchv130s(Request $request){
                     "ftype"=>!isset($results[1]['type']) ? null : $results[1]['type'],
                     "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
                     "jpData"=>!isset($results[1]['jpData']) ? null : $results[1]['jpData'],
-                ],
-                [
-                    "type"=> "ST",
-                    "ftype"=>!isset($results[2]['type']) ? null : $results[2]['type'],
-                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
-                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
                 ],
                 [
                     "type"=> "SG",
