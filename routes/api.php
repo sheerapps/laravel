@@ -45,3 +45,4 @@ Route::get('/pastdraw', [ApiController::class, 'getDrawdateData']);//data-draw-d
 //tsheer
 
 // Route::get('/results', [ApiController::class, 'getDataPH']);
+Route::get('/checker/{type}', [ApiController::class, 'checkStatus']);
