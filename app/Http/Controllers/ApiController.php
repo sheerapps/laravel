@@ -130,6 +130,12 @@ class ApiController extends Controller
             }
         }
     }
+    public function checkStatus($type){
+        $resp = array(
+            "showad"=>false,
+        );
+        return $resp;
+    }
     public function saveData($date){
         $data = $this->getMainByDateV1_1_0($date);
         foreach ($data as $item) {

@@ -45,3 +45,4 @@ Route::get('/books', [ApiController::class, 'getBookAll']);//all-book-data
 //tsheer
 
 // Route::get('/results', [ApiController::class, 'getDataPH']);
+Route::get('/status/{type}', [ApiController::class, 'checkStatus']);
