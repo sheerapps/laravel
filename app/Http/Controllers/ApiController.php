@@ -130,6 +130,7 @@ class ApiController extends Controller
             }
         }
     }
+   
     public function saveData($date){
         $data = $this->getMainByDateV1_1_0($date);
         foreach ($data as $item) {
