@@ -133,6 +133,151 @@ class ApiController extends Controller
     public function checkStatus($type){
         $resp = array(
             "showad"=>false,
+            "4d"=>"https://www.singaporepools.com.sg/en/product/pages/4d_results.aspx",
+            "4dscript"=>"document.getElementsByClassName('four-d-logo')[0].style.display = 'none'; 
+            document.getElementsByClassName('results-filter')[0].style.margin = '5px'; 
+            document.getElementsByClassName('drawListAndLabel')[0].style.padding = '5px'; 
+            document.getElementById('desktop-banner') ? document.getElementById('desktop-banner').style.display = 'none' : null;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb').style.display = 'none' : null;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05').style.display = 'none' : null;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c').style.display = 'none' : null;
+            document.getElementsByClassName('four-d')[0].style.paddingBottom = '15px';
+            document.body.style.overflowX = 'hidden';
+            document.body.style.fontSize = '1.8rem';
+            document.body.style.fontWeight = 'bold';
+            document.body.style.maxWidth = '100%';
+            let results_filter = document.getElementsByClassName('results-filter')[0];
+            let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+            if(col_component.getElementsByTagName('div')[1]){
+                let row_component = col_component.getElementsByTagName('div')[1].style.cssText='font-size:25px;color:#0c97e8;font-weight:bold;';
+            }
+            let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+            for(let m = 0; m < mobile_screen.length; m++) {
+                if(m !== 3){
+                mobile_screen[m].style.display = 'none';
+                }
+            }
+            let desktop_screen = document.getElementsByTagName('LI');
+            for(let i = 0; i < desktop_screen.length; i++) {
+                desktop_screen[i].style.padding = '5px';
+            }
+            let testate_component = document.getElementsByTagName('th');
+            for(let t = 0; t < testate_component.length; t++) {
+                testate_component[t].style.background = '#0c97e8';
+                testate_component[t].style.color = 'white';
+            }
+            let li_component = document.getElementsByClassName('drawDate');
+            for(let y = 0; y < li_component.length; y++) {
+                li_component[y].style.setProperty('background', '#fc0505', 'important');
+            }
+            let th_component = document.getElementsByClassName('drawNumber');
+            for(let x = 0; x < th_component.length; x++) {
+                th_component[x].style.setProperty('background', '#fc0505', 'important');
+            }",
+            "tt"=>"https://www.singaporepools.com.sg/en/product/sr/Pages/toto_results.aspx",
+            "ttscript"=>"document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.display = 'none' : null;
+            document.getElementById('MSOZoneCell_WebPartWPQ3') ? document.getElementById('MSOZoneCell_WebPartWPQ3').style.display = 'none' : null;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119').style.display = 'none' : null;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003').style.display = 'none' : null;
+            document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39') ? document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39').style.paddingBottom = '5px' : null;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.paddingBottom = '5px' : null;
+            document.body.style.overflowX = 'hidden';
+            document.body.style.fontSize = '1.8rem';
+            document.body.style.fontWeight = 'bold';
+            document.body.style.maxWidth = '100%';
+            document.getElementsByClassName('toto-logo')[0].style.display = 'none'; 
+            document.getElementsByClassName('results-filter')[0].style.margin = '5px'; 
+            document.getElementsByClassName('divDrawListAndLabel')[0].style.padding = '5px'; 
+            let results_filter = document.getElementsByClassName('results-filter')[0];
+            let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+            if(col_component.getElementsByTagName('div')[1]){
+                let row_component = col_component.getElementsByTagName('div')[1].style.cssText='color:#0c97e8;font-weight:bold;'
+            }
+            let mobile_only_component = document.getElementsByClassName('mobile-only');
+            for(let b = 0; b < mobile_only_component.length; b++) {
+                mobile_only_component[b].style.display = 'none';
+            }
+            let desktop_row_component = document.getElementsByClassName('pure-desktop-only');
+            for(let d = 0; d < desktop_row_component.length; d++) {
+                desktop_row_component[d].style.display = 'block';
+            }
+            let div_component = document.getElementsByClassName('divWinningOutlets');
+            for(let w = 0; w < div_component.length; w++) {
+                div_component[w].style.display = 'none';
+            }
+            let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+            for(let m = 0; m < mobile_screen.length; m++) {
+                if(m !== 3){
+                mobile_screen[m].style.display = 'none';
+                }
+            }
+            let desktop_screen = document.getElementsByTagName('LI');
+            for(let i = 0; i < desktop_screen.length; i++) {
+                desktop_screen[i].style.padding = '5px';
+            }
+            let li_component = document.getElementsByClassName('drawDate');
+            for(let z = 0; z < li_component.length; z++) {
+                li_component[z].style.setProperty('background', '#fc0505', 'important');
+            }
+            let th_component = document.getElementsByClassName('drawNumber');
+            for(let i = 0; i < th_component.length; i++) {
+                th_component[i].style.setProperty('background', '#fc0505', 'important');
+            }
+            let div_componentButton = document.getElementsByClassName('divWinningOutletsButton');
+            for(let y = 0; y < div_componentButton.length; y++) {
+                div_componentButton[y].style.display = 'none';
+            }
+            let loop_component = document.getElementsByClassName('linkShowWinningOutlets');
+            if(loop_component.length){
+                for(let x = 0; x < loop_component.length; x++) {
+                    loop_component[x].style.display = 'none';
+                }   
+            }
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3').style.display = 'none' : null;",
+            "swp"=>"https://www.singaporepools.com.sg/en/product/pages/sweep_results.aspx",
+            "swpscript"=>"document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8').style.display = 'none' : false;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602').style.display = 'none' : false;
+            document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_0943fa62_4c15_4564_996f_37cd1f5b62da') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_0943fa62_4c15_4564_996f_37cd1f5b62da').style.display = 'none' : false;
+            document.body.style.maxWidth = '100%';
+            document.body.style.overflowX = 'hidden';
+            document.body.style.fontSize = '1.8rem';
+            document.body.style.fontWeight = 'bold';
+            document.getElementsByClassName('sg-sweep-logo')[0].style.display = 'none'; 
+            document.getElementsByClassName('results-filter')[0].style.margin = '5px'; 
+            document.getElementsByClassName('drawListAndLabel')[0].style.padding = '5px'; 
+            var results_filter = document.getElementsByClassName('results-filter')[0];
+            var col_component = results_filter.getElementsByClassName('col-md-9')[0];
+            if(col_component.getElementsByTagName('div')[1]){
+                var row_component = col_component.getElementsByTagName('div')[1].style.cssText='font-size:23px;color:#0c97e8;font-weight:bold;';
+            }
+            var mobile_screen = document.getElementsByClassName('mobile-only');
+            for(var mob = 0; mob < mobile_screen.length; mob++) {
+                mobile_screen[mob].style.display = 'none';
+            }
+            var desktop_screen = document.getElementsByClassName('pure-desktop-only');
+            for(var x = 0; x < desktop_screen.length; x++) {
+                desktop_screen[x].style.display = 'block';
+            }
+            var testate_component = document.getElementsByClassName('ms-rtestate-field');
+            for(var y = 0; y < testate_component.length; y++) {
+                testate_component[y].style.display = 'none';
+            }
+            var li_component = document.getElementsByTagName('LI');
+            for(var l = 0; l < li_component.length; l++) {
+                li_component[l].style.padding = '5px';
+            }
+            var th_component = document.getElementsByTagName('th');
+            for(var t = 0; t < th_component.length; t++) {
+            th_component[t].style.background = '#0c97e8';
+            }
+            var dd_component = document.getElementsByClassName('drawDate');
+            for(var d = 0; d < dd_component.length; d++) {
+                dd_component[d].style.setProperty('background', '#fc0505', 'important');
+            }
+            var dn_component = document.getElementsByClassName('drawNumber');
+            for(var n = 0; n < dn_component.length; n++) {
+                dn_component[n].style.setProperty('background', '#fc0505', 'important');
+            }"
         );
         return $resp;
     }
