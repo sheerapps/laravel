@@ -1471,7 +1471,7 @@ class ApiController extends Controller
         curl_setopt($ch10, CURLOPT_CONNECTTIMEOUT, 3);
         $res10 = curl_exec($ch10);
         $main10_final = json_decode($res10);
-
+        return $main9_final;
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
