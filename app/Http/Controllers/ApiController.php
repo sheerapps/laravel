@@ -1219,8 +1219,8 @@ class ApiController extends Controller
                 "type"=> "LH",
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
                 // "fdData"=>!isset($main9_final["HT19:30"]) ? null : $main9_final["HT19:30"],
-                // "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
-                "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
+                "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                // "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
             ],
             [
                 "type"=> "BN",
@@ -1382,7 +1382,7 @@ class ApiController extends Controller
         $res2 = curl_exec($ch2);
         $main2 = json_decode($res2); 
         $main2_final = $this->sub_formatter($main2,$date);
-       return $main2_final;
+       
         //nl
         if($url_nl == "past"){
             //
@@ -4257,10 +4257,7 @@ class ApiController extends Controller
                 // "jp9" => !isset($array->R6D->_5[0]) ? "--" : $array->R6D->_5[0],
                 // "jp10" => !isset($array->R6D->_5[1]) ? "--" : $array->R6D->_5[1],
                 "pm330" => "https://hari4d.com/draw-result.php",
-                "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams",
-                "videoUrl" => "https://www.youtube.com/embed/IsYXgV5XRnQ?rel=0&hd=1",
-                "videoLink" => "https://www.youtube.com/embed/IsYXgV5XRnQ?rel=0&hd=1"
-
+                "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams"
             ],
             "G"=>[
                 "dd" => !isset($array->G->DrawDate) ? $date : $array->G->DrawDate,
