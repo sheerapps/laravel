@@ -1382,7 +1382,7 @@ class ApiController extends Controller
         $res2 = curl_exec($ch2);
         $main2 = json_decode($res2); 
         $main2_final = $this->sub_formatter($main2,$date);
-       
+       return $main2_final;
         //nl
         if($url_nl == "past"){
             //
