@@ -4258,7 +4258,9 @@ class ApiController extends Controller
                 // "jp10" => !isset($array->R6D->_5[1]) ? "--" : $array->R6D->_5[1],
                 "pm330" => "https://hari4d.com/draw-result.php",
                 "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams",
-                "videoUrl" => "https://www.youtube.com/embed/IsYXgV5XRnQ?rel=0&hd=1"
+                "videoUrl" => "https://www.youtube.com/embed/IsYXgV5XRnQ?rel=0&hd=1",
+                "videoLink" => "https://www.youtube.com/embed/IsYXgV5XRnQ?rel=0&hd=1"
+
             ],
             "G"=>[
                 "dd" => !isset($array->G->DrawDate) ? $date : $array->G->DrawDate,
