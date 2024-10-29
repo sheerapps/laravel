@@ -1218,7 +1218,7 @@ class ApiController extends Controller
             [
                 "type"=> "LH",
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
-                "fdData"=>!isset($main9_final["HT19:30"]) ? null : $main9_final["HT19:30"],
+                // "fdData"=>!isset($main9_final["HT19:30"]) ? null : $main9_final["HT19:30"],
                 // "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
                 "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
             ],
