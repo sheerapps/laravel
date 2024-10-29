@@ -1233,16 +1233,16 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "PD3",
-                // "fdData"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
-                "fdData"=>!isset($main9_final['PT15:30']) ? null : $main9_final['PT15:30'],
+                "fdData"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                // "fdData"=>!isset($main9_final['PT15:30']) ? null : $main9_final['PT15:30'],
                 "jpData"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
             ],
             [
                 "type"=> "LH3",
-                // "fdData"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
-                // "jpData"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
-                "fdData"=>!isset($main9_final['HT15:30']) ? null : $main9_final['HT15:30'],
-                "jpData"=>!isset($main9_final['HJPT15:30']) ? null : $main9_final['HJPT15:30'],
+                "fdData"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                "jpData"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                // "fdData"=>!isset($main9_final['HT15:30']) ? null : $main9_final['HT15:30'],
+                // "jpData"=>!isset($main9_final['HJPT15:30']) ? null : $main9_final['HJPT15:30'],
             ],
             [
                 "type"=> "G3",
