@@ -28,6 +28,8 @@ Route::get('/main-by-date-v120/{date}', [ApiController::class, 'getMainByDateV1_
 Route::get('/tmain-by-date/{date}', [ApiController::class, 'getTMainByDateV1_2_0']); //update getTMainByDate to 1_2_0 code
 
 Route::get('/save-to-db/{date}', [ApiController::class, 'saveLiveDB']);
+Route::get('/save-to-db2/{date}', [ApiController::class, 'saveLiveDB2']);
+
 Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
 Route::get('/data-by-history-v120', [ApiController::class, 'getDataByAdvanceSearch']);
 Route::get('/data-by-history-v130', [ApiController::class, 'getDataByAdvanceSearchv130']);
