@@ -1313,6 +1313,326 @@ class ApiController extends Controller
         // return 1;
         return $array;
     }
+    public function saveLiveDB2($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $today = date("Y-m-d");
+        echo $today;
+        //live
+        $url_main = "https://mapp.fast4dking.com/nocache/result_v23.json";
+        $url_sub = "https://4dyes3.com/getLiveResult.php";
+        $url_nl = "https://mobile.fast4dking.com/v2/nocache/result_nl_v24.json";
+        //bydate
+        if($date == "date" || $date >= $today){
+            echo "1";
+            $date = $today;
+        }else{
+            //past
+            echo "2";
+
+            $url_main = "https://mapp.fast4dking.com/past_results_v23.php?d=".$date;
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
+            $url_nl = "past";
+        }
+        //is Live
+
+        //PHG330
+        $date330 = $date;
+        if($date == $today && date("Gi") <= 1529){
+            $today_live330 = new DateTime($today);
+            $today_live330->modify('-1 days');
+            $date330 = $today_live330->format('Y-m-d');
+        }
+        $ch7 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date330);
+        curl_setopt($ch7, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch7, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch7, CURLOPT_CONNECTTIMEOUT, 2);
+        $res7 = curl_exec($ch7);
+        $main7 = json_decode($res7);
+        $main7_final = $this->formatPerdanaGood37($main7,$date330);
+
+        if($date == $today && date("Gi") <= 1829){
+            echo "3";
+            $today_live = new DateTime($today);
+            $today_live->modify('-1 days');
+            $date = $today_live->format('Y-m-d');
+            $url_sub = "https://4dyes3.com/getLiveResult.php?date=".$date;
+        }
+        //main DONE
+        $ch1 = curl_init($url_main);
+        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        $res1 = curl_exec($ch1);
+        $main1 = json_decode($res1);
+        //main api format
+        if(!isset($main1)){
+            $main1 = [];
+        }
+        $main1_final = $this->main1_formatter($main1);
+
+        //sub
+        echo $url_sub;
+
+        $ch2 = curl_init($url_sub);
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, ['referer: https://4dyes3.com/en/past-result']);
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch2, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch2, CURLOPT_CONNECTTIMEOUT, 2);
+        $res2 = curl_exec($ch2);
+        $main2 = json_decode($res2); 
+        $main2_final = $this->sub_formatter($main2,$date);
+       
+        //nl
+        if($url_nl == "past"){
+            //
+        }else{
+            $ch3 = curl_init($url_nl);
+            curl_setopt($ch3, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch3, CURLOPT_TIMEOUT, 2);
+            curl_setopt($ch3, CURLOPT_CONNECTTIMEOUT, 2);
+            $res3 = curl_exec($ch3);
+            $main3 = json_decode($res3);
+            $main1_final["NL"] = isset($main3) && isset($main3[0]) ? $main3[0]->fdData : null;
+            $main1_final["NLJP1"] = isset($main3) && isset($main3[1]) ? $main3[1]->jpData1 : null;
+        }
+
+        //bn
+        $date_bn = date("Ymd", strtotime($date));
+        $url_bn = "https://publicapi.ace4dv2.live/publicAPI/bt4?date=$date_bn";
+        $ch4 = curl_init($url_bn);
+        curl_setopt($ch4, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch4, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch4, CURLOPT_CONNECTTIMEOUT, 1);
+        $res4 = curl_exec($ch4);
+        $main4 = json_decode($res4);
+        $main4_final = $this->bn_formatter($main4,$date);
+
+        //sbjp
+        $date_sb = date("Ymd", strtotime($date));
+        $url_sb = "https://www.check4d.org/liveosx.json";
+        $ch5 = curl_init($url_sb);
+        curl_setopt($ch5, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch5, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch5, CURLOPT_CONNECTTIMEOUT, 1);
+        $res5 = curl_exec($ch5);
+        $main5f = json_decode($res5);
+        $main5 = [$main5f];
+        $sbjp_formatter = [
+            "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
+            "jpData2"=>!isset($main5[0]) && !isset($main5[0]->SB->JP2) ? null : $main5[0]->SB->JP2,
+            "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
+        ];
+
+        //sjp
+        $sjpFinal  = null;
+        if(!isset($main1_final['SGJP6/45'])){
+            $ch6 = curl_init("https://app-6.4dking.com.my/past_results_v23.php?t=SG&d=".$date);
+            curl_setopt($ch6, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch6, CURLOPT_TIMEOUT, 1);
+            curl_setopt($ch6, CURLOPT_CONNECTTIMEOUT, 1);
+            $res6 = curl_exec($ch6);
+            $main6 = json_decode($res6);
+            //format
+            if (isset($main6)) {
+                $keys = array_column($main6, 'type');
+                $index = array_search('SGJP', $keys);
+                if(isset($index) && $index >= 0){
+                    if(isset($main6[$index]->jpData)){
+                        $sjpFinal = $main6[$index]->jpData;
+                    }
+                }
+            }
+        }else{
+            $sjpFinal = $main1_final['SGJP6/45'];
+        }
+
+        //PHG730 6D
+        // $ch8 = curl_init("https://perdana4d.live/get-abs-lottery-results/".$date);
+        // curl_setopt($ch8, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch8, CURLOPT_TIMEOUT, 2);
+        // curl_setopt($ch8, CURLOPT_CONNECTTIMEOUT, 2);
+        // $res8 = curl_exec($ch8);
+        // $main8 = json_decode($res8);
+        // $main8_final = $this->formatPerdanaGood37($main8,$date);
+
+        // 4dnum for GPH330 & 730 JP
+
+        $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/date");
+        curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
+        $res9 = curl_exec($ch9);
+        $main9 = json_decode($res9);
+        $main9_final = $this->formatMain9($main9);
+
+        $ch10 = curl_init("https://kweelohstudio.com/api/results");
+        curl_setopt($ch10, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch10, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch10, CURLOPT_CONNECTTIMEOUT, 3);
+        $res10 = curl_exec($ch10);
+        $main10_final = json_decode($res10);
+
+        //$main1_final main
+        //$main2_final lhpn
+        //$main4_final bn
+        //$sbjp_formatter ee
+
+        $final_array = [
+            [
+                "type"=> "M",
+                "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
+                "jpData"=>[
+                    "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
+                    "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE']
+                ]
+            ],
+            [
+                "type"=> "PMP",
+                "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
+                "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
+            ],
+            [
+                "type"=> "ST",
+                "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
+                "jpData"=>[
+                    "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
+                    "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
+                    "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
+                    "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
+                ]
+            ],
+            [
+                "type"=> "SG",
+                "fdData"=>!isset($main1_final['SG']) ? null :$main1_final['SG'],
+                "jpData"=>$sjpFinal,
+            ],
+            [
+                "type"=> "CS",
+                "fdData"=>!isset($main1_final['CS']) ? null :$main1_final['CS']
+            ],
+            [
+                "type"=> "STC",
+                "fdData"=>!isset($main1_final['STC']) ? null :$main1_final['STC']
+            ],
+            [
+                "type"=> "EE",
+                "fdData"=>!isset($main1_final['EE']) ? null :$main1_final['EE'],
+                "jpData"=>!isset($sbjp_formatter) ? null : $sbjp_formatter
+            ],
+            [
+                "type"=> "GD",
+                "fdData"=>!isset($main1_final['GD']) ? null :$main1_final['GD'],
+                "jpData"=>!isset($main1_final['GD6D']) ? null : $main1_final['GD6D']
+            ],
+            [
+                "type"=> "NL",
+                "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
+                "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
+            ],
+            [
+                "type"=> "PD",
+                // "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                "fdData"=>!isset($main9_final["PT19:30"]) ? null : $main9_final["PT19:30"],
+                "jpData"=>!isset($main2_final["PDJP"]) ? null : $main2_final["PDJP"],
+            ],
+            [
+                "type"=> "LH",
+                "fdData"=>!isset($main9_final["HT19:30"]) ? null : $main9_final["HT19:30"],
+                // "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
+            ],
+            [
+                "type"=> "BN",
+                "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+            ],
+            [
+                "type"=> "G",
+                "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
+                "jpData"=>!isset($main2_final["GJP"]) ? null : $main2_final["GJP"],
+            ],
+            [
+                "type"=> "PD3",
+                // "fdData"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                "fdData"=>!isset($main9_final['PT15:30']) ? null : $main9_final['PT15:30'],
+                "jpData"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+            ],
+            [
+                "type"=> "LH3",
+                // "fdData"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                // "jpData"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                "fdData"=>!isset($main9_final['HT15:30']) ? null : $main9_final['HT15:30'],
+                "jpData"=>!isset($main9_final['HJPT15:30']) ? null : $main9_final['HJPT15:30'],
+            ],
+            [
+                "type"=> "G3",
+                "fdData"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                "jpData"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+            ],
+            [
+                "type"=> "DL",
+                "fdData"=>!isset($main10_final->DL->fdData) ? null : $main10_final->DL->fdData,
+            ],
+            [
+                "type"=> "GT",
+                "fdData"=>!isset($main10_final->GT->fdData) ? null : $main10_final->GT->fdData,
+                "jpData"=>!isset($main10_final->GT->jpData) ? null : $main10_final->GT->jpData,
+            ],
+            [
+                "type"=> "MH",
+                "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
+            ],
+            [
+                "type"=> "MC",
+                "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
+            ],
+            [
+                "type"=> "MC3",
+                "fdData"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
+            ],
+        ];
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
+            }
+        }
+        $array = array_values($final_array);
+
+        // return $array;
+        $dataCases = "";
+        $updatedAtCases = "";
+        $types = [];
+        $now = now()->toDateTimeString();
+  
+        foreach($array as $item){
+            $type = $item["type"];
+            $fdData = json_encode($item);
+            if($fdData == '{"type":"G3","fdData":[],"jpData":[]}' || $fdData == '{"type":"PD3","fdData":[],"jpData":[]}' || $fdData == '{"type":"LH3","fdData":[],"jpData":[]}'){
+
+            }else if($item["type"] == "PD3" && !$item["jpData"] && date("Gi") > 1800){
+
+            }else{
+                $dataCases .= "WHEN '$type' THEN '$fdData' ";
+                $updatedAtCases .= "WHEN '$type' THEN '$now' ";
+                $types[] = "'$type'";
+            }
+        }
+
+        $dataCases = "CASE `type` $dataCases END"; 
+        $updatedAtCases = "CASE `type` $updatedAtCases END";
+        $typeList = implode(",", $types);
+
+        $sql = "UPDATE `sheerlive` SET `data` = $dataCases, `updated_at` = $updatedAtCases WHERE `type` IN ($typeList)";
+        DB::statement($sql);
+        
+        // return 1;
+        return $array;
+    }
     function processValue($values,$key) {
         // Try to decode the value assuming it's JSON encoded
         $decodedValue = json_decode($values, true);
