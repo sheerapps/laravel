@@ -1213,7 +1213,7 @@ class ApiController extends Controller
                 "type"=> "PD",
                 "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
                 // "fdData"=>!isset($main9_final["PT19:30"]) ? null : $main9_final["PT19:30"],
-                // "jpData"=>!isset($main2_final["PDJP"]) ? null : $main2_final["PDJP"],
+                "jpData"=>!isset($main2_final["PDJP"]) ? null : $main2_final["PDJP"],
             ],
             [
                 "type"=> "LH",
