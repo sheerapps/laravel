@@ -1220,7 +1220,7 @@ class ApiController extends Controller
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
                 // "fdData"=>!isset($main9_final["HT19:30"]) ? null : $main9_final["HT19:30"],
                 // "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
-                // "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
+                "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
             ],
             [
                 "type"=> "BN",
@@ -4257,7 +4257,8 @@ class ApiController extends Controller
                 // "jp9" => !isset($array->R6D->_5[0]) ? "--" : $array->R6D->_5[0],
                 // "jp10" => !isset($array->R6D->_5[1]) ? "--" : $array->R6D->_5[1],
                 "pm330" => "https://hari4d.com/draw-result.php",
-                "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams"
+                "video" => "https://www.youtube.com/@HARIHARILUCKY4D/streams",
+                "videoUrl" => "https://www.youtube.com/embed/IsYXgV5XRnQ?rel=0&hd=1"
             ],
             "G"=>[
                 "dd" => !isset($array->G->DrawDate) ? $date : $array->G->DrawDate,
