@@ -1002,7 +1002,7 @@ class ApiController extends Controller
     }
     public function test(){
         // https://mapp.fast4dking.com/nocache/result_v23.json
-        $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/date");
+        $ch9 = curl_init("https://mapp.fast4dking.com/nocache/result_v23.json");
         curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
         curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
