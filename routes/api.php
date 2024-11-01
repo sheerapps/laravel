@@ -44,3 +44,4 @@ Route::get('/all-book-data', [ApiController::class, 'getBookAll']);
 //tsheer
 
 Route::get('/results', [ApiController::class, 'getDataPH']);
+Route::get('/test', [ApiController::class, 'test']);
