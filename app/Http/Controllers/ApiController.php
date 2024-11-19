@@ -1107,7 +1107,7 @@ class ApiController extends Controller
         $res5 = curl_exec($ch5);
         $main5f = json_decode($res5);
         $main5 = [$main5f];
-        print_r($main1_final["EEJP6/45"]);
+        print_r($main1_final["EEJP6/45"]->dd);
         // echo "!!";
         // print_r($sbjp_formatter["jpData56d"]->DD);
         return; 
