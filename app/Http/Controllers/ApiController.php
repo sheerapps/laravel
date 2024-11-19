@@ -1126,7 +1126,8 @@ class ApiController extends Controller
             $sbjp_formatter["jpData56d"]->LTJP1 = $main1_final["EEJP6/45"]->jp1;
             $sbjp_formatter["jpData56d"]->LTJP2 = $main1_final["EEJP6/45"]->jp2;
         }
-        return $sbjp_formatter["jpData56d"];
+        print_r($sbjp_formatter["jpData56d"]);
+        return;
         //sjp
         $sjpFinal  = null;
         if(!isset($main1_final['SGJP6/45'])){
