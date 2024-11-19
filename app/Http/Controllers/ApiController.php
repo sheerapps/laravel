@@ -1114,10 +1114,19 @@ class ApiController extends Controller
             "jpData56d"=>!isset($main5[0]) && !isset($main5[0]->SBLT) ? null : $main5[0]->SBLT,  
         ];
        
-        print_r($main1_final["EEJP6/45"]->dd);
-        echo "!!";
-        print_r($sbjp_formatter["jpData56d"]->DD);
-        return; 
+        if(isset($main1_final["EEJP6/45"]) && isset($main1_final["EEJP6/45"]->dd) && isset($sbjp_formatter["jpData56d"]) && isset($sbjp_formatter["jpData56d"]->DD)){
+            $sbjp_formatter["jpData56d"]->DD = $main1_final["EEJP6/45"]->dd;
+            $sbjp_formatter["jpData56d"]->LT1 = $main1_final["EEJP6/45"]->n1;
+            $sbjp_formatter["jpData56d"]->LT2 = $main1_final["EEJP6/45"]->n2;
+            $sbjp_formatter["jpData56d"]->LT3 = $main1_final["EEJP6/45"]->n3;
+            $sbjp_formatter["jpData56d"]->LT4 = $main1_final["EEJP6/45"]->n4;
+            $sbjp_formatter["jpData56d"]->LT5 = $main1_final["EEJP6/45"]->n5;
+            $sbjp_formatter["jpData56d"]->LT6 = $main1_final["EEJP6/45"]->n6;
+            $sbjp_formatter["jpData56d"]->LT7 = $main1_final["EEJP6/45"]->n7;
+            $sbjp_formatter["jpData56d"]->LTJP1 = $main1_final["EEJP6/45"]->jp1;
+            $sbjp_formatter["jpData56d"]->LTJP2 = $main1_final["EEJP6/45"]->jp2;
+        }
+        return $sbjp_formatter["jpData56d"];
         //sjp
         $sjpFinal  = null;
         if(!isset($main1_final['SGJP6/45'])){
