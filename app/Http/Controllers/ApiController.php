@@ -1108,8 +1108,8 @@ class ApiController extends Controller
         $main5f = json_decode($res5);
         $main5 = [$main5f];
         print_r($main1_final["EEJP6/45"]->dd);
-        // echo "!!";
-        // print_r($sbjp_formatter["jpData56d"]->DD);
+        echo "!!";
+        print_r($sbjp_formatter["jpData56d"]->DD);
         return; 
         $sbjp_formatter = [
             "jpData1"=>!isset($main5[0]) && !isset($main5[0]->SB->JP1) ? null : $main5[0]->SB->JP1,
