@@ -1042,7 +1042,7 @@ class ApiController extends Controller
         $res7 = curl_exec($ch7);
         $main7 = json_decode($res7);
         $main7_final = $this->formatPerdanaGood37($main7,$date330);
-
+        
         if($date == $today && date("Gi") <= 1829){
             $today_live = new DateTime($today);
             $today_live->modify('-1 days');
@@ -1161,13 +1161,13 @@ class ApiController extends Controller
 
         // 4dnum for GPH330 & 730 JP
 
-        $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/date");
-        curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
-        curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
-        $res9 = curl_exec($ch9);
-        $main9 = json_decode($res9);
-        $main9_final = $this->formatMain9($main9);
+        // $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/date");
+        // curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
+        // curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
+        // $res9 = curl_exec($ch9);
+        // $main9 = json_decode($res9);
+        // $main9_final = $this->formatMain9($main9);
 
         $ch10 = curl_init("https://kweelohstudio.com/api/results");
         curl_setopt($ch10, CURLOPT_RETURNTRANSFER, true);
@@ -1176,6 +1176,25 @@ class ApiController extends Controller
         $res10 = curl_exec($ch10);
         $main10_final = json_decode($res10);
 
+        $ch11 = curl_init("https://api.hari4d.com/DrawResultL/GetDrawResult?date="+$date+"T19:30:00&nocache=1732071297718&_=1732071295288");
+        curl_setopt($ch11, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch11, CURLOPT_TIMEOUT, 3);
+        curl_setopt($ch11, CURLOPT_CONNECTTIMEOUT, 3);
+        $res11 = curl_exec($ch11);
+        $main11 = json_decode($res11);
+        $main11_final = array("L6D"=>array());
+        if(isset($main11->prize6D)){
+            $main11_final["L6D"]["n1"] = isset($main11->prize6D) ? $main11->prize6D : "------";
+            $main11_final["L6D"]["n2"] = isset($main11->prize6D_2A) ? $main11->prize6D_2A : "-----";
+            $main11_final["L6D"]["n3"] = isset($main11->prize6D_2B) ? $main11->prize6D_2B : "-----";
+            $main11_final["L6D"]["n4"] = isset($main11->prize6D_3A) ? $main11->prize6D_3A : "----";
+            $main11_final["L6D"]["n5"] = isset($main11->prize6D_3B) ? $main11->prize6D_3B : "----";
+            $main11_final["L6D"]["n6"] = isset($main11->prize6D_4A) ? $main11->prize6D_4A : "---";
+            $main11_final["L6D"]["n7"] = isset($main11->prize6D_4B) ? $main11->prize6D_4B : "---";
+            $main11_final["L6D"]["n8"] = isset($main11->prize6D_5A) ? $main11->prize6D_5A : "--";
+            $main11_final["L6D"]["n9"] = isset($main11->prize6D_5B) ? $main11->prize6D_5B : "--";
+        }
+        return $main11_final["L6D"];
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
@@ -1243,7 +1262,7 @@ class ApiController extends Controller
                 "type"=> "LH",
                 "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
                 // "fdData"=>!isset($main9_final["HT19:30"]) ? null : $main9_final["HT19:30"],
-                "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                "jpData"=>!isset($main11_final["L6D"]) ? null : $main11_final["L6D"],
                 // "jpData"=>!isset($main9_final['HJPT19:30']) ? null : $main9_final['HJPT19:30'],
             ],
             [
