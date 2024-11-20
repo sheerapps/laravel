@@ -1176,7 +1176,7 @@ class ApiController extends Controller
         $res10 = curl_exec($ch10);
         $main10_final = json_decode($res10);
 
-        $ch11 = curl_init("https://api.hari4d.com/DrawResultL/GetDrawResult?date="+$date+"T19:30:00&nocache=1732071297718&_=1732071295288");
+        $ch11 = curl_init("https://api.hari4d.com/DrawResultL/GetDrawResult?date=".$date."T19:30:00&nocache=1732071297718&_=1732071295288");
         curl_setopt($ch11, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch11, CURLOPT_TIMEOUT, 3);
         curl_setopt($ch11, CURLOPT_CONNECTTIMEOUT, 3);
