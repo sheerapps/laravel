@@ -1194,12 +1194,11 @@ class ApiController extends Controller
             $main11_final["L6D"]["n8"] = isset($main11->prize6D_5A) ? $main11->prize6D_5A : "--";
             $main11_final["L6D"]["n9"] = isset($main11->prize6D_5B) ? $main11->prize6D_5B : "--";
         }
-        return $main11_final["L6D"];
         //$main1_final main
         //$main2_final lhpn
         //$main4_final bn
         //$sbjp_formatter ee
-
+        //$main11_final lh6d
         $final_array = [
             [
                 "type"=> "M",
