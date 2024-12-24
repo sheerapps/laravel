@@ -85,7 +85,7 @@ class ApiController extends Controller
                     //     ]
                     // );
                     print_r($fdData330);
-                    echo "<p>";
+                    echo "<p>".$item['type']."<p>";
                 // echo $item['type']." dd=".$fdData['dd']." done <p>";
                 }
                 // live draw
