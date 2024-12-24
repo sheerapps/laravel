@@ -85,6 +85,8 @@ class ApiController extends Controller
                     //     ]
                     // );
                     // echo $item['type']."3"." dd=".$fdData330['dd']." done <p>";
+                    echo 
+                    return $fdData330->dd;
                     Sheerdata::updateOrInsert(
                         ['dd' => $fdData330->dd, 'type' => $item['type']."3"],
                         [
