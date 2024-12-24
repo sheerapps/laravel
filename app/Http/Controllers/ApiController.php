@@ -86,7 +86,7 @@ class ApiController extends Controller
                             'c10' => isset($fdData330['c10']) ? $fdData330['c10'] : ""
                         ]
                     );
-                    echo $item['type']."3"." dd=".$fdData330['dd']." done <p>";
+                    echo $item['type']."3"." dd=".$fdData330['dd']." done 330 <p>";
                 }
                 Sheerdata::updateOrInsert(
                     ['dd' => $fdData['dd'], 'type' => $item['type']],
@@ -128,7 +128,7 @@ class ApiController extends Controller
                         'c10' => isset($fdData['c10']) ? $fdData['c10'] : ""
                     ]
                 );
-                echo $item['type']." dd=".$fdData['dd']." done <p>";
+                echo $item['type']." dd=".$fdData['dd']." done 730 <p>";
             }else if($type == "past"){
                 //save past results
                 if(isset($item['fdData'])){
@@ -176,7 +176,7 @@ class ApiController extends Controller
                                     'c10' => isset($fdData330['c10']) ? $fdData330['c10'] : ""
                                 ]
                             );
-                        echo $item['type']."3"." dd=".$fdData330['dd']." done <p>";
+                        echo $item['type']."3"." dd=".$fdData330['dd']." done 330 <p>";
                     }
                     Sheerdata::updateOrInsert(
                         ['dd' => $fdData->dd, 'type' => $item['type']],
@@ -218,7 +218,7 @@ class ApiController extends Controller
                             'c10' => isset($fdData->c10) ? $fdData->c10 : ""
                         ]
                     );
-                    echo $item['type']."dd=".$fdData->dd." done2 <p>";
+                    echo $item['type']."dd=".$fdData->dd." done 730 <p>";
                 }
             }
         }
