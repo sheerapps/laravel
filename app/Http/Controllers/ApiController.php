@@ -85,7 +85,7 @@ class ApiController extends Controller
                     //     ]
                     // );
                     print_r($fdData330);
-                    // echo $fdData330->dd." done1 <p>";
+                // echo $item['type']." dd=".$fdData['dd']." done <p>";
                 }
                 // live draw
                 // Sheerdata::updateOrInsert(
@@ -171,7 +171,7 @@ class ApiController extends Controller
                 //         'c10' => isset($fdData->c10) ? $fdData->c10 : ""
                 //     ]
                 // );
-                echo $item['type']."dd=".$fdData->dd." done2 <p>";
+                // echo $item['type']."dd=".$fdData->dd." done2 <p>";
             }
         }
     }
