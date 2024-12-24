@@ -84,7 +84,7 @@ class ApiController extends Controller
                     //         'c10' => isset($fdData330['c10']) ? $fdData330['c10'] : ""
                     //     ]
                     // );
-                    echo $fdData330->dd." done1 <p>";
+                    echo $fdData330['dd']." done1 <p>";
                 }
                 // live draw
                 // Sheerdata::updateOrInsert(
