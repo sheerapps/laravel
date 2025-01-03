@@ -22,6 +22,8 @@ Route::get('/tsave/{date}', [ApiController::class, 'saveDataV1_2_0']);
 
 Route::get('/data-by-date/{date}', [ApiController::class, 'getDataByDate']);
 Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
+Route::get('/main-by-date-v140/{date}', [ApiController::class, 'getMainByDateV1_4_0']); //added W3/W7 results
+
 Route::get('/main-by-date-v130/{date}', [ApiController::class, 'getMainByDateV1_3_0']); //added GT/DL/MH results
 Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_2_0']); //update 1_1_0 to 1_2_0
 Route::get('/main-by-date-v120/{date}', [ApiController::class, 'getMainByDateV1_2_1']); // new update app 7/7/2024 change results arrangement only
