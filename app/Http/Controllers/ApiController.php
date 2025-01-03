@@ -3886,7 +3886,7 @@ class ApiController extends Controller
                     "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
                     "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
                     "fdData330"=>!isset($main10_final->W->fdData330) ? null : $main10_final->W->fdData330,
-                    "jpData330"=>!isset($main10_final->W->jpData330) ? null : $main10_final->GT->jpData330,
+                    "jpData330"=>!isset($main10_final->W->jpData330) ? null : $main10_final->W->jpData330,
 
                 ],
             ];
