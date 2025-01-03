@@ -38,7 +38,7 @@ class ApiController extends Controller
     public function saveDataV1_2_0($date){
         // $data = $this->getMainByDateV1_2_0($date);
         $data = $this->getMainByDateV1_4_0($date);
-        $type = "past"; //past or live
+        $type = "live"; //past or live
         foreach ($data as $item) {
             //save live results
             if($type == "live" && isset($item['fdData'])){
