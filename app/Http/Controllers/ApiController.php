@@ -757,6 +757,116 @@ class ApiController extends Controller
         ];
     }
 
+    public function getDataByAdvanceSearchv140(Request $request){
+        //add prize & number
+        $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
+        $number = $this->manipulateString($number);
+        $permutation = isset($request->multi) ? "true" : "false";
+        $view4d = isset($request->no) ? $request->no : "1234";
+        $prize = "First,Second,Third,Sp,Cp";
+        if(isset($request->prize)){
+            $prize = $request->prize;
+        }
+        if(isset($request->view4d)){
+            $view4d = $request->view4d;
+        }
+        $select4D = ""; 
+        // $selected4D = [];
+        if(isset($request->service)){
+            // foreach ($request->service as $k => $s){
+                $select4D = $request->service;
+                // $select4D .= $k.",";
+                // $selected4D[$k] = true;
+            // }
+        }else{
+            $select4D = "M,ST,PMP";
+            // $selected4D["M"] = true;
+            // $selected4D["PMP"] = true;
+            // $selected4D["ST"] = true;
+        }
+        $hisjson = $this->historyAdvanceData($permutation,$select4D,$number,$prize,$view4d);
+
+        // number pic API
+        // $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
+        // curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        // curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        // curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        // $res1 = curl_exec($ch1);
+        // $direcjson = json_decode($res1);
+        // LOOP
+        $sitesCount = array(
+            "M" => 0,
+            "PMP" => 0,
+            "ST" => 0,
+            "STC" => 0,
+            "EE" => 0,
+            "CS" => 0,
+            "SG" => 0,
+            "GD" => 0,
+            "NL" => 0,
+            "G" => 0,
+            "PD" => 0,
+            "LH" => 0,
+            "G3" => 0,
+            "PD3" => 0,
+            "LH3" => 0,
+            "BN" => 0,
+            "DL"=> 0,
+            "GT"=> 0,
+            "MH"=> 0,
+            "MC"=> 0,
+            "MC3"=> 0,
+            "W"=> 0,
+            "W3"=> 0,
+        );
+        $przCount = array(
+            "st" => 0,
+            "nd" => 0,
+            "rd" => 0,
+            "sp" => 0,
+            "cp" => 0
+        );
+        if(isset($hisjson)){
+            foreach($hisjson as $v){
+                $sitesCount[$v->type]+=1; 
+                // if($v->prize == "首獎"){
+                //     $v->prize = "First";
+                //     $przCount["st"]+=1;
+                // }elseif($v->prize == "二獎"){
+                //     $v->prize = "Second";
+                //     $przCount["nd"]+=1;
+                // }elseif($v->prize == "三獎"){
+                //     $v->prize = "Third";
+                //     $przCount["rd"]+=1;
+                // }elseif($v->prize == "特別獎"){
+                //     $v->prize = "Sp";
+                //     $przCount["sp"]+=1;
+                // }elseif($v->prize == "安慰獎"){
+                //     $v->prize = "Cp";
+                //     $przCount["cp"]+=1;
+                // }else
+                if($v->prize == "First"){
+                    $przCount["st"]+=1;
+                }elseif($v->prize == "Second"){
+                    $przCount["nd"]+=1;
+                }elseif($v->prize == "Third"){
+                    $przCount["rd"]+=1;
+                }elseif($v->prize == "Sp"){
+                    $przCount["sp"]+=1;
+                }elseif($v->prize == "Cp"){
+                    $przCount["cp"]+=1;
+                }
+            }
+        }
+        return [
+            "no" => $number,
+            "sites" => $select4D,
+            "history" => $hisjson,//all
+            "prize" => $przCount,//all
+            "count" => $sitesCount//all
+        ];
+    }
+
     public function multiPermutation($arg) {
         $array = is_string($arg) ? str_split($arg) : $arg;
         if(1 === count($array)) {
