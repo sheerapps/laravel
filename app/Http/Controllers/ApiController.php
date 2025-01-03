@@ -43,7 +43,7 @@ class ApiController extends Controller
             //save live results
             if($type == "live" && isset($item['fdData'])){
                 $fdData = $item['fdData'];
-                if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G" || $item['type'] == "MC"){
+                if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G" || $item['type'] == "MC" || $item['type'] == "W" ){
                     //330
                     $fdData330 = $item['fdData330'];
                     Sheerdata::updateOrInsert(
@@ -1407,7 +1407,7 @@ class ApiController extends Controller
                 "fdData"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
             ],
             [
-                "type"=> "W7",
+                "type"=> "W",
                 "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
                 "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
             ],
