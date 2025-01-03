@@ -181,9 +181,9 @@ class ApiController extends Controller
                         }else{
                             $fdData330 = $item["fdData330"];
                             Sheerdata::updateOrInsert(
-                                ['dd' => $fdData330->dd, 'type' => $item['type']],
+                                ['dd' => $fdData330->dd, 'type' => $item['type']."3"],
                                 [
-                                    'type' => $item['type'],
+                                    'type' => $item['type']."3",
                                     'dd' => isset($fdData330->dd) ? $fdData330->dd : "",
                                     'dn' => isset($fdData330->dn) ? $fdData330->dn : "",
                                     'n1' => isset($fdData330->n1) ? $fdData330->n1 : "",
