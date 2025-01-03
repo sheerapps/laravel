@@ -133,7 +133,7 @@ class ApiController extends Controller
                 //save past results
                 if(isset($item['fdData'])){
                     $fdData = $item['fdData'];
-                    if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G"){
+                    if($item['type'] == "LH" || $item['type'] == "PD" || $item['type'] == "G" || $item['type'] == "W"){
                         //330
                         $fdData330 = $item['fdData330'];
                             Sheerdata::updateOrInsert(
