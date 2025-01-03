@@ -1406,6 +1406,16 @@ class ApiController extends Controller
                 "type"=> "MC3",
                 "fdData"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
             ],
+            [
+                "type"=> "W7",
+                "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
+                "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
+            ],
+            [
+                "type"=> "W3",
+                "fdData"=>!isset($main10_final->W->fdData330) ? null : $main10_final->W->fdData330,
+                "jpData"=>!isset($main10_final->W->jpData330) ? null : $main10_final->W->jpData330,
+            ],
         ];
         foreach ($final_array as $key => $value) {
             if(isset($value["fdData"])){
@@ -3363,10 +3373,18 @@ class ApiController extends Controller
                     "type"=> "MC",
                     "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
                     "fdData330"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
-                ]
+                ],
+                [
+                    "type"=> "W",
+                    "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
+                    "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
+                    "fdData330"=>!isset($main10_final->W->fdData330) ? null : $main10_final->W->fdData330,
+                    "jpData330"=>!isset($main10_final->W->jpData330) ? null : $main10_final->GT->jpData330,
+
+                ],
             ];
         }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22])->get(['data']);
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24])->get(['data']);
             $r = [];
             foreach ($records as $key => $record) {
                 $r[] = json_decode($record->data,true);
@@ -3555,6 +3573,15 @@ class ApiController extends Controller
                     "ftype3"=>!isset($results[20]['type']) ? null : $results[20]['type'],
                     "fdData"=>!isset($results[19]['fdData']) ? null : $results[19]['fdData'],
                     "fdData330"=>!isset($results[20]['fdData']) ? null : $results[20]['fdData'],
+                ],
+                [
+                    "type"=> "W",
+                    "ftype"=>!isset($results[21]['type']) ? null : $results[21]['type'],
+                    "ftype3"=>!isset($results[22]['type']) ? null : $results[22]['type'],
+                    "fdData"=>!isset($results[21]['fdData']) ? null : $results[21]['fdData'],
+                    "jpData"=>!isset($results[21]['jpData']) ? null : $results[21]['jpData'],
+                    "fdData330"=>!isset($results[22]['fdData']) ? null : $results[22]['fdData'],
+                    "jpData330"=>!isset($results[22]['jpData']) ? null : $results[22]['jpData'],
                 ],
             ];
         }
