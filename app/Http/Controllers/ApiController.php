@@ -132,7 +132,7 @@ class ApiController extends Controller
     }
     public function checkStatus($type){
         $resp = array(
-            "showad"=>false,
+            "showad"=>true,
         );
         return $resp;
     }
