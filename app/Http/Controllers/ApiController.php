@@ -431,7 +431,7 @@ class ApiController extends Controller
             "main"=>$main,
             "special"=>array(
                 "sp"=>true,
-                "dd"=>"2025-01-28"
+                "dd"=>"2025-02-04"
             )
         );
     }
