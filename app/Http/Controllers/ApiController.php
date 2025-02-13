@@ -1538,8 +1538,10 @@ class ApiController extends Controller
             ],
             [
                 "type"=> "G3",
-                "fdData"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
-                "jpData"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                "fdData"=>!isset($main10_final->G3->fdData330) ? null : $main10_final->G3->fdData330,
+                "jpData"=>!isset($main10_final->G3->jpData330) ? null : $main10_final->G3->jpData330,
+                // "fdData"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                // "jpData"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
             ],
             [
                 "type"=> "DL",
