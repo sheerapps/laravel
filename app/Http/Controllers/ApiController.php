@@ -4381,6 +4381,16 @@ class ApiController extends Controller
             $res7 = curl_exec($ch7);
             $main7 = json_decode($res7);
             $main7_final = $this->formatPerdanaGood37($main7,$date);
+            $ch10 = curl_init("https://kweelohstudio.com/api/resultsbydate/".$date);
+            curl_setopt($ch10, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch10, CURLOPT_TIMEOUT, 3);
+            curl_setopt($ch10, CURLOPT_CONNECTTIMEOUT, 3);
+            $res10 = curl_exec($ch10);
+            $main10_final = json_decode($res10);
+            //$main1_final main
+            //$main2_final lhpn
+            //$main4_final bn
+            //$sbjp_formatter ee
     
             $sg = null;
             if(!isset($main1_final['SG'])){
@@ -4541,16 +4551,42 @@ class ApiController extends Controller
                         element.style.padding = '0px';
                     });"
                 ],
-                // [
-                //     "type"=> "G",
-                //     "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
-                //     "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
-                //     "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
-                //     "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
-                // ],
+                [
+                    "type"=> "G",
+                    "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
+                    "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                    "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                    "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                ],
+                [
+                    "type"=> "DL",
+                    "fdData"=>!isset($main10_final->DL->fdData) ? null : $main10_final->DL->fdData,
+                ],
+                [
+                    "type"=> "GT",
+                    "fdData"=>!isset($main10_final->GT->fdData) ? null : $main10_final->GT->fdData,
+                    "jpData"=>!isset($main10_final->GT->jpData) ? null : $main10_final->GT->jpData,
+                ],
+                [
+                    "type"=> "MH",
+                    "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
+                ], 
+                [
+                    "type"=> "MC",
+                    "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
+                    "fdData330"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
+                ],
+                [
+                    "type"=> "W",
+                    "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
+                    "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
+                    "fdData330"=>!isset($main10_final->W->fdData330) ? null : $main10_final->W->fdData330,
+                    "jpData330"=>!isset($main10_final->W->jpData330) ? null : $main10_final->W->jpData330,
+
+                ],
             ];
         }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16])->get(['data']);
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24])->get(['data']);
             $r = [];
             foreach ($records as $key => $record) {
                 $r[] = json_decode($record->data,true);
@@ -4694,13 +4730,47 @@ class ApiController extends Controller
                         element.style.padding = '0px';
                     });"
                 ],
-                // [
-                //     "type"=> "G",
-                //     "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
-                //     "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
-                //     "fdData330"=>!isset($results[12]['fdData330']) ? null : $results[12]['fdData330'],
-                //     "jpData330"=>!isset($results[12]['jpData330']) ? null : $results[12]['jpData330'],
-                // ],
+                [
+                    "type"=> "G",
+                    "ftype"=>!isset($results[12]['type']) ? null : $results[12]['type'],
+                    "ftype3"=>!isset($results[15]['type']) ? null : $results[15]['type'],
+                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
+                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
+                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
+                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
+                ],
+                [//DL/GT/MH >> GT/MH/DL
+                    "type"=> "DL",
+                    "ftype"=>!isset($results[18]['type']) ? null : $results[18]['type'],
+                    "fdData"=>!isset($results[18]['fdData']) ? null : $results[18]['fdData'],
+                ],
+                [
+                    "type"=> "GT",
+                    "ftype"=>!isset($results[16]['type']) ? null : $results[16]['type'],
+                    "fdData"=>!isset($results[16]['fdData']) ? null : $results[16]['fdData'],
+                    "jpData"=>!isset($results[16]['jpData']) ? null : $results[16]['jpData'],
+                ],
+                [
+                    "type"=> "MH",
+                    "ftype"=>!isset($results[17]['type']) ? null : $results[17]['type'],
+                    "fdData"=>!isset($results[17]['fdData']) ? null : $results[17]['fdData'],
+                ],
+                [
+                    "type"=> "MC",
+                    "ftype"=>!isset($results[19]['type']) ? null : $results[19]['type'],
+                    "ftype3"=>!isset($results[20]['type']) ? null : $results[20]['type'],
+                    "fdData"=>!isset($results[19]['fdData']) ? null : $results[19]['fdData'],
+                    "fdData330"=>!isset($results[20]['fdData']) ? null : $results[20]['fdData'],
+                ],
+                [
+                    "type"=> "W",
+                    "ftype"=>!isset($results[21]['type']) ? null : $results[21]['type'],
+                    "ftype3"=>!isset($results[22]['type']) ? null : $results[22]['type'],
+                    "fdData"=>!isset($results[21]['fdData']) ? null : $results[21]['fdData'],
+                    "jpData"=>!isset($results[21]['jpData']) ? null : $results[21]['jpData'],
+                    "fdData330"=>!isset($results[22]['fdData']) ? null : $results[22]['fdData'],
+                    "jpData330"=>!isset($results[22]['jpData']) ? null : $results[22]['jpData'],
+                ],
             ];
         }
         
