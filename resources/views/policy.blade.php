@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Toto 4D Results - App Policy</title>
+    <title>4D Results - App Policy</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -33,8 +33,14 @@
 </head>
 <body>
     <div class="container">
-        <h1>Toto 4D Results - App Policy</h1>
+        <h1>4D Results - App Policy</h1>
         
+        <div class="section">
+            <p>Disclaimer: </p>
+            <p>With every effort made to ensure the accuracy of the 4D results published on this App, we do not warrant its accuracy for several reasons including time delays incurred in completing necessary updates.All contents/4D results provided herein is solely for information purposes and is provided on an "As Is" basis only without any warranty or representation of any kind, expressed or implied, as to their accuracy, completeness, timeliness or otherwise. In no event shall the owners of this App have any responsibility or liability for any damage and/or losses incurred (whether arising directly or indirectly) in connection with any accuracy, timeliness, errors, omission and/or information appearing herein and/or on the website.All logos, brands and product names referenced herein are the trademarks or registered trademarks of their respective holders. This site is not affiliated to any of the organisations linked or described. We do not provide, promote or encourage any form of gambling services / activities.</p>
+            <p>We respect your privacy and take your online safety seriously. In order to provide you with the best service and timely updates, we record a variety of information from your use of our Services. To better protect your privacy, we provide the Privacy Policy below explaining our online information practices and the choices you can make about the way your information is collected and used. We use your Personal Information only for pite and stored on your computer's hard drive. Like many sites, we use "cookies" to collect information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Services. </p>
+        </div>
+
         <div class="section">
             <p>This website and our various apps (collectively "Services"). We respect your privacy and take your online safety seriously. In order to provide you with the best service and timely updates, we record a variety of information from your use of our Services. To better protect your privacy, we provide the Privacy Policy below explaining our online information practices and the choices you can make about the way your information is collected and used. We use your Personal Information only for pite and stored on your computer's hard drive. Like many sites, we use "cookies" to collect information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Services.
             Security.</p>
