@@ -48,11 +48,6 @@
         </div>
 
         <div class="section">
-            <h2>App Name</h2>
-            <p><strong>Toto 4D Results</strong></p>
-        </div>
-
-        <div class="section">
             <h2>Ads Information</h2>
             <p>This app contains advertisements. These ads may be displayed at various times within the app, such as during interstitials, banners, or video ads.</p>
         </div>
