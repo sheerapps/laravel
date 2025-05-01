@@ -4533,27 +4533,23 @@ class ApiController extends Controller
             $results = $r;
             $final_array = [
                 [
+                    "type"=> "ST",
+                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
+                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
+                ],
+                [
                     "type"=> "M",
-                    "ftype"=>!isset($results[0]['type']) ? null : $results[0]['type'],
                     "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
                     "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
                     "status"=>$status
                 ],
                 [
                     "type"=> "PMP",
-                    "ftype"=>!isset($results[1]['type']) ? null : $results[1]['type'],
                     "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
                     "jpData"=>!isset($results[1]['jpData']) ? null : $results[1]['jpData'],
                 ],
                 [
-                    "type"=> "ST",
-                    "ftype"=>!isset($results[2]['type']) ? null : $results[2]['type'],
-                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
-                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
-                ],
-                [
                     "type"=> "SG",
-                    "ftype"=>!isset($results[3]['type']) ? null : $results[3]['type'],
                     "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
                     "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
                     "sweep"=>"https://lottery.nestia.com/sweep",
@@ -4591,45 +4587,29 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "CS",
-                    "ftype"=>!isset($results[4]['type']) ? null : $results[4]['type'],
                     "fdData"=>!isset($results[4]['fdData']) ? null : $results[4]['fdData'],
                 ],
                 [
                     "type"=> "STC",
-                    "ftype"=>!isset($results[6]['type']) ? null : $results[6]['type'],
                     "fdData"=>!isset($results[6]['fdData']) ? null : $results[6]['fdData'],
                 ],
                 [
                     "type"=> "EE",
-                    "ftype"=>!isset($results[5]['type']) ? null : $results[5]['type'],
                     "fdData"=>!isset($results[5]['fdData']) ? null : $results[5]['fdData'],
                     "jpData"=>!isset($results[5]['jpData']) ? null : $results[5]['jpData'],
                 ],
                 [
                     "type"=> "GD",
-                    "ftype"=>!isset($results[7]['type']) ? null : $results[7]['type'],
                     "fdData"=>!isset($results[7]['fdData']) ? null : $results[7]['fdData'],
                     "jpData"=>!isset($results[7]['jpData']) ? null : $results[7]['jpData'],
                 ],
                 [
                     "type"=> "NL",
-                    "ftype"=>!isset($results[8]['type']) ? null : $results[8]['type'],
                     "fdData"=>!isset($results[8]['fdData']) ? null : $results[8]['fdData'],
                     "jpData"=>!isset($results[8]['jpData']) ? null : $results[8]['jpData'],
                 ],
                 [
-                    "type"=> "G",
-                    "ftype"=>!isset($results[12]['type']) ? null : $results[12]['type'],
-                    "ftype3"=>!isset($results[15]['type']) ? null : $results[15]['type'],
-                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
-                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
-                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
-                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
-                ],
-                [
                     "type"=> "PD",
-                    "ftype"=>!isset($results[9]['type']) ? null : $results[9]['type'],
-                    "ftype3"=>!isset($results[13]['type']) ? null : $results[13]['type'],
                     "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
                     "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
                     "fdData330"=>!isset($results[13]['fdData']) ? null : $results[13]['fdData'],
@@ -4650,8 +4630,6 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "LH",
-                    "ftype"=>!isset($results[10]['type']) ? null : $results[10]['type'],
-                    "ftype3"=>!isset($results[14]['type']) ? null : $results[14]['type'],
                     "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
                     "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
                     "fdData330"=>!isset($results[14]['fdData']) ? null : $results[14]['fdData'],
@@ -4666,7 +4644,6 @@ class ApiController extends Controller
                 ],
                 [
                     "type"=> "BN",
-                    "ftype"=>!isset($results[11]['type']) ? null : $results[11]['type'],
                     "fdData"=>!isset($results[11]['fdData']) ? null : $results[11]['fdData'],
                     "bonus"=>"https://bt4dg.live/draw_result.html",
                     "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
@@ -4691,6 +4668,15 @@ class ApiController extends Controller
                     contentWrapElements.forEach(function(element) {
                         element.style.padding = '0px';
                     });"
+                ],
+                [
+                    "type"=> "G",
+                    "ftype"=>!isset($results[12]['type']) ? null : $results[12]['type'],
+                    "ftype3"=>!isset($results[15]['type']) ? null : $results[15]['type'],
+                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
+                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
+                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
+                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
                 ],
                 [//DL/GT/MH >> GT/MH/DL
                     "type"=> "DL",
