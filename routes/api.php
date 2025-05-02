@@ -22,8 +22,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Route::get('/data-by-date/{date}', [ApiController::class, 'getDataByDate']);
 // Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
-Route::get('/resultss/{date}', [ApiController::class, 'getMainByDateV1_3_0s']); ///main-by-date-v130/{date}
-Route::get('/results/{date}', [ApiController::class, 'getMainByDateV1_3_0']); ///main-by-date-v130/{date}
+// Route::get('/resultss/{date}', [ApiController::class, 'getMainByDateV1_3_0s']); ///main-by-date-v130/{date}
+// Route::get('/results/{date}', [ApiController::class, 'getMainByDateV1_3_0']); ///main-by-date-v130/{date}
+Route::get('/resultss/{date}', [ApiController::class, 'getMainByDateV1_4_0s']); ///main-by-date-v130/{date}
+Route::get('/results/{date}', [ApiController::class, 'getMainByDateV1_4_0']); ///main-by-date-v130/{date}
 //
 Route::get('/resultss2/{date}', [ApiController::class, 'getMainByDateV1_4_0s']); ///new pst
 Route::get('/results2/{date}', [ApiController::class, 'getMainByDateV1_4_0']); ///new pst
