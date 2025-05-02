@@ -3249,6 +3249,245 @@ public function getDataByAdvanceSearchv130s(Request $request){
         return array_values($final_array);
     }
 
+    public function getMainByDateV1_4_0($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $today = date("Y-m-d");
+        $status = "";
+        
+        if($date == "date" || $date == "today" || $date >= $today){
+            $status = "today";
+            $date = $today;
+        }else{
+            //past
+            $status = "past";
+        }
+        //is Live
+        if($status == "past"){
+            $chpst = curl_init("https://kweelohstudio.com/api/allresults/".$date);
+            curl_setopt($chpst, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($chpst, CURLOPT_TIMEOUT, 3);
+            curl_setopt($chpst, CURLOPT_CONNECTTIMEOUT, 3);
+            $respst = curl_exec($chpst);
+            $mainpst_final = json_decode($respst);
+
+            return $mainpst_final;
+        }else{ //fetch from db
+            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24])->get(['data']);
+            $r = [];
+            foreach ($records as $key => $record) {
+                $r[] = json_decode($record->data,true);
+            }
+            $results = $r;
+            $final_array = [
+                [
+                    "type"=> "M",
+                    "ftype"=>!isset($results[0]['type']) ? null : $results[0]['type'],
+                    "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
+                    "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
+                    "status"=>$status
+                ],
+                [
+                    "type"=> "PMP",
+                    "ftype"=>!isset($results[1]['type']) ? null : $results[1]['type'],
+                    "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
+                    "jpData"=>!isset($results[1]['jpData']) ? null : $results[1]['jpData'],
+                ],
+                [
+                    "type"=> "ST",
+                    "ftype"=>!isset($results[2]['type']) ? null : $results[2]['type'],
+                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
+                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
+                ],
+                [
+                    "type"=> "SG",
+                    "ftype"=>!isset($results[3]['type']) ? null : $results[3]['type'],
+                    "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
+                    "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
+                    "sweep"=>"https://lottery.nestia.com/sweep",
+                    "decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                    classNames1.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                
+                    document.body.style.padding = '0px';
+                
+                    var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                
+                    var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
+                    if (taboolaElement) {
+                        taboolaElement.style.display = 'none';
+                    }
+                
+                    var tblNextUpElement = document.getElementById('tbl-next-up');
+                    var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                    if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
+                        tblNextUpElement.style.display = 'none';
+                        tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    }"
+                ],
+                [
+                    "type"=> "CS",
+                    "ftype"=>!isset($results[4]['type']) ? null : $results[4]['type'],
+                    "fdData"=>!isset($results[4]['fdData']) ? null : $results[4]['fdData'],
+                ],
+                [
+                    "type"=> "STC",
+                    "ftype"=>!isset($results[6]['type']) ? null : $results[6]['type'],
+                    "fdData"=>!isset($results[6]['fdData']) ? null : $results[6]['fdData'],
+                ],
+                [
+                    "type"=> "EE",
+                    "ftype"=>!isset($results[5]['type']) ? null : $results[5]['type'],
+                    "fdData"=>!isset($results[5]['fdData']) ? null : $results[5]['fdData'],
+                    "jpData"=>!isset($results[5]['jpData']) ? null : $results[5]['jpData'],
+                ],
+                [
+                    "type"=> "GD",
+                    "ftype"=>!isset($results[7]['type']) ? null : $results[7]['type'],
+                    "fdData"=>!isset($results[7]['fdData']) ? null : $results[7]['fdData'],
+                    "jpData"=>!isset($results[7]['jpData']) ? null : $results[7]['jpData'],
+                ],
+                [
+                    "type"=> "NL",
+                    "ftype"=>!isset($results[8]['type']) ? null : $results[8]['type'],
+                    "fdData"=>!isset($results[8]['fdData']) ? null : $results[8]['fdData'],
+                    "jpData"=>!isset($results[8]['jpData']) ? null : $results[8]['jpData'],
+                ],
+                [
+                    "type"=> "G",
+                    "ftype"=>!isset($results[12]['type']) ? null : $results[12]['type'],
+                    "ftype3"=>!isset($results[15]['type']) ? null : $results[15]['type'],
+                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
+                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
+                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
+                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
+                ],
+                [
+                    "type"=> "PD",
+                    "ftype"=>!isset($results[9]['type']) ? null : $results[9]['type'],
+                    "ftype3"=>!isset($results[13]['type']) ? null : $results[13]['type'],
+                    "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
+                    "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
+                    "fdData330"=>!isset($results[13]['fdData']) ? null : $results[13]['fdData'],
+                    "jpData330"=>!isset($results[13]['jpData']) ? null : $results[13]['jpData'],
+                    "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });
+                    var iframes = document.getElementsByTagName('iframe');
+    
+                    // Loop through each <iframe> tag and set its display style property to 'none'
+                    for (var i = 0; i < iframes.length; i++) {
+                        iframes[i].style.display = 'none';
+                    }"
+                ],
+                [
+                    "type"=> "LH",
+                    "ftype"=>!isset($results[10]['type']) ? null : $results[10]['type'],
+                    "ftype3"=>!isset($results[14]['type']) ? null : $results[14]['type'],
+                    "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
+                    "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
+                    "fdData330"=>!isset($results[14]['fdData']) ? null : $results[14]['fdData'],
+                    "jpData330"=>!isset($results[14]['jpData']) ? null : $results[14]['jpData'],
+                    "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
+                    classNames2.forEach(function(className) {
+                        var elements = document.querySelectorAll('.' + className);
+                        elements.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    });"
+                ],
+                [
+                    "type"=> "BN",
+                    "ftype"=>!isset($results[11]['type']) ? null : $results[11]['type'],
+                    "fdData"=>!isset($results[11]['fdData']) ? null : $results[11]['fdData'],
+                    "bonus"=>"https://bt4dg.live/draw_result.html",
+                    "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
+                    elementsById.forEach(function(id) {
+                        var element = document.getElementById(id);
+                        if (element) {
+                            element.style.display = 'none';
+                        }
+                    });
+                
+                    // Hide elements by class
+                    var elementsByClass = document.querySelectorAll('.section-title');
+                    elementsByClass.forEach(function(element) {
+                        element.style.display = 'none';
+                    });
+                
+                    // Change body background color
+                    document.body.style.backgroundColor = '#710b09';
+                
+                    // Change content-wrap padding
+                    var contentWrapElements = document.querySelectorAll('.content-wrap');
+                    contentWrapElements.forEach(function(element) {
+                        element.style.padding = '0px';
+                    });"
+                ],
+                [//DL/GT/MH >> GT/MH/DL
+                    "type"=> "DL",
+                    "ftype"=>!isset($results[18]['type']) ? null : $results[18]['type'],
+                    "fdData"=>!isset($results[18]['fdData']) ? null : $results[18]['fdData'],
+                ],
+                [
+                    "type"=> "GT",
+                    "ftype"=>!isset($results[16]['type']) ? null : $results[16]['type'],
+                    "fdData"=>!isset($results[16]['fdData']) ? null : $results[16]['fdData'],
+                    "jpData"=>!isset($results[16]['jpData']) ? null : $results[16]['jpData'],
+                ],
+                [
+                    "type"=> "MH",
+                    "ftype"=>!isset($results[17]['type']) ? null : $results[17]['type'],
+                    "fdData"=>!isset($results[17]['fdData']) ? null : $results[17]['fdData'],
+                ],
+                [
+                    "type"=> "MC",
+                    "ftype"=>!isset($results[19]['type']) ? null : $results[19]['type'],
+                    "ftype3"=>!isset($results[20]['type']) ? null : $results[20]['type'],
+                    "fdData"=>!isset($results[19]['fdData']) ? null : $results[19]['fdData'],
+                    "fdData330"=>!isset($results[20]['fdData']) ? null : $results[20]['fdData'],
+                ],
+                [
+                    "type"=> "W",
+                    "ftype"=>!isset($results[21]['type']) ? null : $results[21]['type'],
+                    "ftype3"=>!isset($results[22]['type']) ? null : $results[22]['type'],
+                    "fdData"=>!isset($results[21]['fdData']) ? null : $results[21]['fdData'],
+                    "jpData"=>!isset($results[21]['jpData']) ? null : $results[21]['jpData'],
+                    "fdData330"=>!isset($results[22]['fdData']) ? null : $results[22]['fdData'],
+                    "jpData330"=>!isset($results[22]['jpData']) ? null : $results[22]['jpData'],
+                ],
+            ];
+        }
+        
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
+            }
+        }
+        return array_values($final_array);
+    }
+
     public function getMainByDateV1_3_0s($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
         $today = date("Y-m-d");
@@ -3457,62 +3696,393 @@ public function getDataByAdvanceSearchv130s(Request $request){
                     "toto_decode"=>"document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.display = 'none' : null;
                     document.getElementById('MSOZoneCell_WebPartWPQ3') ? document.getElementById('MSOZoneCell_WebPartWPQ3').style.display = 'none' : null;
                     document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119').style.display = 'none' : null;
-    document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003').style.display = 'none' : null;
-                    document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39') ? document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39').style.paddingBottom = '0px' : null;
-                    document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.paddingBottom = '0px' : null;
-                    document.body.style.overflowX = 'hidden';
-                    document.body.style.fontSize = '1.5rem';
-                    document.body.style.fontWeight = 'bold';
-                    document.body.style.maxWidth = '100%';
-                    document.getElementsByClassName('toto-logo')[0].style.display = 'none'; 
-                    document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
-                    document.getElementsByClassName('divDrawListAndLabel')[0].style.padding = '0px'; 
-                    let results_filter = document.getElementsByClassName('results-filter')[0];
-                    let col_component = results_filter.getElementsByClassName('col-md-9')[0];
-                    if(col_component.getElementsByTagName('div')[1]){
-                        let row_component = col_component.getElementsByTagName('div')[1].style.cssText='color:#d84749;font-weight:bold;'
-                    }
-                    let mobile_only_component = document.getElementsByClassName('mobile-only');
-                    for(let b = 0; b < mobile_only_component.length; b++) {
-                        mobile_only_component[b].style.display = 'none';
-                    }
-                    let desktop_row_component = document.getElementsByClassName('pure-desktop-only');
-                    for(let d = 0; d < desktop_row_component.length; d++) {
-                        desktop_row_component[d].style.display = 'block';
-                    }
-                    let div_component = document.getElementsByClassName('divWinningOutlets');
-                    for(let w = 0; w < div_component.length; w++) {
-                        div_component[w].style.display = 'none';
-                    }
-                    let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
-                    for(let m = 0; m < mobile_screen.length; m++) {
-                        if(m !== 3){
-                        mobile_screen[m].style.display = 'none';
+        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003').style.display = 'none' : null;
+                        document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39') ? document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39').style.paddingBottom = '0px' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.paddingBottom = '0px' : null;
+                        document.body.style.overflowX = 'hidden';
+                        document.body.style.fontSize = '1.5rem';
+                        document.body.style.fontWeight = 'bold';
+                        document.body.style.maxWidth = '100%';
+                        document.getElementsByClassName('toto-logo')[0].style.display = 'none'; 
+                        document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
+                        document.getElementsByClassName('divDrawListAndLabel')[0].style.padding = '0px'; 
+                        let results_filter = document.getElementsByClassName('results-filter')[0];
+                        let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+                        if(col_component.getElementsByTagName('div')[1]){
+                            let row_component = col_component.getElementsByTagName('div')[1].style.cssText='color:#d84749;font-weight:bold;'
                         }
-                    }
-                    let desktop_screen = document.getElementsByTagName('LI');
-                    for(let i = 0; i < desktop_screen.length; i++) {
-                        desktop_screen[i].style.padding = '0px';
-                    }
-                    let li_component = document.getElementsByClassName('drawDate');
-                    for(let z = 0; z < li_component.length; z++) {
-                        li_component[z].style.setProperty('background', '#890d09', 'important');
-                    }
-                    let th_component = document.getElementsByClassName('drawNumber');
-                    for(let i = 0; i < th_component.length; i++) {
-                        th_component[i].style.setProperty('background', '#890d09', 'important');
-                    }
-                    let div_componentButton = document.getElementsByClassName('divWinningOutletsButton');
-                    for(let y = 0; y < div_componentButton.length; y++) {
-                        div_componentButton[y].style.display = 'none';
-                    }
-                    let loop_component = document.getElementsByClassName('linkShowWinningOutlets');
-                    if(loop_component.length){
-                        for(let x = 0; x < loop_component.length; x++) {
-                            loop_component[x].style.display = 'none';
-                        }   
-                    }
-    document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3').style.display = 'none' : null;",
+                        let mobile_only_component = document.getElementsByClassName('mobile-only');
+                        for(let b = 0; b < mobile_only_component.length; b++) {
+                            mobile_only_component[b].style.display = 'none';
+                        }
+                        let desktop_row_component = document.getElementsByClassName('pure-desktop-only');
+                        for(let d = 0; d < desktop_row_component.length; d++) {
+                            desktop_row_component[d].style.display = 'block';
+                        }
+                        let div_component = document.getElementsByClassName('divWinningOutlets');
+                        for(let w = 0; w < div_component.length; w++) {
+                            div_component[w].style.display = 'none';
+                        }
+                        let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+                        for(let m = 0; m < mobile_screen.length; m++) {
+                            if(m !== 3){
+                            mobile_screen[m].style.display = 'none';
+                            }
+                        }
+                        let desktop_screen = document.getElementsByTagName('LI');
+                        for(let i = 0; i < desktop_screen.length; i++) {
+                            desktop_screen[i].style.padding = '0px';
+                        }
+                        let li_component = document.getElementsByClassName('drawDate');
+                        for(let z = 0; z < li_component.length; z++) {
+                            li_component[z].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let th_component = document.getElementsByClassName('drawNumber');
+                        for(let i = 0; i < th_component.length; i++) {
+                            th_component[i].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let div_componentButton = document.getElementsByClassName('divWinningOutletsButton');
+                        for(let y = 0; y < div_componentButton.length; y++) {
+                            div_componentButton[y].style.display = 'none';
+                        }
+                        let loop_component = document.getElementsByClassName('linkShowWinningOutlets');
+                        if(loop_component.length){
+                            for(let x = 0; x < loop_component.length; x++) {
+                                loop_component[x].style.display = 'none';
+                            }   
+                        }
+        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3').style.display = 'none' : null;",
+                        "sweep"=>"https://www.singaporepools.com.sg/en/product/pages/sweep_results.aspx",
+                        "sweep_decode"=>"document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8').style.display = 'none' : false;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602').style.display = 'none' : false;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_0943fa62_4c15_4564_996f_37cd1f5b62da') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_0943fa62_4c15_4564_996f_37cd1f5b62da').style.display = 'none' : false;
+                        document.body.style.maxWidth = '100%';
+                        document.body.style.overflowX = 'hidden';
+                        document.body.style.fontSize = '1.5rem';
+                        document.body.style.fontWeight = 'bold';
+                        document.getElementsByClassName('sg-sweep-logo')[0].style.display = 'none'; 
+                        document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
+                        document.getElementsByClassName('drawListAndLabel')[0].style.padding = '0px'; 
+                        var results_filter = document.getElementsByClassName('results-filter')[0];
+                        var col_component = results_filter.getElementsByClassName('col-md-9')[0];
+                        if(col_component.getElementsByTagName('div')[1]){
+                            var row_component = col_component.getElementsByTagName('div')[1].style.cssText='font-size:19px;color:#d84749;font-weight:bold;';
+                        }
+                        var mobile_screen = document.getElementsByClassName('mobile-only');
+                        for(var mob = 0; mob < mobile_screen.length; mob++) {
+                            mobile_screen[mob].style.display = 'none';
+                        }
+                        var desktop_screen = document.getElementsByClassName('pure-desktop-only');
+                        for(var x = 0; x < desktop_screen.length; x++) {
+                            desktop_screen[x].style.display = 'block';
+                        }
+                        var testate_component = document.getElementsByClassName('ms-rtestate-field');
+                        for(var y = 0; y < testate_component.length; y++) {
+                            testate_component[y].style.display = 'none';
+                        }
+                        var li_component = document.getElementsByTagName('LI');
+                        for(var l = 0; l < li_component.length; l++) {
+                            li_component[l].style.padding = '0px';
+                        }
+                        var th_component = document.getElementsByTagName('th');
+                        for(var t = 0; t < th_component.length; t++) {
+                        th_component[t].style.background = '#d84749';
+                        }
+                        var dd_component = document.getElementsByClassName('drawDate');
+                        for(var d = 0; d < dd_component.length; d++) {
+                            dd_component[d].style.setProperty('background', '#890d09', 'important');
+                        }
+                        var dn_component = document.getElementsByClassName('drawNumber');
+                        for(var n = 0; n < dn_component.length; n++) {
+                            dn_component[n].style.setProperty('background', '#890d09', 'important');
+                        }"
+                    ],
+                    [
+                        "type"=> "M",
+                        "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
+                        "jpData"=>[
+                            "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
+                            "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
+                        ],
+                        "status"=>$status
+                    ],
+                    [
+                        "type"=> "PMP",
+                        "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
+                        "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
+                    ],
+                    [
+                        "type"=> "ST",
+                        "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
+                        "jpData"=>[
+                            "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
+                            "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
+                            "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
+                            "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
+                        ]
+                    ],
+                    [
+                        "type"=> "CS",
+                        "fdData"=>!isset($main1_final['CS']) ? null :$main1_final['CS']
+                    ],
+                    [
+                        "type"=> "STC",
+                        "fdData"=>!isset($main1_final['STC']) ? null :$main1_final['STC']
+                    ],
+                    [
+                        "type"=> "EE",
+                        "fdData"=>!isset($main1_final['EE']) ? null :$main1_final['EE'],
+                        "jpData"=>!isset($sbjp_formatter) ? null : $sbjp_formatter
+                    ],
+                    [
+                        "type"=> "GD",
+                        "fdData"=>!isset($main1_final['GD']) ? null :$main1_final['GD'],
+                        "jpData"=>!isset($main1_final['GD6D']) ? null : $main1_final['GD6D']
+                    ],
+                    [
+                        "type"=> "NL",
+                        "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
+                        "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
+                    ],
+                    [
+                        "type"=> "G",
+                        "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
+                        "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
+                        "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
+                        "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                    ],
+                    [
+                        "type"=> "PD",
+                        "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
+                        "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
+                        "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
+                        "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+                        "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
+                        classNames2.forEach(function(className) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
+                        });
+                        var iframes = document.getElementsByTagName('iframe');
+        
+                        // Loop through each <iframe> tag and set its display style property to 'none'
+                        for (var i = 0; i < iframes.length; i++) {
+                            iframes[i].style.display = 'none';
+                        }"
+                    ],
+                    [
+                        "type"=> "LH",
+                        "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
+                        "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
+                        "fdData330"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
+                        "jpData330"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                        "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
+                        classNames2.forEach(function(className) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
+                        });"
+                    ],
+                    [
+                        "type"=> "BN",
+                        "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+                        "bonus"=>"https://bt4dg.live/draw_result.html",
+                        "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
+                        elementsById.forEach(function(id) {
+                            var element = document.getElementById(id);
+                            if (element) {
+                                element.style.display = 'none';
+                            }
+                        });
+                    
+                        // Hide elements by class
+                        var elementsByClass = document.querySelectorAll('.section-title');
+                        elementsByClass.forEach(function(element) {
+                            element.style.display = 'none';
+                        });
+                    
+                        // Change body background color
+                        document.body.style.backgroundColor = '#710b09';
+                    
+                        // Change content-wrap padding
+                        var contentWrapElements = document.querySelectorAll('.content-wrap');
+                        contentWrapElements.forEach(function(element) {
+                            element.style.padding = '0px';
+                        });"
+                    ],
+                    [
+                        "type"=> "DL",
+                        "fdData"=>!isset($main10_final->DL->fdData) ? null : $main10_final->DL->fdData,
+                    ],
+                    [
+                        "type"=> "GT",
+                        "fdData"=>!isset($main10_final->GT->fdData) ? null : $main10_final->GT->fdData,
+                        "jpData"=>!isset($main10_final->GT->jpData) ? null : $main10_final->GT->jpData,
+                    ],
+                    [
+                        "type"=> "MH",
+                        "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
+                    ], 
+                    [
+                        "type"=> "MC",
+                        "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
+                        "fdData330"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
+                    ],
+                    [
+                        "type"=> "W",
+                        "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
+                        "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
+                        "fdData330"=>!isset($main10_final->W->fdData330) ? null : $main10_final->W->fdData330,
+                        "jpData330"=>!isset($main10_final->W->jpData330) ? null : $main10_final->W->jpData330,
+
+                    ],
+                ];
+            }else{ //fetch from db
+                $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24])->get(['data']);
+                $r = [];
+                foreach ($records as $key => $record) {
+                    $r[] = json_decode($record->data,true);
+                }
+                $results = $r;
+                $final_array = [
+                    [
+                        "type"=> "SG",
+                        "ftype"=>!isset($results[3]['type']) ? null : $results[3]['type'],
+                        "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
+                        "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
+                        "sweep2"=>"https://lottery.nestia.com/sweep",
+                        "sweep2_decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                        classNames1.forEach(function(className) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
+                        });
+                        document.body.style.padding = '0px';
+                        var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
+                        classNames2.forEach(function(className) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
+                        });
+                    
+                        var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
+                        if (taboolaElement) {
+                            taboolaElement.style.display = 'none';
+                        }
+                    
+                        var tblNextUpElement = document.getElementById('tbl-next-up');
+                        var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                        if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
+                            tblNextUpElement.style.display = 'none';
+                            tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
+                        }",
+                        "4d"=>"https://www.singaporepools.com.sg/en/product/pages/4d_results.aspx",
+                        "4d_decode"=>"document.getElementsByClassName('four-d-logo')[0].style.display = 'none'; 
+                        document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
+                        document.getElementsByClassName('drawListAndLabel')[0].style.padding = '0px'; 
+                        document.getElementById('desktop-banner') ? document.getElementById('desktop-banner').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c').style.display = 'none' : null;
+                        document.getElementsByClassName('four-d')[0].style.paddingBottom = '20px';
+                        document.body.style.overflowX = 'hidden';
+                        document.body.style.fontSize = '1.5rem';
+                        document.body.style.fontWeight = 'bold';
+                        document.body.style.maxWidth = '100%';
+                        let results_filter = document.getElementsByClassName('results-filter')[0];
+                        let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+                        if(col_component.getElementsByTagName('div')[1]){
+                            let row_component = col_component.getElementsByTagName('div')[1].style.cssText='font-size:19px;color:#d84749;font-weight:bold;';
+                        }
+                        let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+                        for(let m = 0; m < mobile_screen.length; m++) {
+                            if(m !== 3){
+                            mobile_screen[m].style.display = 'none';
+                            }
+                        }
+                        let desktop_screen = document.getElementsByTagName('LI');
+                        for(let i = 0; i < desktop_screen.length; i++) {
+                            desktop_screen[i].style.padding = '0px';
+                        }
+                        let testate_component = document.getElementsByTagName('th');
+                        for(let t = 0; t < testate_component.length; t++) {
+                            testate_component[t].style.background = '#d84749';
+                            testate_component[t].style.color = 'white';
+                        }
+                        let li_component = document.getElementsByClassName('drawDate');
+                        for(let y = 0; y < li_component.length; y++) {
+                            li_component[y].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let th_component = document.getElementsByClassName('drawNumber');
+                        for(let x = 0; x < th_component.length; x++) {
+                            th_component[x].style.setProperty('background', '#890d09', 'important');
+                        }",
+                        "toto"=>"https://www.singaporepools.com.sg/en/product/sr/Pages/toto_results.aspx",
+                        "toto_decode"=>"document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartWPQ3') ? document.getElementById('MSOZoneCell_WebPartWPQ3').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119').style.display = 'none' : null;
+        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003').style.display = 'none' : null;
+                        document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39') ? document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39').style.paddingBottom = '0px' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.paddingBottom = '0px' : null;
+                        document.body.style.overflowX = 'hidden';
+                        document.body.style.fontSize = '1.5rem';
+                        document.body.style.fontWeight = 'bold';
+                        document.body.style.maxWidth = '100%';
+                        document.getElementsByClassName('toto-logo')[0].style.display = 'none'; 
+                        document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
+                        document.getElementsByClassName('divDrawListAndLabel')[0].style.padding = '0px'; 
+                        let results_filter = document.getElementsByClassName('results-filter')[0];
+                        let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+                        if(col_component.getElementsByTagName('div')[1]){
+                            let row_component = col_component.getElementsByTagName('div')[1].style.cssText='color:#d84749;font-weight:bold;'
+                        }
+                        let mobile_only_component = document.getElementsByClassName('mobile-only');
+                        for(let b = 0; b < mobile_only_component.length; b++) {
+                            mobile_only_component[b].style.display = 'none';
+                        }
+                        let desktop_row_component = document.getElementsByClassName('pure-desktop-only');
+                        for(let d = 0; d < desktop_row_component.length; d++) {
+                            desktop_row_component[d].style.display = 'block';
+                        }
+                        let div_component = document.getElementsByClassName('divWinningOutlets');
+                        for(let w = 0; w < div_component.length; w++) {
+                            div_component[w].style.display = 'none';
+                        }
+                        let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+                        for(let m = 0; m < mobile_screen.length; m++) {
+                            if(m !== 3){
+                            mobile_screen[m].style.display = 'none';
+                            }
+                        }
+                        let desktop_screen = document.getElementsByTagName('LI');
+                        for(let i = 0; i < desktop_screen.length; i++) {
+                            desktop_screen[i].style.padding = '0px';
+                        }
+                        let li_component = document.getElementsByClassName('drawDate');
+                        for(let z = 0; z < li_component.length; z++) {
+                            li_component[z].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let th_component = document.getElementsByClassName('drawNumber');
+                        for(let i = 0; i < th_component.length; i++) {
+                            th_component[i].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let div_componentButton = document.getElementsByClassName('divWinningOutletsButton');
+                        for(let y = 0; y < div_componentButton.length; y++) {
+                            div_componentButton[y].style.display = 'none';
+                        }
+                        let loop_component = document.getElementsByClassName('linkShowWinningOutlets');
+                        if(loop_component.length){
+                            for(let x = 0; x < loop_component.length; x++) {
+                                loop_component[x].style.display = 'none';
+                            }   
+                        }
+        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3').style.display = 'none' : null;",
                     "sweep"=>"https://www.singaporepools.com.sg/en/product/pages/sweep_results.aspx",
                     "sweep_decode"=>"document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8').style.display = 'none' : false;
                     document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602').style.display = 'none' : false;
@@ -3560,64 +4130,68 @@ public function getDataByAdvanceSearchv130s(Request $request){
                 ],
                 [
                     "type"=> "M",
-                    "fdData"=>!isset($main1_final['M']) ? null :$main1_final['M'],
-                    "jpData"=>[
-                        "gold"=>!isset($main1_final['MJPGOLD']) ? null : $main1_final['MJPGOLD'],
-                        "life"=>!isset($main1_final['MJPLIFE']) ? null : $main1_final['MJPLIFE'],
-                    ],
+                    "ftype"=>!isset($results[0]['type']) ? null : $results[0]['type'],
+                    "fdData"=>!isset($results[0]['fdData']) ? null : $results[0]['fdData'],
+                    "jpData"=>!isset($results[0]['jpData']) ? null : $results[0]['jpData'],
                     "status"=>$status
                 ],
                 [
                     "type"=> "PMP",
-                    "fdData"=>!isset($main1_final['PMP']) ? null :$main1_final['PMP'],
-                    "jpData"=>!isset($main1_final['PMPJP1']) ? null : $main1_final['PMPJP1']
+                    "ftype"=>!isset($results[1]['type']) ? null : $results[1]['type'],
+                    "fdData"=>!isset($results[1]['fdData']) ? null : $results[1]['fdData'],
+                    "jpData"=>!isset($results[1]['jpData']) ? null : $results[1]['jpData'],
                 ],
                 [
                     "type"=> "ST",
-                    "fdData"=>!isset($main1_final['ST']) ? null :$main1_final['ST'],
-                    "jpData"=>[
-                        "jp1"=>!isset($main1_final['STJP1']) ? null : $main1_final['STJP1'],
-                        "jp50"=>!isset($main1_final['STJP6/50']) ? null : $main1_final['STJP6/50'],
-                        "jp55"=>!isset($main1_final['STJP6/55']) ? null : $main1_final['STJP6/55'],
-                        "jp58"=>!isset($main1_final['STJP6/58']) ? null : $main1_final['STJP6/58']
-                    ]
+                    "ftype"=>!isset($results[2]['type']) ? null : $results[2]['type'],
+                    "fdData"=>!isset($results[2]['fdData']) ? null : $results[2]['fdData'],
+                    "jpData"=>!isset($results[2]['jpData']) ? null : $results[2]['jpData'],
                 ],
                 [
                     "type"=> "CS",
-                    "fdData"=>!isset($main1_final['CS']) ? null :$main1_final['CS']
+                    "ftype"=>!isset($results[4]['type']) ? null : $results[4]['type'],
+                    "fdData"=>!isset($results[4]['fdData']) ? null : $results[4]['fdData'],
                 ],
                 [
                     "type"=> "STC",
-                    "fdData"=>!isset($main1_final['STC']) ? null :$main1_final['STC']
+                    "ftype"=>!isset($results[6]['type']) ? null : $results[6]['type'],
+                    "fdData"=>!isset($results[6]['fdData']) ? null : $results[6]['fdData'],
                 ],
                 [
                     "type"=> "EE",
-                    "fdData"=>!isset($main1_final['EE']) ? null :$main1_final['EE'],
-                    "jpData"=>!isset($sbjp_formatter) ? null : $sbjp_formatter
+                    "ftype"=>!isset($results[5]['type']) ? null : $results[5]['type'],
+                    "fdData"=>!isset($results[5]['fdData']) ? null : $results[5]['fdData'],
+                    "jpData"=>!isset($results[5]['jpData']) ? null : $results[5]['jpData'],
                 ],
                 [
                     "type"=> "GD",
-                    "fdData"=>!isset($main1_final['GD']) ? null :$main1_final['GD'],
-                    "jpData"=>!isset($main1_final['GD6D']) ? null : $main1_final['GD6D']
+                    "ftype"=>!isset($results[7]['type']) ? null : $results[7]['type'],
+                    "fdData"=>!isset($results[7]['fdData']) ? null : $results[7]['fdData'],
+                    "jpData"=>!isset($results[7]['jpData']) ? null : $results[7]['jpData'],
                 ],
                 [
                     "type"=> "NL",
-                    "fdData"=>!isset($main1_final["NL"]) ? null : $main1_final["NL"],
-                    "jpData"=>!isset($main1_final["NLJP1"]) ? null : $main1_final["NLJP1"]
+                    "ftype"=>!isset($results[8]['type']) ? null : $results[8]['type'],
+                    "fdData"=>!isset($results[8]['fdData']) ? null : $results[8]['fdData'],
+                    "jpData"=>!isset($results[8]['jpData']) ? null : $results[8]['jpData'],
                 ],
                 [
                     "type"=> "G",
-                    "fdData"=>!isset($main2_final["G"]) ? null : (object)$main2_final["G"],
-                    "jpData"=>!isset($main7_final["G6D"]) ? null : $main7_final["G6D"],
-                    "fdData330"=>!isset($main7_final["G3"]) ? null : $main7_final["G3"],
-                    "jpData330"=>!isset($main7_final["G63"]) ? null : $main7_final["G63"],
+                    "ftype"=>!isset($results[12]['type']) ? null : $results[12]['type'],
+                    "ftype3"=>!isset($results[15]['type']) ? null : $results[15]['type'],
+                    "fdData"=>!isset($results[12]['fdData']) ? null : $results[12]['fdData'],
+                    "jpData"=>!isset($results[12]['jpData']) ? null : $results[12]['jpData'],
+                    "fdData330"=>!isset($results[15]['fdData']) ? null : $results[15]['fdData'],
+                    "jpData330"=>!isset($results[15]['jpData']) ? null : $results[15]['jpData'],
                 ],
                 [
                     "type"=> "PD",
-                    "fdData"=>!isset($main2_final["PD"]) ? null : (object)$main2_final["PD"],
-                    "jpData"=>!isset($main7_final["N6D"]) ? null : $main7_final["N6D"],
-                    "fdData330"=>!isset($main7_final["N3"]) ? null : $main7_final["N3"],
-                    "jpData330"=>!isset($main7_final["N63"]) ? null : $main7_final["N63"],
+                    "ftype"=>!isset($results[9]['type']) ? null : $results[9]['type'],
+                    "ftype3"=>!isset($results[13]['type']) ? null : $results[13]['type'],
+                    "fdData"=>!isset($results[9]['fdData']) ? null : $results[9]['fdData'],
+                    "jpData"=>!isset($results[9]['jpData']) ? null : $results[9]['jpData'],
+                    "fdData330"=>!isset($results[13]['fdData']) ? null : $results[13]['fdData'],
+                    "jpData330"=>!isset($results[13]['jpData']) ? null : $results[13]['jpData'],
                     "decode"=>"var classNames2 = ['mobile-navbar','marquee'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -3634,10 +4208,12 @@ public function getDataByAdvanceSearchv130s(Request $request){
                 ],
                 [
                     "type"=> "LH",
-                    "fdData"=>!isset($main2_final["LH"]) ? null : (object)$main2_final["LH"],
-                    "jpData"=>!isset($main7_final["L6D"]) ? null : $main7_final["L6D"],
-                    "fdData330"=>!isset($main7_final["L3"]) ? null : $main7_final["L3"],
-                    "jpData330"=>!isset($main7_final["L63"]) ? null : $main7_final["L63"],
+                    "ftype"=>!isset($results[10]['type']) ? null : $results[10]['type'],
+                    "ftype3"=>!isset($results[14]['type']) ? null : $results[14]['type'],
+                    "fdData"=>!isset($results[10]['fdData']) ? null : $results[10]['fdData'],
+                    "jpData"=>!isset($results[10]['jpData']) ? null : $results[10]['jpData'],
+                    "fdData330"=>!isset($results[14]['fdData']) ? null : $results[14]['fdData'],
+                    "jpData330"=>!isset($results[14]['jpData']) ? null : $results[14]['jpData'],
                     "decode"=>"var classNames2 = ['footer', 'navbar', 'carousel', 'draw-result-btn-group'];
                     classNames2.forEach(function(className) {
                         var elements = document.querySelectorAll('.' + className);
@@ -3648,7 +4224,8 @@ public function getDataByAdvanceSearchv130s(Request $request){
                 ],
                 [
                     "type"=> "BN",
-                    "fdData"=>!isset($main4_final[0]) ? null : (object)$main4_final[0],
+                    "ftype"=>!isset($results[11]['type']) ? null : $results[11]['type'],
+                    "fdData"=>!isset($results[11]['fdData']) ? null : $results[11]['fdData'],
                     "bonus"=>"https://bt4dg.live/draw_result.html",
                     "decode"=>"var elementsById = ['page-title' ,'header', 'footer', 'loadingVideoRow'];
                     elementsById.forEach(function(id) {
@@ -3673,177 +4250,221 @@ public function getDataByAdvanceSearchv130s(Request $request){
                         element.style.padding = '0px';
                     });"
                 ],
-                [
+                [//DL/GT/MH >> GT/MH/DL
                     "type"=> "DL",
-                    "fdData"=>!isset($main10_final->DL->fdData) ? null : $main10_final->DL->fdData,
+                    "ftype"=>!isset($results[18]['type']) ? null : $results[18]['type'],
+                    "fdData"=>!isset($results[18]['fdData']) ? null : $results[18]['fdData'],
                 ],
                 [
                     "type"=> "GT",
-                    "fdData"=>!isset($main10_final->GT->fdData) ? null : $main10_final->GT->fdData,
-                    "jpData"=>!isset($main10_final->GT->jpData) ? null : $main10_final->GT->jpData,
+                    "ftype"=>!isset($results[16]['type']) ? null : $results[16]['type'],
+                    "fdData"=>!isset($results[16]['fdData']) ? null : $results[16]['fdData'],
+                    "jpData"=>!isset($results[16]['jpData']) ? null : $results[16]['jpData'],
                 ],
                 [
                     "type"=> "MH",
-                    "fdData"=>!isset($main10_final->MH->fdData) ? null : $main10_final->MH->fdData,
-                ], 
+                    "ftype"=>!isset($results[17]['type']) ? null : $results[17]['type'],
+                    "fdData"=>!isset($results[17]['fdData']) ? null : $results[17]['fdData'],
+                ],
                 [
                     "type"=> "MC",
-                    "fdData"=>!isset($main10_final->MC->fdData) ? null : $main10_final->MC->fdData,
-                    "fdData330"=>!isset($main10_final->MC->fdData330) ? null : $main10_final->MC->fdData330,
+                    "ftype"=>!isset($results[19]['type']) ? null : $results[19]['type'],
+                    "ftype3"=>!isset($results[20]['type']) ? null : $results[20]['type'],
+                    "fdData"=>!isset($results[19]['fdData']) ? null : $results[19]['fdData'],
+                    "fdData330"=>!isset($results[20]['fdData']) ? null : $results[20]['fdData'],
                 ],
                 [
                     "type"=> "W",
-                    "fdData"=>!isset($main10_final->W->fdData) ? null : $main10_final->W->fdData,
-                    "jpData"=>!isset($main10_final->W->jpData) ? null : $main10_final->W->jpData,
-                    "fdData330"=>!isset($main10_final->W->fdData330) ? null : $main10_final->W->fdData330,
-                    "jpData330"=>!isset($main10_final->W->jpData330) ? null : $main10_final->W->jpData330,
-
+                    "ftype"=>!isset($results[21]['type']) ? null : $results[21]['type'],
+                    "ftype3"=>!isset($results[22]['type']) ? null : $results[22]['type'],
+                    "fdData"=>!isset($results[21]['fdData']) ? null : $results[21]['fdData'],
+                    "jpData"=>!isset($results[21]['jpData']) ? null : $results[21]['jpData'],
+                    "fdData330"=>!isset($results[22]['fdData']) ? null : $results[22]['fdData'],
+                    "jpData330"=>!isset($results[22]['jpData']) ? null : $results[22]['jpData'],
                 ],
             ];
-        }else{ //fetch from db
-            $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24])->get(['data']);
-            $r = [];
-            foreach ($records as $key => $record) {
-                $r[] = json_decode($record->data,true);
+        }
+        
+        foreach ($final_array as $key => $value) {
+            if(isset($value["fdData"])){
+                //
+            }else{
+                if($value["type"] == "SG" && $value["jpData"] !== null){
+                    // 
+                }else{
+                    unset($final_array[$key]);
+                }
             }
-            $results = $r;
-            $final_array = [
-                [
-                    "type"=> "SG",
-                    "ftype"=>!isset($results[3]['type']) ? null : $results[3]['type'],
-                    "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
-                    "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
-                    "sweep2"=>"https://lottery.nestia.com/sweep",
-                    "sweep2_decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
-                    classNames1.forEach(function(className) {
-                        var elements = document.querySelectorAll('.' + className);
-                        elements.forEach(function(element) {
-                            element.style.display = 'none';
+        }
+        return array_values($final_array);
+    }
+
+    public function getMainByDateV1_4_0s($date){
+        date_default_timezone_set('Asia/Kuala_Lumpur');
+        $today = date("Y-m-d");
+        $status = "";
+        //bydate
+        if($date == "date" || $date == "today" || $date >= $today){
+            $status = "today";
+            $date = $today;
+        }else{
+            //past
+            $status = "past";
+        }
+        //is Live
+        if($status == "past"){
+            $chpst = curl_init("https://kweelohstudio.com/api/allresults3/".$date);
+            curl_setopt($chpst, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($chpst, CURLOPT_TIMEOUT, 3);
+            curl_setopt($chpst, CURLOPT_CONNECTTIMEOUT, 3);
+            $respst = curl_exec($chpst);
+            $mainpst_final = json_decode($respst);
+
+            return $mainpst_final;
+        }else{ //fetch from db
+                $records = Sheerlive::whereIn("id", [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24])->get(['data']);
+                $r = [];
+                foreach ($records as $key => $record) {
+                    $r[] = json_decode($record->data,true);
+                }
+                $results = $r;
+                $final_array = [
+                    [
+                        "type"=> "SG",
+                        "ftype"=>!isset($results[3]['type']) ? null : $results[3]['type'],
+                        "fdData"=>!isset($results[3]['fdData']) ? null : $results[3]['fdData'],
+                        "jpData"=>!isset($results[3]['jpData']) ? null : $results[3]['jpData'],
+                        "sweep2"=>"https://lottery.nestia.com/sweep",
+                        "sweep2_decode"=>"var classNames1 = ['adsbygoogle', 'adsbygoogle-noablate'];
+                        classNames1.forEach(function(className) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
                         });
-                    });
-                    document.body.style.padding = '0px';
-                    var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
-                    classNames2.forEach(function(className) {
-                        var elements = document.querySelectorAll('.' + className);
-                        elements.forEach(function(element) {
-                            element.style.display = 'none';
+                        document.body.style.padding = '0px';
+                        var classNames2 = ['n-header', 'result-header', 'resultHeader', 'adsbygoogle', 'FDTitleText', 'FDTitleText2', 'Disclaimer','sticky_bottom','tbl-next-up-mobile-position-bottom'];
+                        classNames2.forEach(function(className) {
+                            var elements = document.querySelectorAll('.' + className);
+                            elements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
                         });
-                    });
-                
-                    var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
-                    if (taboolaElement) {
-                        taboolaElement.style.display = 'none';
-                    }
-                
-                    var tblNextUpElement = document.getElementById('tbl-next-up');
-                    var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
-                    if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
-                        tblNextUpElement.style.display = 'none';
-                        tblNextUpMobilePositionBottomElements.forEach(function(element) {
-                            element.style.display = 'none';
-                        });
-                    }",
-                    "4d"=>"https://www.singaporepools.com.sg/en/product/pages/4d_results.aspx",
-                    "4d_decode"=>"document.getElementsByClassName('four-d-logo')[0].style.display = 'none'; 
-                    document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
-                    document.getElementsByClassName('drawListAndLabel')[0].style.padding = '0px'; 
-                    document.getElementById('desktop-banner') ? document.getElementById('desktop-banner').style.display = 'none' : null;
-                    document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb').style.display = 'none' : null;
-                    document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05').style.display = 'none' : null;
-                    document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c').style.display = 'none' : null;
-                    document.getElementsByClassName('four-d')[0].style.paddingBottom = '20px';
-                    document.body.style.overflowX = 'hidden';
-                    document.body.style.fontSize = '1.5rem';
-                    document.body.style.fontWeight = 'bold';
-                    document.body.style.maxWidth = '100%';
-                    let results_filter = document.getElementsByClassName('results-filter')[0];
-                    let col_component = results_filter.getElementsByClassName('col-md-9')[0];
-                    if(col_component.getElementsByTagName('div')[1]){
-                        let row_component = col_component.getElementsByTagName('div')[1].style.cssText='font-size:19px;color:#d84749;font-weight:bold;';
-                    }
-                    let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
-                    for(let m = 0; m < mobile_screen.length; m++) {
-                        if(m !== 3){
-                        mobile_screen[m].style.display = 'none';
+                    
+                        var taboolaElement = document.getElementById('taboola-below-article-thumbnails');
+                        if (taboolaElement) {
+                            taboolaElement.style.display = 'none';
                         }
-                    }
-                    let desktop_screen = document.getElementsByTagName('LI');
-                    for(let i = 0; i < desktop_screen.length; i++) {
-                        desktop_screen[i].style.padding = '0px';
-                    }
-                    let testate_component = document.getElementsByTagName('th');
-                    for(let t = 0; t < testate_component.length; t++) {
-                        testate_component[t].style.background = '#d84749';
-                        testate_component[t].style.color = 'white';
-                    }
-                    let li_component = document.getElementsByClassName('drawDate');
-                    for(let y = 0; y < li_component.length; y++) {
-                        li_component[y].style.setProperty('background', '#890d09', 'important');
-                    }
-                    let th_component = document.getElementsByClassName('drawNumber');
-                    for(let x = 0; x < th_component.length; x++) {
-                        th_component[x].style.setProperty('background', '#890d09', 'important');
-                    }",
-                    "toto"=>"https://www.singaporepools.com.sg/en/product/sr/Pages/toto_results.aspx",
-                    "toto_decode"=>"document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.display = 'none' : null;
-                    document.getElementById('MSOZoneCell_WebPartWPQ3') ? document.getElementById('MSOZoneCell_WebPartWPQ3').style.display = 'none' : null;
-                    document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119').style.display = 'none' : null;
-    document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003').style.display = 'none' : null;
-                    document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39') ? document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39').style.paddingBottom = '0px' : null;
-                    document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.paddingBottom = '0px' : null;
-                    document.body.style.overflowX = 'hidden';
-                    document.body.style.fontSize = '1.5rem';
-                    document.body.style.fontWeight = 'bold';
-                    document.body.style.maxWidth = '100%';
-                    document.getElementsByClassName('toto-logo')[0].style.display = 'none'; 
-                    document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
-                    document.getElementsByClassName('divDrawListAndLabel')[0].style.padding = '0px'; 
-                    let results_filter = document.getElementsByClassName('results-filter')[0];
-                    let col_component = results_filter.getElementsByClassName('col-md-9')[0];
-                    if(col_component.getElementsByTagName('div')[1]){
-                        let row_component = col_component.getElementsByTagName('div')[1].style.cssText='color:#d84749;font-weight:bold;'
-                    }
-                    let mobile_only_component = document.getElementsByClassName('mobile-only');
-                    for(let b = 0; b < mobile_only_component.length; b++) {
-                        mobile_only_component[b].style.display = 'none';
-                    }
-                    let desktop_row_component = document.getElementsByClassName('pure-desktop-only');
-                    for(let d = 0; d < desktop_row_component.length; d++) {
-                        desktop_row_component[d].style.display = 'block';
-                    }
-                    let div_component = document.getElementsByClassName('divWinningOutlets');
-                    for(let w = 0; w < div_component.length; w++) {
-                        div_component[w].style.display = 'none';
-                    }
-                    let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
-                    for(let m = 0; m < mobile_screen.length; m++) {
-                        if(m !== 3){
-                        mobile_screen[m].style.display = 'none';
+                    
+                        var tblNextUpElement = document.getElementById('tbl-next-up');
+                        var tblNextUpMobilePositionBottomElements = document.querySelectorAll('.tbl-next-up-mobile-position-bottom');
+                        if (tblNextUpElement || tblNextUpMobilePositionBottomElements.length > 0) {
+                            tblNextUpElement.style.display = 'none';
+                            tblNextUpMobilePositionBottomElements.forEach(function(element) {
+                                element.style.display = 'none';
+                            });
+                        }",
+                        "4d"=>"https://www.singaporepools.com.sg/en/product/pages/4d_results.aspx",
+                        "4d_decode"=>"document.getElementsByClassName('four-d-logo')[0].style.display = 'none'; 
+                        document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
+                        document.getElementsByClassName('drawListAndLabel')[0].style.padding = '0px'; 
+                        document.getElementById('desktop-banner') ? document.getElementById('desktop-banner').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_c9681ecf_1470_4749_9a7d_751e5b08a7eb').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8b04b2d4_76ad_4e1b_82a0_91c9d1360c05').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_1011f828_0223_4d17_8687_ff84e0de577c').style.display = 'none' : null;
+                        document.getElementsByClassName('four-d')[0].style.paddingBottom = '20px';
+                        document.body.style.overflowX = 'hidden';
+                        document.body.style.fontSize = '1.5rem';
+                        document.body.style.fontWeight = 'bold';
+                        document.body.style.maxWidth = '100%';
+                        let results_filter = document.getElementsByClassName('results-filter')[0];
+                        let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+                        if(col_component.getElementsByTagName('div')[1]){
+                            let row_component = col_component.getElementsByTagName('div')[1].style.cssText='font-size:19px;color:#d84749;font-weight:bold;';
                         }
-                    }
-                    let desktop_screen = document.getElementsByTagName('LI');
-                    for(let i = 0; i < desktop_screen.length; i++) {
-                        desktop_screen[i].style.padding = '0px';
-                    }
-                    let li_component = document.getElementsByClassName('drawDate');
-                    for(let z = 0; z < li_component.length; z++) {
-                        li_component[z].style.setProperty('background', '#890d09', 'important');
-                    }
-                    let th_component = document.getElementsByClassName('drawNumber');
-                    for(let i = 0; i < th_component.length; i++) {
-                        th_component[i].style.setProperty('background', '#890d09', 'important');
-                    }
-                    let div_componentButton = document.getElementsByClassName('divWinningOutletsButton');
-                    for(let y = 0; y < div_componentButton.length; y++) {
-                        div_componentButton[y].style.display = 'none';
-                    }
-                    let loop_component = document.getElementsByClassName('linkShowWinningOutlets');
-                    if(loop_component.length){
-                        for(let x = 0; x < loop_component.length; x++) {
-                            loop_component[x].style.display = 'none';
-                        }   
-                    }
-    document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3').style.display = 'none' : null;",
+                        let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+                        for(let m = 0; m < mobile_screen.length; m++) {
+                            if(m !== 3){
+                            mobile_screen[m].style.display = 'none';
+                            }
+                        }
+                        let desktop_screen = document.getElementsByTagName('LI');
+                        for(let i = 0; i < desktop_screen.length; i++) {
+                            desktop_screen[i].style.padding = '0px';
+                        }
+                        let testate_component = document.getElementsByTagName('th');
+                        for(let t = 0; t < testate_component.length; t++) {
+                            testate_component[t].style.background = '#d84749';
+                            testate_component[t].style.color = 'white';
+                        }
+                        let li_component = document.getElementsByClassName('drawDate');
+                        for(let y = 0; y < li_component.length; y++) {
+                            li_component[y].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let th_component = document.getElementsByClassName('drawNumber');
+                        for(let x = 0; x < th_component.length; x++) {
+                            th_component[x].style.setProperty('background', '#890d09', 'important');
+                        }",
+                        "toto"=>"https://www.singaporepools.com.sg/en/product/sr/Pages/toto_results.aspx",
+                        "toto_decode"=>"document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('ctl00_ctl36_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartWPQ3') ? document.getElementById('MSOZoneCell_WebPartWPQ3').style.display = 'none' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_9b6053f2_4728_42af_9b58_bec81b6ba119').style.display = 'none' : null;
+        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_fb54b9e2_3c94_4378_93d3_2f7dc4821003').style.display = 'none' : null;
+                        document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39') ? document.getElementById('ctl00_ctl36_g_eb682987_d820_4034_9094_74f3d08dff39').style.paddingBottom = '0px' : null;
+                        document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_61355b9d_68fd_4bcb_a5f5_4b56edeb2505').style.paddingBottom = '0px' : null;
+                        document.body.style.overflowX = 'hidden';
+                        document.body.style.fontSize = '1.5rem';
+                        document.body.style.fontWeight = 'bold';
+                        document.body.style.maxWidth = '100%';
+                        document.getElementsByClassName('toto-logo')[0].style.display = 'none'; 
+                        document.getElementsByClassName('results-filter')[0].style.margin = '0px'; 
+                        document.getElementsByClassName('divDrawListAndLabel')[0].style.padding = '0px'; 
+                        let results_filter = document.getElementsByClassName('results-filter')[0];
+                        let col_component = results_filter.getElementsByClassName('col-md-9')[0];
+                        if(col_component.getElementsByTagName('div')[1]){
+                            let row_component = col_component.getElementsByTagName('div')[1].style.cssText='color:#d84749;font-weight:bold;'
+                        }
+                        let mobile_only_component = document.getElementsByClassName('mobile-only');
+                        for(let b = 0; b < mobile_only_component.length; b++) {
+                            mobile_only_component[b].style.display = 'none';
+                        }
+                        let desktop_row_component = document.getElementsByClassName('pure-desktop-only');
+                        for(let d = 0; d < desktop_row_component.length; d++) {
+                            desktop_row_component[d].style.display = 'block';
+                        }
+                        let div_component = document.getElementsByClassName('divWinningOutlets');
+                        for(let w = 0; w < div_component.length; w++) {
+                            div_component[w].style.display = 'none';
+                        }
+                        let mobile_screen = document.getElementsByClassName('ms-rtestate-field');
+                        for(let m = 0; m < mobile_screen.length; m++) {
+                            if(m !== 3){
+                            mobile_screen[m].style.display = 'none';
+                            }
+                        }
+                        let desktop_screen = document.getElementsByTagName('LI');
+                        for(let i = 0; i < desktop_screen.length; i++) {
+                            desktop_screen[i].style.padding = '0px';
+                        }
+                        let li_component = document.getElementsByClassName('drawDate');
+                        for(let z = 0; z < li_component.length; z++) {
+                            li_component[z].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let th_component = document.getElementsByClassName('drawNumber');
+                        for(let i = 0; i < th_component.length; i++) {
+                            th_component[i].style.setProperty('background', '#890d09', 'important');
+                        }
+                        let div_componentButton = document.getElementsByClassName('divWinningOutletsButton');
+                        for(let y = 0; y < div_componentButton.length; y++) {
+                            div_componentButton[y].style.display = 'none';
+                        }
+                        let loop_component = document.getElementsByClassName('linkShowWinningOutlets');
+                        if(loop_component.length){
+                            for(let x = 0; x < loop_component.length; x++) {
+                                loop_component[x].style.display = 'none';
+                            }   
+                        }
+        document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl36_g_166b043b_c9ea_4ef8_96bd_f12a3b21f3a3').style.display = 'none' : null;",
                     "sweep"=>"https://www.singaporepools.com.sg/en/product/pages/sweep_results.aspx",
                     "sweep_decode"=>"document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_9cd376ba_043d_4284_ab45_b86779355ea8').style.display = 'none' : false;
                     document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602') ? document.getElementById('MSOZoneCell_WebPartctl00_ctl37_g_8e013298_fedc_45ca_9157_ab3585da2602').style.display = 'none' : false;
