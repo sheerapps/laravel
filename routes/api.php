@@ -41,7 +41,8 @@ Route::get('/save-to-db2/{date}', [ApiController::class, 'saveLiveDB2']);
 Route::get('/data-by-history', [ApiController::class, 'getDataBySearch']);
 Route::get('/data-by-history-v120', [ApiController::class, 'getDataByAdvanceSearch']);
 Route::get('/data-by-history-v130', [ApiController::class, 'getDataByAdvanceSearchv130']);
-Route::get('/data-by-history-v140', [ApiController::class, 'getDataByAdvanceSearchv140']);
+// Route::get('/data-by-history-v140', [ApiController::class, 'getDataByAdvanceSearchv140']);//sdb
+Route::get('/data-by-history-v140', [ApiController::class, 'getDataByAdvanceSearchv150']);//odb
 
 Route::get('/data-by-dictionary', [ApiController::class, 'getDicByData']);
 Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);

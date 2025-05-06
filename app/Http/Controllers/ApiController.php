@@ -436,26 +436,26 @@ class ApiController extends Controller
         );
     }
     function manipulateString($string) {
-    // Remove any non-numeric characters
-    $string = preg_replace("/[^0-9]/", "", $string);
+        // Remove any non-numeric characters
+        $string = preg_replace("/[^0-9]/", "", $string);
 
-    // If the length of the string is between 3 and 4 and is a number
-    if (strlen($string) >= 3 && strlen($string) <= 4 && is_numeric($string)) {
-        return $string;
-    }
-    // If the string is longer than 4, keep only the first 4 digits
-    elseif (strlen($string) > 4) {
-        return substr($string, 0, 4);
-    }
-    // If the string is less than 3, add leading zeros until the string has 4 digits
-    elseif (strlen($string) < 3) {
-        while (strlen($string) < 4) {
-            $string = '0' . $string;
+        // If the length of the string is between 3 and 4 and is a number
+        if (strlen($string) >= 3 && strlen($string) <= 4 && is_numeric($string)) {
+            return $string;
         }
-        return $string;
+        // If the string is longer than 4, keep only the first 4 digits
+        elseif (strlen($string) > 4) {
+            return substr($string, 0, 4);
+        }
+        // If the string is less than 3, add leading zeros until the string has 4 digits
+        elseif (strlen($string) < 3) {
+            while (strlen($string) < 4) {
+                $string = '0' . $string;
+            }
+            return $string;
+        }
+        return "1234";
     }
-    return "1234";
-}
     public function getDataBySearch(Request $request){
         $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
         $number = $this->manipulateString($number);
@@ -786,14 +786,6 @@ class ApiController extends Controller
         }
         $hisjson = $this->historyAdvanceData($permutation,$select4D,$number,$prize,$view4d);
 
-        // number pic API
-        // $ch1 = curl_init("https://api.4dmanager.com/api/no_qzt?no=$number");
-        // curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
-        // curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
-        // $res1 = curl_exec($ch1);
-        // $direcjson = json_decode($res1);
-        // LOOP
         $sitesCount = array(
             "M" => 0,
             "PMP" => 0,
@@ -4263,6 +4255,17 @@ class ApiController extends Controller
             }
         }
         return array_values($final_array);
+    }
+    public function getDataByAdvanceSearchv150(Request $request){
+        $params = "multi=$request->multi&no=$request->no&prize=$request->prize&view4d=$request->view4d&service=$request->service"
+        $chpst = curl_init("https://kweelohstudio.com/api/searchallresults/$params");
+        curl_setopt($chpst, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($chpst, CURLOPT_TIMEOUT, 5);
+        curl_setopt($chpst, CURLOPT_CONNECTTIMEOUT, 5);
+        $respst = curl_exec($chpst);
+        $mainpst_final = json_decode($respst);
+
+        return $mainpst_final;
     }
     public function getMainByDateV1_5_0($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
