@@ -4258,19 +4258,19 @@ class ApiController extends Controller
     }
     public function getDataByAdvanceSearchv150(Request $request){
         $params = "";
-        if(isset($request->$multi)){
+        if(isset($request->multi)){
             $params.="multi=$request->multi&";
         }
-        if(isset($request->$no)){
+        if(isset($request->no)){
             $params.="no=$request->no&";
         }
-        if(isset($request->$prize)){
+        if(isset($request->prize)){
             $params.="prize=$request->prize&";
         }
-        if(isset($request->$view4d)){
+        if(isset($request->view4d)){
             $params.="view4d=$request->view4d&";
         }
-        if(isset($request->$service)){
+        if(isset($request->service)){
             $params.="service=$request->service&";
         }
         return $params;
