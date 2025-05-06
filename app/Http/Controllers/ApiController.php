@@ -4257,7 +4257,7 @@ class ApiController extends Controller
         return array_values($final_array);
     }
     public function getDataByAdvanceSearchv150(Request $request){
-        $params = "multi=$request->multi&no=$request->no&prize=$request->prize&view4d=$request->view4d&service=$request->service"
+        $params = "multi=$request->multi&no=$request->no&prize=$request->prize&view4d=$request->view4d&service=$request->service";
         $chpst = curl_init("https://kweelohstudio.com/api/searchallresults/$params");
         curl_setopt($chpst, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chpst, CURLOPT_TIMEOUT, 5);
