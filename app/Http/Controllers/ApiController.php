@@ -4280,8 +4280,8 @@ class ApiController extends Controller
         curl_setopt($chpst, CURLOPT_CONNECTTIMEOUT, 5);
         $respst = curl_exec($chpst);
         $mainpst_final = json_decode($respst);
-
-        return $mainpst_final;
+        print_r($mainpst_final);
+        // return $mainpst_final;
     }
     public function getMainByDateV1_5_0($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
