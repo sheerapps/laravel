@@ -4273,7 +4273,7 @@ class ApiController extends Controller
         if(isset($request->service)){
             $params.="service=$request->service&";
         }
-        return $params;
+
         $chpst = curl_init("https://kweelohstudio.com/api/searchallresults?$params");
         curl_setopt($chpst, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($chpst, CURLOPT_TIMEOUT, 5);
