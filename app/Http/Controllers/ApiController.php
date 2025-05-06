@@ -4280,7 +4280,10 @@ class ApiController extends Controller
         curl_setopt($chpst, CURLOPT_CONNECTTIMEOUT, 5);
         $respst = curl_exec($chpst);
         $mainpst_final = json_decode($respst);
-        print_r($mainpst_final);
+
+        json_encode($mainpst_final);
+        
+        return json_decode($mainpst_final,true);
         // return $mainpst_final;
     }
     public function getMainByDateV1_5_0($date){
