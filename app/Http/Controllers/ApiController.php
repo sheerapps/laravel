@@ -351,6 +351,35 @@ public function getDataByAdvanceSearchv140s(Request $request){
     return json_decode($mainpst_final,true);
     // return $mainpst_final;
 }
+public function getDataByAdvanceSearchv140(Request $request){
+    $params = "";
+    if(isset($request->multi)){
+        $params.="multi=$request->multi&";
+    }
+    if(isset($request->no)){
+        $params.="no=$request->no&";
+    }
+    if(isset($request->prize)){
+        $params.="prize=$request->prize&";
+    }
+    if(isset($request->view4d)){
+        $params.="view4d=$request->view4d&";
+    }
+    if(isset($request->service)){
+        $params.="service=$request->service&";
+    }
+
+    $chpst = curl_init("https://kweelohstudio.com/api/searchallresults?$params");
+    curl_setopt($chpst, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($chpst, CURLOPT_TIMEOUT, 5);
+    curl_setopt($chpst, CURLOPT_CONNECTTIMEOUT, 5);
+    $respst = curl_exec($chpst);
+    $mainpst_final = json_decode($respst);
+    $mainpst_final = json_encode($mainpst_final);
+    
+    return json_decode($mainpst_final,true);
+    // return $mainpst_final;
+}
 public function getDataByAdvanceSearchv130s(Request $request){
     //add prize & number
     $number = isset($request->no) && $request->no !== "...." && $request->no !== "----" ? $request->no : "7777";
