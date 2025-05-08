@@ -81,17 +81,12 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Fine Enterprise1
+                    Fine Enterprise
                 </div>
 
                 <div class="links">
-                    <a href="/">JavaScript</a>
-                    <a href="/">PHP</a>
-                    <a href="/">Laravel</a>
-                    <a href="/">HTML</a>
-                    <a href="/">ReactNative</a>
-                    <a href="/">CSS</a>
-                    <a href="/">GitHub</a>
+                    <a href="/">Email: Fanesiah3269@gmail.com</a>
+                    <a href="/">Phone: +60139583269</a>
                 </div>
             </div>
         </div>
