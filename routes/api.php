@@ -24,10 +24,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::get('/main-by-date/{date}', [ApiController::class, 'getMainByDate']);
 // Route::get('/resultss/{date}', [ApiController::class, 'getMainByDateV1_3_0s']); ///main-by-date-v130/{date}
 // Route::get('/results/{date}', [ApiController::class, 'getMainByDateV1_3_0']); ///main-by-date-v130/{date}
-Route::get('/resultss/{date}', [ApiController::class, 'getMainByDateV1_4_0s']); ///main-by-date-v130/{date}
+// Route::get('/resultss/{date}', [ApiController::class, 'getMainByDateV1_4_0s']); ///main-by-date-v130/{date}
 Route::get('/results/{date}', [ApiController::class, 'getMainByDateV1_4_0']); ///main-by-date-v130/{date}
 //
-Route::get('/resultss2/{date}', [ApiController::class, 'getMainByDateV1_4_0s']); ///new pst
+// Route::get('/resultss2/{date}', [ApiController::class, 'getMainByDateV1_4_0s']); ///new pst
 Route::get('/results2/{date}', [ApiController::class, 'getMainByDateV1_4_0']); ///new pst
 
 // Route::get('/main-by-date-v110/{date}', [ApiController::class, 'getMainByDateV1_2_0']); //update 1_1_0 to 1_2_0
@@ -40,7 +40,7 @@ Route::get('/results2/{date}', [ApiController::class, 'getMainByDateV1_4_0']); /
 // Route::get('/histories', [ApiController::class, 'getDataByAdvanceSearchv130']);//data-by-history-v130
 // Route::get('/historiess', [ApiController::class, 'getDataByAdvanceSearchv130s']);//data-by-history-v130
 Route::get('/histories', [ApiController::class, 'getDataByAdvanceSearchv140']);//kdb
-Route::get('/historiess', [ApiController::class, 'getDataByAdvanceSearchv140s']);//kdb
+// Route::get('/historiess', [ApiController::class, 'getDataByAdvanceSearchv140s']);//kdb
 
 Route::get('/dictionaries', [ApiController::class, 'getDicByData']);//data-by-dictionary
 // Route::get('/save-by-date/{date}', [ApiController::class, 'saveData']);
