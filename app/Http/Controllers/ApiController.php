@@ -429,6 +429,44 @@ class ApiController extends Controller
         
         return array(
             "main"=>$main,
+            "prompt"=>array(
+                "sp"=>false,
+                "dd"=>"NOTIFICATION",
+                "url"=>"https://sheerapps.com"
+            )
+            "special"=>array(
+                "sp"=>false,
+                "dd"=>"2025-05-27"
+            )
+        );
+    }
+    public function getDrawdateDataT(Request $request){
+        $year = $request->year;
+        $month = $request->month;
+        $ch1 = curl_init("https://app-apdapi-prod-southeastasia-01.azurewebsites.net/draw-dates/past/$year/$month");
+        curl_setopt($ch1, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch1, CURLOPT_TIMEOUT, 2);
+        curl_setopt($ch1, CURLOPT_CONNECTTIMEOUT, 2);
+        $res1 = curl_exec($ch1);
+        $res1json = json_decode($res1);
+        
+        $main = null;
+        if(isset($res1json) && isset($res1json->PastDrawDates->Draw)){
+            if($res1json && is_array($res1json->PastDrawDates->Draw)){
+                $main = $res1json;
+            }else if(!is_array($res1json->PastDrawDates->Draw)){
+                $res1json->PastDrawDates->Draw = [$res1json->PastDrawDates->Draw];
+                $main = $res1json;
+            }
+        }
+        
+        return array(
+            "main"=>$main,
+            "prompt"=>array(
+                "sp"=>false,
+                "dd"=>"NOTIFICATION",
+                "url"=>"https://sheerapps.com"
+            )
             "special"=>array(
                 "sp"=>false,
                 "dd"=>"2025-05-27"

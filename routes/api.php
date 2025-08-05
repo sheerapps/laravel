@@ -51,6 +51,8 @@ Route::get('/save-by-live', [ApiController::class, 'saveLive']);
 Route::get('/date-by-list', [ApiController::class, 'drawDrawList']);
 
 Route::get('/data-draw-date', [ApiController::class, 'getDrawdateData']);
+Route::get('/data-draw-datet', [ApiController::class, 'getDrawdateDataT']);
+
 Route::get('/all-book-data', [ApiController::class, 'getBookAll']);
 //tsheer
 
