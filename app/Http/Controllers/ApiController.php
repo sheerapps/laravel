@@ -133,6 +133,11 @@ class ApiController extends Controller
     public function checkStatus($type){
         $resp = array(
             "showad"=>true,
+            "prompt"=>array(
+                "sp"=>false,
+                "dd"=>"NOTIFICATION",
+                "url"=>"https://sheerapps.com"
+            ),
         );
         return $resp;
     }
