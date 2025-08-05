@@ -466,7 +466,7 @@ class ApiController extends Controller
                 "sp"=>false,
                 "dd"=>"NOTIFICATION",
                 "url"=>"https://sheerapps.com"
-            )
+            ),
             "special"=>array(
                 "sp"=>false,
                 "dd"=>"2025-05-27"
