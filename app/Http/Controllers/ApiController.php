@@ -1280,14 +1280,8 @@ class ApiController extends Controller
         return $finalArray;
     }
     public function test(){
-        // https://mapp.fast4dking.com/nocache/result_v23.json
-        $ch9 = curl_init("https://backend.4dnum.com/api/v1/result/date");
-        curl_setopt($ch9, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch9, CURLOPT_TIMEOUT, 3);
-        curl_setopt($ch9, CURLOPT_CONNECTTIMEOUT, 3);
-        $res9 = curl_exec($ch9);
-        $main9 = json_decode($res9);
-        print_r($main9);
+        echo 123;
+        return;
     }
     public function saveLiveDB($date){
         date_default_timezone_set('Asia/Kuala_Lumpur');
