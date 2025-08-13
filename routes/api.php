@@ -13,6 +13,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/telegram-login', 'Auth\TelegramLoginController@login');
+Route::post('/telegram-login', 'Auth\TelegramController@login');
 
 Route::get('/test', [ApiController::class, 'test']);
