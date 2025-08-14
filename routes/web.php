@@ -15,4 +15,18 @@ use App\Http\Controllers\ApiController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/video/{id}', [ApiController::class, 'videoComponent']);
+
+// TERMS OF SERVICE
+Route::get('/terms', function () {
+    return response()->view('policies.terms');
+});
+
+// PRIVACY POLICY
+Route::get('/privacy', function () {
+    return response()->view('policies.privacy');
+});
+
+// LUCKY DRAW & REWARDS RULES
+Route::get('/rules', function () {
+    return response()->view('policies.rules');
+});
