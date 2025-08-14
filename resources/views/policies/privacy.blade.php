@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Privacy Policy - 4D SheerApps</title>
-</head>
-<body>
+@extends('layouts.policy')
+
+@section('content')
 <h1>Privacy Policy</h1>
 <p>This Privacy Policy explains how we collect, use, and protect your personal data.</p>
 
@@ -29,5 +26,4 @@
 
 <h2>6. Contact</h2>
 <p>For privacy-related requests, email asminjismun@gmail.com</p>
-</body>
-</html>
+@endsection

@@ -1,14 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Terms of Service - 4D SheerApps</title>
-</head>
-<body>
+@extends('layouts.policy')
+
+@section('content')
 <h1>Terms of Service</h1>
 <p>Welcome to 4D SheerApps. By using our app, you agree to these Terms of Service.</p>
 
 <h2>1. Membership Tiers</h2>
-<p>We offer Silver, Gold, and Diamond membership plans with different benefits including access to special lucky draws and increased spin limits.</p>
+<p>We offer Gold, and Diamond membership plans with different benefits including access to special lucky draws and increased spin limits.</p>
 
 <h2>2. Referral Program</h2>
 <p>You may refer other users using your referral ID. You will earn points when they sign up and meet certain conditions. Abuse of the referral system may lead to account suspension.</p>
@@ -24,5 +21,4 @@
 
 <h2>6. Contact</h2>
 <p>For questions, contact asminjismun@gmail.com</p>
-</body>
-</html>
+@endsection

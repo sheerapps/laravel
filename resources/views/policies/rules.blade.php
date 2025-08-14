@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lucky Draw & Rewards Rules - 4D SheerApps</title>
-</head>
-<body>
+@extends('layouts.policy')
+
+@section('content')
 <h1>Lucky Draw & Rewards Rules</h1>
 
 <h2>1. Participation</h2>
@@ -28,5 +25,4 @@
 
 <h2>6. Changes</h2>
 <p>We reserve the right to change lucky draw mechanics and rewards at any time without prior notice.</p>
-</body>
-</html>
+@endsection
