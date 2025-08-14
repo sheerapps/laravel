@@ -1,23 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateSheerappsAccountsTable extends Migration
 {
     public function up()
     {
         Schema::create('sheerapps_accounts', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('telegram_id')->unique();
+            $table->bigIncrements('id');
+            $table->string('telegram_id')->unique();
+            $table->string('name')->nullable();
             $table->string('username')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
             $table->string('photo_url')->nullable();
-            $table->integer('referrer_id')->unsigned()->nullable();
-            $table->string('api_token', 80)->unique()->nullable();
+            $table->string('api_token', 64)->nullable();
+            $table->unsignedBigInteger('referrer_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('referrer_id')->references('id')->on('sheerapps_accounts')->onDelete('set null');
         });
     }
 

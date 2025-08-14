@@ -1,14 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class SheerappsAccount extends Model
 {
     protected $fillable = [
-        'telegram_id', 'username', 'first_name', 'last_name',
-        'photo_url', 'referrer_id', 'api_token'
+        'telegram_id', 'name', 'username', 'photo_url', 'api_token', 'referrer_id'
     ];
 }
-
