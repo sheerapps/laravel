@@ -44,10 +44,12 @@ class TelegramController extends Controller
         $user->api_token = $token;
         $user->save();
 
-        return response()->json([
-            'status' => 'success',
-            'token' => $token,
-            'user' => $user
-        ]);
+        // return response()->json([
+        //     'status' => 'success',
+        //     'token' => $token,
+        //     'user' => $user
+        // ]);
+        return redirect()->away('sheerapps4d://telegram-login-success?username=' . urlencode($username) . '&avatar=' . urlencode($avatarUrl) . '&token=' . $token);
+
     }
 }
