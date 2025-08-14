@@ -10,7 +10,7 @@ class CreateSheerappsAccountsTable extends Migration
     {
         Schema::create('sheerapps_accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('telegram_id')->unique();
+            $table->string('telegram_id', 191)->unique();
             $table->string('name')->nullable();
             $table->string('username')->nullable();
             $table->string('photo_url')->nullable();
