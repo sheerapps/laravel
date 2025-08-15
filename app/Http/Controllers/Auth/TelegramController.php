@@ -169,7 +169,8 @@ class TelegramController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Invalid phone number format'
+                    'message' => 'Invalid phone number format',
+                    'errors' => $validator->errors()
                 ], 400);
             }
 
@@ -187,7 +188,7 @@ class TelegramController extends Controller
                 }
             }
 
-            // For now, create a temporary user with phone number
+            // For demo purposes, create a temporary user with phone number
             // In production, you would integrate with Telegram's official API
             $user = SheerappsAccount::firstOrCreate(
                 ['telegram_id' => 'temp_' . $phoneNumber], // Temporary ID
@@ -208,29 +209,31 @@ class TelegramController extends Controller
             // Update login info
             $user->updateLoginInfo($request->ip());
 
-            // Return success with redirect URL
-            $redirectUrl = $this->buildRedirectUrl($user, $token);
-            
+            // Log successful login attempt
+            Log::info('Direct login initiated', [
+                'phone_number' => $phoneNumber,
+                'user_id' => $user->id,
+                'ip' => $request->ip()
+            ]);
+
             return response()->json([
                 'status' => 'success',
-                'message' => 'Login successful',
-                'redirect_url' => $redirectUrl,
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username ?: $user->name,
-                    'avatar' => $user->photo_url,
-                    'status' => $user->status,
-                    'referrer_id' => $user->referrer_id,
-                    'referral_count' => $user->getReferralCount()
-                ],
-                'token' => $token
+                'message' => 'Verification code sent successfully',
+                'data' => [
+                    'user_id' => $user->id,
+                    'phone_number' => $phoneNumber
+                ]
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Direct login error: ' . $e->getMessage());
+            Log::error('Direct login error: ' . $e->getMessage(), [
+                'phone_number' => $request->phone_number ?? 'unknown',
+                'ip' => $request->ip()
+            ]);
+
             return response()->json([
                 'status' => 'error',
-                'message' => 'An error occurred during login'
+                'message' => 'An error occurred during login: ' . $e->getMessage()
             ], 500);
         }
     }
@@ -316,6 +319,133 @@ class TelegramController extends Controller
     }
 
     /**
+     * Telegram OAuth Login (Recommended approach)
+     */
+    public function oauthLogin(Request $request)
+    {
+        try {
+            // Get Telegram OAuth data from request
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|integer',
+                'first_name' => 'required|string|max:255',
+                'username' => 'nullable|string|max:255',
+                'photo_url' => 'nullable|url|max:500',
+                'auth_date' => 'required|integer',
+                'hash' => 'required|string',
+                'referrer_id' => 'nullable|integer|exists:sheerapps_accounts,id'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid OAuth data',
+                    'errors' => $validator->errors()
+                ], 400);
+            }
+
+            $data = $request->all();
+            $checkHash = $data['hash'];
+            $referrerId = $data['referrer_id'] ?? null;
+
+            // Remove hash and referrer_id from data for validation
+            unset($data['hash'], $data['referrer_id']);
+
+            // Validate Telegram OAuth hash
+            if (!$this->validateTelegramOAuth($data, $checkHash)) {
+                Log::warning('Invalid Telegram OAuth hash', [
+                    'ip' => $request->ip(),
+                    'telegram_id' => $data['id'] ?? 'unknown'
+                ]);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid OAuth signature'
+                ], 403);
+            }
+
+            // Check if referrer exists and is active
+            if ($referrerId) {
+                $referrer = SheerappsAccount::find($referrerId);
+                if (!$referrer || !$referrer->isActive()) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Invalid referrer'
+                    ], 400);
+                }
+            }
+
+            // Find or create user
+            $user = SheerappsAccount::firstOrCreate(
+                ['telegram_id' => $data['id']],
+                [
+                    'name' => $data['first_name'],
+                    'username' => $data['username'] ?? '',
+                    'photo_url' => $data['photo_url'] ?? '',
+                    'referrer_id' => $referrerId,
+                    'status' => 'active',
+                    'last_login_at' => Carbon::now(),
+                    'last_ip_address' => $request->ip()
+                ]
+            );
+
+            // Update existing user information if needed
+            if ($user->wasRecentlyCreated === false) {
+                $user->update([
+                    'name' => $data['first_name'],
+                    'username' => $data['username'] ?? $user->username,
+                    'photo_url' => $data['photo_url'] ?? $user->photo_url,
+                    'last_login_at' => Carbon::now(),
+                    'last_ip_address' => $request->ip()
+                ]);
+            }
+
+            // Generate new API token
+            $token = $user->generateApiToken();
+            
+            // Update login info
+            $user->updateLoginInfo($request->ip());
+
+            // Log successful OAuth login
+            Log::info('Successful Telegram OAuth login', [
+                'telegram_id' => $data['id'],
+                'username' => $data['username'],
+                'ip' => $request->ip()
+            ]);
+
+            // Return success with user data
+            return response()->json([
+                'status' => 'success',
+                'message' => 'OAuth login successful',
+                'data' => [
+                    'user' => [
+                        'id' => $user->id,
+                        'telegram_id' => $user->telegram_id,
+                        'name' => $user->name,
+                        'username' => $user->username,
+                        'photo_url' => $user->photo_url,
+                        'status' => $user->status,
+                        'referrer_id' => $user->referrer_id,
+                        'referral_count' => $user->getReferralCount(),
+                        'last_login_at' => $user->last_login_at,
+                        'created_at' => $user->created_at
+                    ],
+                    'token' => $token
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Telegram OAuth login error: ' . $e->getMessage(), [
+                'ip' => $request->ip(),
+                'data' => $request->all()
+            ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred during OAuth login'
+            ], 500);
+        }
+    }
+
+    /**
      * Validate Telegram hash
      */
     private function validateTelegramHash($data, $checkHash)
@@ -340,6 +470,35 @@ class TelegramController extends Controller
             return hash_equals($hash, $checkHash);
         } catch (\Exception $e) {
             Log::error('Hash validation error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Validate Telegram OAuth hash
+     */
+    private function validateTelegramOAuth($data, $checkHash)
+    {
+        try {
+            // Sort data by keys
+            ksort($data);
+            
+            // Build check string
+            $checkString = urldecode(http_build_query($data, '', "\n"));
+            
+            // Generate secret key using your bot token
+            $botToken = env('TELEGRAM_BOT_TOKEN');
+            if (!$botToken) {
+                Log::error('TELEGRAM_BOT_TOKEN not configured');
+                return false;
+            }
+            
+            $secretKey = hash_hmac('sha256', $botToken, 'WebAppData', true);
+            $hash = hash_hmac('sha256', $checkString, $secretKey);
+            
+            return hash_equals($hash, $checkHash);
+        } catch (\Exception $e) {
+            Log::error('OAuth hash validation error: ' . $e->getMessage());
             return false;
         }
     }

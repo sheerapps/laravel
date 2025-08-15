@@ -22,6 +22,18 @@ Route::match(['GET', 'POST'], '/telegram-login', [TelegramController::class, 'lo
 Route::post('/telegram-direct-login', [TelegramController::class, 'directLogin'])->name('telegram.direct.login');
 Route::post('/telegram-verify', [TelegramController::class, 'verifyLogin'])->name('telegram.verify');
 
+// Telegram OAuth route (recommended approach)
+Route::post('/telegram-oauth', [TelegramController::class, 'oauthLogin'])->name('telegram.oauth');
+
+// Test endpoint to verify API is working
+Route::get('/test-api', function() {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'API is working correctly',
+        'timestamp' => now()->toISOString()
+    ]);
+});
+
 // Protected routes (require authentication)
 Route::middleware(['api.auth'])->group(function () {
     // User management
