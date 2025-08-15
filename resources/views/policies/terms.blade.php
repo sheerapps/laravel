@@ -19,6 +19,12 @@
 <h2>5. Fraud Prevention</h2>
 <p>We reserve the right to suspend accounts suspected of cheating, exploiting, or abusing the system.</p>
 
+<h2>6. Purchases & Subscriptions</h2>
+<p>All purchases are final. Memberships are billed via Google Play Billing and renew automatically unless cancelled before the renewal date.</p>
+
+<h2>7. Advertising</h2>
+<p>We display ads through Google AdMob. By using this app, you consent to personalized ads unless you disable ad personalization in your Google account settings.</p>
+
 <h2>6. Contact</h2>
 <p>For questions, contact asminjismun@gmail.com</p>
 @endsection

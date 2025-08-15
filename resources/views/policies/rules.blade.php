@@ -25,4 +25,11 @@
 
 <h2>6. Changes</h2>
 <p>We reserve the right to change lucky draw mechanics and rewards at any time without prior notice.</p>
+
+<h2>7. Lucky Draws</h2>
+<p>Lucky draws are games of chance. No win is guaranteed. We reserve the right to change prizes or cancel draws without prior notice.</p>
+
+<h2>8. Referral Program</h2>
+<p>Referrals must be genuine. Any attempt to exploit the referral system may lead to account suspension.</p>
+
 @endsection
