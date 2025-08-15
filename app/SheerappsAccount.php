@@ -19,8 +19,13 @@ class SheerappsAccount extends Model
 
     protected $casts = [
         'last_login_at' => 'datetime',
-        'login_history' => 'array',
+        'login_history' => 'array', // This will still work with TEXT field
     ];
+
+    // Valid status values
+    const STATUS_ACTIVE = 'active';
+    const STATUS_SUSPENDED = 'suspended';
+    const STATUS_BANNED = 'banned';
 
     /**
      * Get the referrer user
@@ -86,7 +91,28 @@ class SheerappsAccount extends Model
      */
     public function isActive()
     {
-        return $this->status === 'active';
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    /**
+     * Check if status is valid
+     */
+    public function isValidStatus($status)
+    {
+        return in_array($status, [self::STATUS_ACTIVE, self::STATUS_SUSPENDED, self::STATUS_BANNED]);
+    }
+
+    /**
+     * Set status with validation
+     */
+    public function setStatus($status)
+    {
+        if ($this->isValidStatus($status)) {
+            $this->status = $status;
+            $this->save();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -111,5 +137,45 @@ class SheerappsAccount extends Model
         }
         
         return $chain;
+    }
+
+    /**
+     * Accessor for login_history to ensure it's always an array
+     */
+    public function getLoginHistoryAttribute($value)
+    {
+        if (empty($value)) {
+            return [];
+        }
+        
+        // Try to decode JSON, fallback to empty array if it fails
+        $decoded = json_decode($value, true);
+        return is_array($decoded) ? $decoded : [];
+    }
+
+    /**
+     * Mutator for login_history to ensure it's stored as JSON string
+     */
+    public function setLoginHistoryAttribute($value)
+    {
+        if (is_array($value)) {
+            $this->attributes['login_history'] = json_encode($value);
+        } else {
+            $this->attributes['login_history'] = $value;
+        }
+    }
+
+    /**
+     * Boot method to set default status
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($model) {
+            if (empty($model->status)) {
+                $model->status = self::STATUS_ACTIVE;
+            }
+        });
     }
 }

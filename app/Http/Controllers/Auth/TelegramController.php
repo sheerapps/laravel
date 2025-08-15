@@ -49,12 +49,12 @@ class TelegramController extends Controller
                 ], 400);
             }
 
-            $data = $request->all();
+        $data = $request->all();
             $checkHash = $data['hash'];
             $referrerId = $data['referrer_id'] ?? null;
 
             // Remove hash and referrer_id from data for validation
-            unset($data['hash'], $data['referrer_id']);
+        unset($data['hash'], $data['referrer_id']);
 
             // Validate Telegram hash
             if (!$this->validateTelegramHash($data, $checkHash)) {
@@ -81,15 +81,15 @@ class TelegramController extends Controller
                         'message' => 'Invalid referrer'
                     ], 400);
                 }
-            }
+        }
 
-            // Find or create user
-            $user = SheerappsAccount::firstOrCreate(
-                ['telegram_id' => $data['id']],
-                [
+        // Find or create user
+        $user = SheerappsAccount::firstOrCreate(
+            ['telegram_id' => $data['id']],
+            [
                     'name' => $data['first_name'],
-                    'username' => $data['username'] ?? '',
-                    'photo_url' => $data['photo_url'] ?? '',
+                'username' => $data['username'] ?? '',
+                'photo_url' => $data['photo_url'] ?? '',
                     'referrer_id' => $referrerId,
                     'status' => 'active',
                     'last_login_at' => Carbon::now(),
