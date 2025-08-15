@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ApiController;
-use App\Http\Controllers\Auth\TelegramController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +15,6 @@ use App\Http\Controllers\Auth\TelegramController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Telegram Login Page (handles GET requests from React Native deep links)
-Route::get('/telegram-login', [TelegramController::class, 'showLoginPage'])->name('telegram.login.page');
 
 // TERMS OF SERVICE
 Route::get('/terms', function () {

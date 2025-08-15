@@ -16,23 +16,8 @@ use Illuminate\Http\Request;
 */
 
 // Public routes (no authentication required)
-Route::match(['GET', 'POST'], '/telegram-login', [TelegramController::class, 'login'])->name('telegram.login');
-
-// New direct login routes (eliminates web page step)
-Route::post('/telegram-direct-login', [TelegramController::class, 'directLogin'])->name('telegram.direct.login');
-Route::post('/telegram-verify', [TelegramController::class, 'verifyLogin'])->name('telegram.verify');
-
-// Telegram OAuth route (recommended approach)
-Route::post('/telegram-oauth', [TelegramController::class, 'oauthLogin'])->name('telegram.oauth');
-
-// Test endpoint to verify API is working
-Route::get('/test-api', function() {
-    return response()->json([
-        'status' => 'success',
-        'message' => 'API is working correctly',
-        'timestamp' => now()->toISOString()
-    ]);
-});
+Route::get('/telegram-login', [TelegramController::class, 'showLoginPage'])->name('telegram.login.page');
+Route::match(['GET', 'POST'], '/telegram-login/auth', [TelegramController::class, 'login'])->name('telegram.login.auth');
 
 // Protected routes (require authentication)
 Route::middleware(['api.auth'])->group(function () {

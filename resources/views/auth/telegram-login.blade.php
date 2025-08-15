@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Login - SheerApps 4D</title>
+    <title>{{ $appName }} - Telegram Login</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
         }
+        
         .container {
             background: white;
             border-radius: 20px;
@@ -25,192 +31,263 @@
             max-width: 400px;
             width: 100%;
         }
+        
         .logo {
+            width: 80px;
+            height: 80px;
+            background: #0088cc;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
             font-size: 32px;
             font-weight: bold;
-            color: #0088cc;
+        }
+        
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
             margin-bottom: 10px;
         }
+        
         .subtitle {
             color: #666;
             margin-bottom: 30px;
+            line-height: 1.5;
         }
-        .telegram-btn {
+        
+        .telegram-button {
             background: #0088cc;
             color: white;
             border: none;
             padding: 15px 30px;
             border-radius: 25px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            width: 100%;
+            margin: 0 auto 20px;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,136,204,0.3);
         }
-        .telegram-btn:hover {
-            background: #0077b3;
+        
+        .telegram-button:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,136,204,0.4);
         }
-        .telegram-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
+        
+        .telegram-button:active {
+            transform: translateY(0);
         }
+        
+        .telegram-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 10px;
+        }
+        
         .loading {
             display: none;
-            margin-top: 20px;
+            margin: 20px 0;
         }
+        
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #0088cc;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #0088cc;
             border-radius: 50%;
-            width: 30px;
-            height: 30px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
+            margin: 0 auto 15px;
         }
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        
         .error {
             color: #e74c3c;
-            margin-top: 15px;
+            background: #fdf2f2;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
             display: none;
+        }
+        
+        .referral-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #0088cc;
+        }
+        
+        .referral-text {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #999;
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">4D SheerApps</div>
-        <div class="subtitle">Live 4D Results & 4D Forecast</div>
+        <div class="logo">4D</div>
+        <h1 class="title">{{ $appName }}</h1>
+        <p class="subtitle">Login with your Telegram account to continue</p>
         
-        <button id="telegramBtn" class="telegram-btn" onclick="initTelegramLogin()">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+        @if($referralId)
+        <div class="referral-info">
+            <p class="referral-text">
+                <strong>Referral Detected!</strong><br>
+                You were invited by another user. This will be recorded in your account.
+            </p>
+        </div>
+        @endif
+        
+        <button class="telegram-button" onclick="initTelegramLogin()">
+            <svg class="telegram-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
             </svg>
             Login with Telegram
         </button>
         
         <div class="loading" id="loading">
             <div class="spinner"></div>
-            <div>Processing login...</div>
+            <p>Connecting to Telegram...</p>
         </div>
         
         <div class="error" id="error"></div>
+        
+        <div class="footer">
+            <p>Secure login powered by Telegram</p>
+        </div>
     </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
+        let tg = null;
         
         // Initialize Telegram WebApp
-        tg.ready();
-        tg.expand();
-        
-        function initTelegramLogin() {
-            const btn = document.getElementById('telegramBtn');
-            const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
-            
-            btn.disabled = true;
-            loading.style.display = 'block';
-            error.style.display = 'none';
-            
+        function initTelegram() {
             try {
-                // Get user data from Telegram WebApp
-                const user = tg.initDataUnsafe?.user;
-                const initData = tg.initData;
+                tg = window.Telegram.WebApp;
+                tg.ready();
+                tg.expand();
                 
-                if (!user || !initData) {
-                    throw new Error('Telegram WebApp data not available');
+                // Set theme
+                if (tg.colorScheme === 'dark') {
+                    document.body.style.background = 'linear-gradient(135deg, #2c3e50 0%, #34495e 100%)';
+                    document.querySelector('.container').style.background = '#2c3e50';
+                    document.querySelector('.title').style.color = '#ecf0f1';
+                    document.querySelector('.subtitle').style.color = '#bdc3c7';
                 }
-                
-                // Prepare login data
-                const loginData = {
-                    id: user.id,
-                    first_name: user.first_name,
-                    username: user.username || '',
-                    photo_url: user.photo_url || '',
-                    hash: initData,
-                    referrer_id: getUrlParameter('referrer_id') || null
-                };
-                
-                // Send login request
-                fetch('/api/telegram-login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
-                    },
-                    body: JSON.stringify(loginData)
-                })
-                .then(response => {
-                    if (response.redirected) {
-                        // Handle redirect to React Native app
-                        window.location.href = response.url;
-                    } else {
-                        return response.json();
-                    }
-                })
-                .then(data => {
-                    if (data && data.status === 'success') {
-                        // Success - redirect to React Native app
-                        const redirectUrl = buildRedirectUrl(data);
-                        window.location.href = redirectUrl;
-                    } else {
-                        throw new Error(data?.message || 'Login failed');
-                    }
-                })
-                .catch(err => {
-                    console.error('Login error:', err);
-                    showError(err.message || 'An error occurred during login');
-                })
-                .finally(() => {
-                    btn.disabled = false;
-                    loading.style.display = 'none';
-                });
-                
-            } catch (err) {
-                console.error('Telegram WebApp error:', err);
-                showError('Telegram WebApp is not available. Please open this page from Telegram.');
-                btn.disabled = false;
-                loading.style.display = 'none';
+            } catch (e) {
+                console.log('Telegram WebApp not available:', e);
             }
         }
         
-        function buildRedirectUrl(data) {
-            const params = new URLSearchParams({
-                username: data.user?.username || data.user?.name || 'User',
-                avatar: data.user?.photo_url || '',
-                status: data.user?.status || 'active',
-                token: data.token,
-                user_id: data.user?.id || '',
-                referrer_id: data.user?.referrer_id || '',
-                referral_count: data.user?.referral_count || '0'
-            });
+        // Initialize Telegram login
+        function initTelegramLogin() {
+            try {
+                if (tg && tg.initData) {
+                    // We have Telegram data, process login
+                    processTelegramLogin(tg.initData);
+                } else {
+                    // No Telegram data, show error
+                    showError('Please open this page from Telegram to login.');
+                }
+            } catch (e) {
+                showError('Failed to initialize Telegram login: ' + e.message);
+            }
+        }
+        
+        // Process Telegram login data
+        function processTelegramLogin(initData) {
+            showLoading(true);
             
-            return `sheerapps4d://telegram-login-success?${params.toString()}`;
+            // Parse init data
+            const data = new URLSearchParams(initData);
+            const userData = {};
+            
+            // Extract user information
+            for (const [key, value] of data.entries()) {
+                userData[key] = value;
+            }
+            
+            // Add referral ID if available
+            @if($referralId)
+            userData.referrer_id = '{{ $referralId }}';
+            @endif
+            
+            // Send login request
+            fetch('/api/telegram-login/auth', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => {
+                if (response.redirected) {
+                    // Success - redirect to React Native app
+                    window.location.href = response.url;
+                } else {
+                    return response.json();
+                }
+            })
+            .then(data => {
+                if (data && data.status === 'error') {
+                    showError(data.message || 'Login failed');
+                }
+            })
+            .catch(error => {
+                console.error('Login error:', error);
+                showError('Login failed. Please try again.');
+            })
+            .finally(() => {
+                showLoading(false);
+            });
         }
         
-        function getUrlParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
+        // Show/hide loading
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+            document.querySelector('.telegram-button').style.display = show ? 'none' : 'flex';
         }
         
+        // Show error
         function showError(message) {
-            const error = document.getElementById('error');
-            error.textContent = message;
-            error.style.display = 'block';
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            showLoading(false);
         }
         
-        // Auto-init if Telegram WebApp is ready
-        if (tg.initDataUnsafe?.user) {
-            initTelegramLogin();
-        }
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initTelegram();
+        });
+        
+        // Handle page visibility change
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                // Page became visible, check if we have Telegram data
+                if (tg && tg.initData) {
+                    initTelegramLogin();
+                }
+            }
+        });
     </script>
 </body>
 </html>
