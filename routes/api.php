@@ -18,6 +18,10 @@ use Illuminate\Http\Request;
 // Public routes (no authentication required)
 Route::match(['GET', 'POST'], '/telegram-login', [TelegramController::class, 'login'])->name('telegram.login');
 
+// New direct login routes (eliminates web page step)
+Route::post('/telegram-direct-login', [TelegramController::class, 'directLogin'])->name('telegram.direct.login');
+Route::post('/telegram-verify', [TelegramController::class, 'verifyLogin'])->name('telegram.verify');
+
 // Protected routes (require authentication)
 Route::middleware(['api.auth'])->group(function () {
     // User management

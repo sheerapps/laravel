@@ -64,12 +64,12 @@ class TelegramController extends Controller
                 ], 400);
             }
 
-            $data = $request->all();
+        $data = $request->all();
             $checkHash = $data['hash'];
             $referrerId = $data['referrer_id'] ?? null;
 
             // Remove hash and referrer_id from data for validation
-            unset($data['hash'], $data['referrer_id']);
+        unset($data['hash'], $data['referrer_id']);
 
             // Validate Telegram hash
             if (!$this->validateTelegramHash($data, $checkHash)) {
@@ -96,15 +96,15 @@ class TelegramController extends Controller
                         'message' => 'Invalid referrer'
                     ], 400);
                 }
-            }
+        }
 
-            // Find or create user
-            $user = SheerappsAccount::firstOrCreate(
-                ['telegram_id' => $data['id']],
-                [
+        // Find or create user
+        $user = SheerappsAccount::firstOrCreate(
+            ['telegram_id' => $data['id']],
+            [
                     'name' => $data['first_name'],
-                    'username' => $data['username'] ?? '',
-                    'photo_url' => $data['photo_url'] ?? '',
+                'username' => $data['username'] ?? '',
+                'photo_url' => $data['photo_url'] ?? '',
                     'referrer_id' => $referrerId,
                     'status' => 'active',
                     'last_login_at' => Carbon::now(),
@@ -150,6 +150,167 @@ class TelegramController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'An error occurred during login'
+            ], 500);
+        }
+    }
+
+    /**
+     * Direct Telegram login with phone number (for React Native)
+     */
+    public function directLogin(Request $request)
+    {
+        try {
+            // Validate phone number
+            $validator = Validator::make($request->all(), [
+                'phone_number' => 'required|string|regex:/^\+?[1-9]\d{1,14}$/',
+                'referrer_id' => 'nullable|integer|exists:sheerapps_accounts,id'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid phone number format'
+                ], 400);
+            }
+
+            $phoneNumber = $request->phone_number;
+            $referrerId = $request->referrer_id;
+
+            // Check if referrer exists and is active
+            if ($referrerId) {
+                $referrer = SheerappsAccount::find($referrerId);
+                if (!$referrer || !$referrer->isActive()) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Invalid referrer'
+                    ], 400);
+                }
+            }
+
+            // For now, create a temporary user with phone number
+            // In production, you would integrate with Telegram's official API
+            $user = SheerappsAccount::firstOrCreate(
+                ['telegram_id' => 'temp_' . $phoneNumber], // Temporary ID
+                [
+                    'name' => 'User',
+                    'username' => '',
+                    'photo_url' => '',
+                    'referrer_id' => $referrerId,
+                    'status' => 'active',
+                    'last_login_at' => Carbon::now(),
+                    'last_ip_address' => $request->ip()
+                ]
+            );
+
+            // Generate API token
+            $token = $user->generateApiToken();
+            
+            // Update login info
+            $user->updateLoginInfo($request->ip());
+
+            // Return success with redirect URL
+            $redirectUrl = $this->buildRedirectUrl($user, $token);
+            
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Login successful',
+                'redirect_url' => $redirectUrl,
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username ?: $user->name,
+                    'avatar' => $user->photo_url,
+                    'status' => $user->status,
+                    'referrer_id' => $user->referrer_id,
+                    'referral_count' => $user->getReferralCount()
+                ],
+                'token' => $token
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Direct login error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred during login'
+            ], 500);
+        }
+    }
+
+    /**
+     * Complete Telegram login with verification code
+     */
+    public function verifyLogin(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'phone_number' => 'required|string',
+                'verification_code' => 'required|string|size:5',
+                'referrer_id' => 'nullable|integer|exists:sheerapps_accounts,id'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid verification data'
+                ], 400);
+            }
+
+            $phoneNumber = $request->phone_number;
+            $verificationCode = $request->verification_code;
+            $referrerId = $request->referrer_id;
+
+            // Here you would verify the code with Telegram
+            // For demo purposes, we'll accept any 5-digit code
+            if (strlen($verificationCode) === 5 && is_numeric($verificationCode)) {
+                
+                // Find or create user
+                $user = SheerappsAccount::firstOrCreate(
+                    ['telegram_id' => 'verified_' . $phoneNumber],
+                    [
+                        'name' => 'Telegram User',
+                        'username' => '',
+                        'photo_url' => '',
+                        'referrer_id' => $referrerId,
+                        'status' => 'active',
+                        'last_login_at' => Carbon::now(),
+                        'last_ip_address' => $request->ip()
+                    ]
+                );
+
+                // Generate API token
+                $token = $user->generateApiToken();
+                
+                // Update login info
+                $user->updateLoginInfo($request->ip());
+
+                // Return success with redirect URL
+                $redirectUrl = $this->buildRedirectUrl($user, $token);
+                
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Verification successful',
+                    'redirect_url' => $redirectUrl,
+                    'user' => [
+                        'id' => $user->id,
+                        'username' => $user->username ?: $user->name,
+                        'avatar' => $user->photo_url,
+                        'status' => $user->status,
+                        'referrer_id' => $user->referrer_id,
+                        'referral_count' => $user->getReferralCount()
+                    ],
+                    'token' => $token
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid verification code'
+                ], 400);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Verification error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred during verification'
             ], 500);
         }
     }
