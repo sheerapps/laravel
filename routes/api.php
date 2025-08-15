@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 */
 
 // Public routes (no authentication required)
-Route::post('/telegram-login', [TelegramController::class, 'login'])->name('telegram.login');
+Route::match(['GET', 'POST'], '/telegram-login', [TelegramController::class, 'login'])->name('telegram.login');
 
 // Protected routes (require authentication)
 Route::middleware(['api.auth'])->group(function () {
