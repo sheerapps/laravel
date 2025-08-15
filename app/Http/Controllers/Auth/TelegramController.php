@@ -13,39 +13,6 @@ use Carbon\Carbon;
 class TelegramController extends Controller
 {
     /**
-     * Show Telegram login page for WebView
-     */
-    public function showLoginPage(Request $request)
-    {
-        try {
-            $referralId = $request->get('ref') ?? $request->get('referral_id');
-            
-            // Log referral attempt
-            if ($referralId) {
-                Log::info('Referral login attempt', [
-                    'referral_id' => $referralId,
-                    'ip' => $request->ip(),
-                    'user_agent' => $request->userAgent()
-                ]);
-            }
-
-            // Return HTML page for WebView
-            return view('auth.telegram-login', [
-                'referralId' => $referralId,
-                'botUsername' => env('TELEGRAM_BOT_USERNAME'),
-                'appName' => env('APP_NAME', 'SheerApps 4D')
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('Error showing login page: ' . $e->getMessage());
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Failed to load login page'
-            ], 500);
-        }
-    }
-
-    /**
      * Handle Telegram login with security validation
      */
     public function login(Request $request)
@@ -61,12 +28,6 @@ class TelegramController extends Controller
                 ], 429);
             }
 
-            // Get referral ID from various sources
-            $referralId = $request->get('referrer_id') ?? 
-                         $request->get('ref') ?? 
-                         $request->get('referral_id') ?? 
-                         null;
-
             // Validate required fields
             $validator = Validator::make($request->all(), [
                 'id' => 'required|integer',
@@ -74,13 +35,13 @@ class TelegramController extends Controller
                 'username' => 'nullable|string|max:255',
                 'photo_url' => 'nullable|url|max:500',
                 'hash' => 'required|string',
+                'referrer_id' => 'nullable|integer|exists:sheerapps_accounts,id'
             ]);
 
             if ($validator->fails()) {
                 Log::warning('Telegram login validation failed', [
                     'errors' => $validator->errors(),
-                    'ip' => $ipAddress,
-                    'referral_id' => $referralId
+                    'ip' => $ipAddress
                 ]);
                 return response()->json([
                     'status' => 'error',
@@ -88,18 +49,18 @@ class TelegramController extends Controller
                 ], 400);
             }
 
-            $data = $request->all();
+        $data = $request->all();
             $checkHash = $data['hash'];
+            $referrerId = $data['referrer_id'] ?? null;
 
-            // Remove hash and referral-related fields from data for validation
-            unset($data['hash'], $data['referrer_id'], $data['ref'], $data['referral_id']);
+            // Remove hash and referrer_id from data for validation
+        unset($data['hash'], $data['referrer_id']);
 
             // Validate Telegram hash
             if (!$this->validateTelegramHash($data, $checkHash)) {
                 Log::warning('Invalid Telegram hash', [
                     'ip' => $ipAddress,
-                    'telegram_id' => $data['id'] ?? 'unknown',
-                    'referral_id' => $referralId
+                    'telegram_id' => $data['id'] ?? 'unknown'
                 ]);
                 return response()->json([
                     'status' => 'error',
@@ -108,11 +69,11 @@ class TelegramController extends Controller
             }
 
             // Check if referrer exists and is active
-            if ($referralId) {
-                $referrer = SheerappsAccount::find($referralId);
+            if ($referrerId) {
+                $referrer = SheerappsAccount::find($referrerId);
                 if (!$referrer || !$referrer->isActive()) {
                     Log::warning('Invalid referrer ID provided', [
-                        'referrer_id' => $referralId,
+                        'referrer_id' => $referrerId,
                         'telegram_id' => $data['id']
                     ]);
                     return response()->json([
@@ -120,23 +81,16 @@ class TelegramController extends Controller
                         'message' => 'Invalid referrer'
                     ], 400);
                 }
+        }
 
-                // Log successful referral
-                Log::info('Successful referral login', [
-                    'referrer_id' => $referralId,
-                    'new_user_telegram_id' => $data['id'],
-                    'ip' => $ipAddress
-                ]);
-            }
-
-            // Find or create user
-            $user = SheerappsAccount::firstOrCreate(
-                ['telegram_id' => $data['id']],
-                [
+        // Find or create user
+        $user = SheerappsAccount::firstOrCreate(
+            ['telegram_id' => $data['id']],
+            [
                     'name' => $data['first_name'],
-                    'username' => $data['username'] ?? '',
-                    'photo_url' => $data['photo_url'] ?? '',
-                    'referrer_id' => $referralId,
+                'username' => $data['username'] ?? '',
+                'photo_url' => $data['photo_url'] ?? '',
+                    'referrer_id' => $referrerId,
                     'status' => 'active',
                     'last_login_at' => Carbon::now(),
                     'last_ip_address' => $ipAddress
@@ -152,11 +106,6 @@ class TelegramController extends Controller
                     'last_login_at' => Carbon::now(),
                     'last_ip_address' => $ipAddress
                 ]);
-
-                // Update referrer if it changed
-                if ($referralId && $user->referrer_id !== $referralId) {
-                    $user->update(['referrer_id' => $referralId]);
-                }
             }
 
             // Generate new API token
@@ -169,8 +118,6 @@ class TelegramController extends Controller
             Log::info('Successful Telegram login', [
                 'telegram_id' => $data['id'],
                 'username' => $data['username'],
-                'user_id' => $user->id,
-                'referrer_id' => $referralId,
                 'ip' => $ipAddress
             ]);
 
@@ -182,8 +129,7 @@ class TelegramController extends Controller
         } catch (\Exception $e) {
             Log::error('Telegram login error: ' . $e->getMessage(), [
                 'ip' => $request->ip(),
-                'data' => $request->all(),
-                'trace' => $e->getTraceAsString()
+                'data' => $request->all()
             ]);
 
             return response()->json([
@@ -286,7 +232,6 @@ class TelegramController extends Controller
 
             Log::info('User logged out', [
                 'telegram_id' => $user->telegram_id,
-                'user_id' => $user->id,
                 'ip' => $request->ip()
             ]);
 

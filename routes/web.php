@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Auth\TelegramController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +16,11 @@ use App\Http\Controllers\ApiController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Telegram Login Page (for WebView)
+Route::get('/telegram-login', function () {
+    return view('telegram-login');
+})->name('telegram.login.page');
 
 // TERMS OF SERVICE
 Route::get('/terms', function () {
