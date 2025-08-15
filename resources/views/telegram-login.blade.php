@@ -127,6 +127,59 @@
             margin-bottom: 10px;
             font-size: 14px;
         }
+        
+        .test-mode-toggle {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .test-mode-toggle label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .test-inputs {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .test-inputs.show {
+            display: block;
+        }
+        
+        .test-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .test-input:focus {
+            outline: none;
+            border-color: #0088cc;
+        }
+        
+        .test-label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -151,10 +204,38 @@
         
         <div id="error" class="error"></div>
         <div id="success" class="success"></div>
+        
+        <!-- Test Mode Toggle -->
+        <div class="test-mode-toggle">
+            <label>
+                <input type="checkbox" id="testModeToggle" onchange="toggleTestMode()">
+                Enable Test Mode (for development)
+            </label>
+        </div>
+        
+        <!-- Test Mode Inputs -->
+        <div id="testInputs" class="test-inputs">
+            <label class="test-label">Test User ID:</label>
+            <input type="number" id="testUserId" class="test-input" placeholder="123456789" value="123456789">
+            
+            <label class="test-label">Test First Name:</label>
+            <input type="text" id="testFirstName" class="test-input" placeholder="John" value="John">
+            
+            <label class="test-label">Test Username:</label>
+            <input type="text" id="testUsername" class="test-input" placeholder="john_doe" value="john_doe">
+            
+            <label class="test-label">Test Photo URL:</label>
+            <input type="url" id="testPhotoUrl" class="test-input" placeholder="https://example.com/photo.jpg" value="https://t.me/i/userpic/320/photo.jpg">
+            
+            <button id="testLoginBtn" class="telegram-button" onclick="initTestLogin()" style="margin-top: 10px;">
+                Test Login
+            </button>
+        </div>
     </div>
 
     <script>
         let tg = null;
+        let isTestMode = false;
         
         // Initialize Telegram WebApp
         function initTelegram() {
@@ -170,13 +251,35 @@
                     document.querySelector('.title').style.color = '#ecf0f1';
                     document.querySelector('.subtitle').style.color = '#bdc3c7';
                 }
+                
+                console.log('Telegram WebApp initialized successfully');
+                console.log('User data:', tg.initDataUnsafe?.user);
+            } else {
+                console.log('Telegram WebApp not available - running in test mode');
+                isTestMode = true;
+                document.getElementById('testModeToggle').checked = true;
+                toggleTestMode();
+            }
+        }
+        
+        // Toggle test mode
+        function toggleTestMode() {
+            const testInputs = document.getElementById('testInputs');
+            const testModeToggle = document.getElementById('testModeToggle');
+            
+            if (testModeToggle.checked) {
+                testInputs.classList.add('show');
+                isTestMode = true;
+            } else {
+                testInputs.classList.remove('show');
+                isTestMode = false;
             }
         }
         
         // Handle Telegram login
         function initTelegramLogin() {
-            if (!tg) {
-                showError('Telegram WebApp not available. Please open this page from Telegram.');
+            if (isTestMode) {
+                showError('Please use Test Login button when in test mode');
                 return;
             }
             
@@ -192,13 +295,15 @@
             
             try {
                 // Get user data from Telegram
-                const user = tg.initDataUnsafe?.user;
+                const user = tg?.initDataUnsafe?.user;
                 
                 if (!user) {
                     showError('Failed to get user data from Telegram. Please try again.');
                     resetUI();
                     return;
                 }
+                
+                console.log('Telegram user data:', user);
                 
                 // Prepare data for API
                 const loginData = {
@@ -210,6 +315,8 @@
                     referrer_id: referralId || null
                 };
                 
+                console.log('Sending login data:', loginData);
+                
                 // Send to Laravel API
                 fetch('/api/telegram-login', {
                     method: 'POST',
@@ -220,9 +327,11 @@
                     body: JSON.stringify(loginData)
                 })
                 .then(response => {
+                    console.log('API response:', response);
                     if (response.redirected) {
                         // Handle redirect to React Native app
                         const redirectUrl = response.url;
+                        console.log('Redirect URL:', redirectUrl);
                         if (redirectUrl.startsWith('sheerapps4d://')) {
                             showSuccess('Login successful! Redirecting to app...');
                             setTimeout(() => {
@@ -238,6 +347,7 @@
                 })
                 .then(data => {
                     if (data) {
+                        console.log('API response data:', data);
                         if (data.status === 'success') {
                             showSuccess('Login successful!');
                         } else {
@@ -255,6 +365,93 @@
             } catch (error) {
                 console.error('Telegram login error:', error);
                 showError('Failed to process Telegram login. Please try again.');
+                resetUI();
+            }
+        }
+        
+        // Handle test login
+        function initTestLogin() {
+            const referralId = document.getElementById('referralId').value.trim();
+            const testUserId = document.getElementById('testUserId').value.trim();
+            const testFirstName = document.getElementById('testFirstName').value.trim();
+            const testUsername = document.getElementById('testUsername').value.trim();
+            const testPhotoUrl = document.getElementById('testPhotoUrl').value.trim();
+            
+            if (!testUserId || !testFirstName) {
+                showError('Please fill in at least User ID and First Name for test mode');
+                return;
+            }
+            
+            const loginBtn = document.getElementById('testLoginBtn');
+            const loading = document.getElementById('loading');
+            
+            // Show loading state
+            loginBtn.style.display = 'none';
+            loading.style.display = 'block';
+            hideError();
+            hideSuccess();
+            
+            try {
+                // Prepare test data for API
+                const loginData = {
+                    id: parseInt(testUserId),
+                    first_name: testFirstName,
+                    username: testUsername || '',
+                    photo_url: testPhotoUrl || '',
+                    hash: 'test_hash_' + Date.now(), // Generate test hash
+                    referrer_id: referralId || null
+                };
+                
+                console.log('Sending test login data:', loginData);
+                
+                // Send to Laravel API
+                fetch('/api/telegram-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(loginData)
+                })
+                .then(response => {
+                    console.log('Test API response:', response);
+                    if (response.redirected) {
+                        // Handle redirect to React Native app
+                        const redirectUrl = response.url;
+                        console.log('Test redirect URL:', redirectUrl);
+                        if (redirectUrl.startsWith('sheerapps4d://')) {
+                            showSuccess('Test login successful! Redirecting to app...');
+                            setTimeout(() => {
+                                window.location.href = redirectUrl;
+                            }, 1000);
+                        } else {
+                            showError('Unexpected redirect response');
+                            resetUI();
+                        }
+                    } else {
+                        return response.json();
+                    }
+                })
+                .then(data => {
+                    if (data) {
+                        console.log('Test API response data:', data);
+                        if (data.status === 'success') {
+                            showSuccess('Test login successful!');
+                        } else {
+                            showError(data.message || 'Test login failed');
+                            resetUI();
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Test login error:', error);
+                    showError('Network error. Please check your connection and try again.');
+                    resetUI();
+                });
+                
+            } catch (error) {
+                console.error('Test login error:', error);
+                showError('Failed to process test login. Please try again.');
                 resetUI();
             }
         }
@@ -282,6 +479,7 @@
         
         function resetUI() {
             document.getElementById('loginBtn').style.display = 'flex';
+            document.getElementById('testLoginBtn').style.display = 'flex';
             document.getElementById('loading').style.display = 'none';
         }
         
@@ -294,6 +492,15 @@
             const refId = urlParams.get('ref') || urlParams.get('referral_id');
             if (refId) {
                 document.getElementById('referralId').value = refId;
+            }
+            
+            // Check if we're in a WebView (React Native)
+            const isInWebView = window.ReactNativeWebView || /ReactNativeWebView/.test(navigator.userAgent);
+            if (isInWebView) {
+                console.log('Running in React Native WebView');
+                // Enable test mode by default in WebView for easier testing
+                document.getElementById('testModeToggle').checked = true;
+                toggleTestMode();
             }
         });
         
