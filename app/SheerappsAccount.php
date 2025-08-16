@@ -10,7 +10,7 @@ class SheerappsAccount extends Model
 {
     protected $fillable = [
         'telegram_id', 'name', 'username', 'photo_url', 'api_token', 
-        'referrer_id', 'status', 'last_login_at', 'last_ip_address', 'login_history'
+        'referrer_id', 'status', 'last_login_at', 'last_ip_address', 'login_history', 'referral_code'
     ];
 
     protected $hidden = [
@@ -21,6 +21,20 @@ class SheerappsAccount extends Model
         'last_login_at' => 'datetime',
         'login_history' => 'array',
     ];
+
+    /**
+     * Boot method to generate referral code when creating
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($model) {
+            if (empty($model->referral_code)) {
+                $model->referral_code = $model->generateUniqueReferralCode();
+            }
+        });
+    }
 
     /**
      * Get the referrer user
@@ -36,6 +50,18 @@ class SheerappsAccount extends Model
     public function referrals()
     {
         return $this->hasMany(SheerappsAccount::class, 'referrer_id');
+    }
+
+    /**
+     * Generate a unique referral code
+     */
+    public function generateUniqueReferralCode()
+    {
+        do {
+            $code = strtoupper(substr(md5(uniqid() . time()), 0, 8));
+        } while (static::where('referral_code', $code)->exists());
+        
+        return $code;
     }
 
     /**

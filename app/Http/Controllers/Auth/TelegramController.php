@@ -56,12 +56,12 @@ class TelegramController extends Controller
                 ], 400);
             }
 
-            $data = $request->all();
+        $data = $request->all();
             $checkHash = $data['hash'];
             $referrerId = $data['referrer_id'] ?? null;
 
             // Remove hash and referrer_id from data for validation
-            unset($data['hash'], $data['referrer_id']);
+        unset($data['hash'], $data['referrer_id']);
 
             // Log data before hash validation
             Log::info('Data prepared for hash validation', [
@@ -95,15 +95,15 @@ class TelegramController extends Controller
                         'message' => 'Invalid referrer'
                     ], 400);
                 }
-            }
+        }
 
-            // Find or create user
-            $user = SheerappsAccount::firstOrCreate(
-                ['telegram_id' => $data['id']],
-                [
+        // Find or create user
+        $user = SheerappsAccount::firstOrCreate(
+            ['telegram_id' => $data['id']],
+            [
                     'name' => $data['first_name'],
-                    'username' => $data['username'] ?? '',
-                    'photo_url' => $data['photo_url'] ?? '',
+                'username' => $data['username'] ?? '',
+                'photo_url' => $data['photo_url'] ?? '',
                     'referrer_id' => $referrerId,
                     'status' => 'active',
                     'last_login_at' => Carbon::now(),
@@ -398,7 +398,7 @@ class TelegramController extends Controller
                         return [
                             'id' => $ref->id,
                             'name' => $ref->name,
-                            'username' => $ref->username
+                            'username' => $ref->name
                         ];
                     })
                 ]
@@ -411,5 +411,217 @@ class TelegramController extends Controller
                 'message' => 'An error occurred while fetching referral statistics'
             ], 500);
         }
+    }
+
+    /**
+     * Validate referral code before proceeding to Telegram OAuth
+     */
+    public function validateReferral(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'referral_code' => 'required|string|max:50'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Referral code is required'
+                ], 400);
+            }
+
+            $referralCode = $request->input('referral_code');
+            
+            // Check if referral code exists and is valid
+            $referrer = SheerappsAccount::where('referral_code', $referralCode)
+                ->orWhere('id', $referralCode)
+                ->first();
+
+            if (!$referrer) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid referral code. Please check and try again.'
+                ], 400);
+            }
+
+            if (!$referrer->isActive()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Referral code is inactive. Please use a different code.'
+                ], 400);
+            }
+
+            // Store referral code in session for later use
+            session(['pending_referral_code' => $referralCode]);
+
+            Log::info('Referral code validated successfully', [
+                'referral_code' => $referralCode,
+                'referrer_id' => $referrer->id,
+                'ip' => $request->ip()
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Referral code validated successfully',
+                'data' => [
+                    'referrer_id' => $referrer->id,
+                    'referrer_name' => $referrer->name
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Referral validation error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while validating referral code'
+            ], 500);
+        }
+    }
+
+    /**
+     * Handle Telegram OAuth callback and redirect to React Native app
+     */
+    public function handleOAuthCallback(Request $request)
+    {
+        try {
+            // Get referral code from session or query parameter
+            $referralCode = session('pending_referral_code') ?? $request->query('referral_code');
+            
+            if (!$referralCode) {
+                Log::warning('No referral code found in OAuth callback');
+                return $this->redirectToAppWithError('Missing referral code');
+            }
+
+            // Get Telegram user data from OAuth
+            $telegramData = $this->getTelegramUserData($request);
+            
+            if (!$telegramData) {
+                Log::warning('Failed to get Telegram user data from OAuth');
+                return $this->redirectToAppWithError('Failed to get Telegram user data');
+            }
+
+            // Add referral code to telegram data
+            $telegramData['referrer_id'] = $this->getReferrerId($referralCode);
+            
+            // Process the login
+            $user = $this->processTelegramLogin($telegramData, $request->ip());
+            
+            if (!$user) {
+                return $this->redirectToAppWithError('Failed to process login');
+            }
+
+            // Generate API token
+            $token = $user->generateApiToken();
+            
+            // Clear session
+            session()->forget('pending_referral_code');
+            
+            // Redirect to React Native app
+            $redirectUrl = $this->buildRedirectUrl($user, $token);
+            
+            Log::info('OAuth callback successful, redirecting to app', [
+                'user_id' => $user->id,
+                'telegram_id' => $user->telegram_id,
+                'redirect_url' => $redirectUrl
+            ]);
+            
+            return redirect()->away($redirectUrl);
+
+        } catch (\Exception $e) {
+            Log::error('OAuth callback error: ' . $e->getMessage(), [
+                'ip' => $request->ip(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return $this->redirectToAppWithError('An error occurred during login');
+        }
+    }
+
+    /**
+     * Get Telegram user data from OAuth callback
+     */
+    private function getTelegramUserData(Request $request)
+    {
+        // Extract user data from Telegram OAuth callback
+        // This will depend on how Telegram OAuth returns the data
+        $userData = $request->all();
+        
+        // For now, we'll use a simplified approach
+        // In production, you'll need to handle the actual Telegram OAuth response
+        if (isset($userData['id']) && isset($userData['first_name'])) {
+            return [
+                'id' => $userData['id'],
+                'first_name' => $userData['first_name'],
+                'username' => $userData['username'] ?? '',
+                'photo_url' => $userData['photo_url'] ?? '',
+                'hash' => 'oauth_' . time() // Generate a hash for OAuth flow
+            ];
+        }
+        
+        return null;
+    }
+
+    /**
+     * Get referrer ID from referral code
+     */
+    private function getReferrerId($referralCode)
+    {
+        $referrer = SheerappsAccount::where('referral_code', $referralCode)
+            ->orWhere('id', $referralCode)
+            ->first();
+            
+        return $referrer ? $referrer->id : null;
+    }
+
+    /**
+     * Process Telegram login with referral
+     */
+    private function processTelegramLogin($telegramData, $ipAddress)
+    {
+        try {
+            // Find or create user
+            $user = SheerappsAccount::firstOrCreate(
+                ['telegram_id' => $telegramData['id']],
+                [
+                    'name' => $telegramData['first_name'],
+                    'username' => $telegramData['username'] ?? '',
+                    'photo_url' => $telegramData['photo_url'] ?? '',
+                    'referrer_id' => $telegramData['referrer_id'],
+                    'status' => 'active',
+                    'last_login_at' => Carbon::now(),
+                    'last_ip_address' => $ipAddress
+                ]
+            );
+
+            // Update existing user information if needed
+            if ($user->wasRecentlyCreated === false) {
+                $user->update([
+                    'name' => $telegramData['first_name'],
+                    'username' => $telegramData['username'] ?? $user->username,
+                    'photo_url' => $telegramData['photo_url'] ?? $user->photo_url,
+                    'referrer_id' => $telegramData['referrer_id'] ?? $user->referrer_id,
+                    'last_login_at' => Carbon::now(),
+                    'last_ip_address' => $ipAddress
+                ]);
+            }
+
+            // Update login info
+            $user->updateLoginInfo($ipAddress);
+
+            return $user;
+
+        } catch (\Exception $e) {
+            Log::error('Error processing Telegram login: ' . $e->getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Redirect to app with error
+     */
+    private function redirectToAppWithError($errorMessage)
+    {
+        $errorUrl = 'sheerapps4d://telegram-login-error?error=' . urlencode($errorMessage);
+        return redirect()->away($errorUrl);
     }
 }

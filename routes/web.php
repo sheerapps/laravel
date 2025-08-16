@@ -22,6 +22,14 @@ Route::get('/telegram-login', function () {
     return view('telegram-login');
 })->name('telegram.login.page');
 
+// Telegram OAuth Callback (handles redirect from Telegram OAuth)
+Route::get('/telegram-callback', [TelegramController::class, 'handleOAuthCallback'])->name('telegram.oauth.callback');
+
+// Telegram OAuth Callback View (for demonstration)
+Route::get('/telegram-oauth-demo', function () {
+    return view('telegram-oauth-callback');
+})->name('telegram.oauth.demo');
+
 // TERMS OF SERVICE
 Route::get('/terms', function () {
     return response()->view('policies.terms');
