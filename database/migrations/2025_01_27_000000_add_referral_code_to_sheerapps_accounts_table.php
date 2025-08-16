@@ -12,7 +12,7 @@ class AddReferralCodeToSheerappsAccountsTable extends Migration
      * @return void
      */
     public function up()
-    {
+    { 
         Schema::table('sheerapps_accounts', function (Blueprint $table) {
             $table->string('referral_code', 50)->nullable()->unique()->after('id');
             $table->index(['referral_code']);
