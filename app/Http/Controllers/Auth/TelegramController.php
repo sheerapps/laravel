@@ -420,17 +420,33 @@ class TelegramController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'referral_code' => 'required|string|max:50'
+                'referral_code' => 'nullable|string|max:50' // Changed from required to nullable
             ]);
 
             if ($validator->fails()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Referral code is required'
+                    'message' => 'Invalid referral code format'
                 ], 400);
             }
 
             $referralCode = $request->input('referral_code');
+            
+            // If no referral code provided, return success (optional field)
+            if (empty($referralCode)) {
+                Log::info('No referral code provided - proceeding without referral', [
+                    'ip' => $request->ip()
+                ]);
+                
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Proceeding without referral code',
+                    'data' => [
+                        'referrer_id' => null,
+                        'referrer_name' => null
+                    ]
+                ]);
+            }
             
             // Check if referral code exists and is valid
             $referrer = SheerappsAccount::where('referral_code', $referralCode)
@@ -440,14 +456,14 @@ class TelegramController extends Controller
             if (!$referrer) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Invalid referral code. Please check and try again.'
+                    'message' => 'Invalid referral code. Please check and try again, or leave it empty to continue without a referral code.'
                 ], 400);
             }
 
             if (!$referrer->isActive()) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Referral code is inactive. Please use a different code.'
+                    'message' => 'Referral code is inactive. Please use a different code or leave it empty to continue without a referral code.'
                 ], 400);
             }
 
@@ -487,9 +503,9 @@ class TelegramController extends Controller
             // Get referral code from session or query parameter
             $referralCode = session('pending_referral_code') ?? $request->query('referral_code');
             
+            // Referral code is now optional, so we don't require it
             if (!$referralCode) {
-                Log::warning('No referral code found in OAuth callback');
-                return $this->redirectToAppWithError('Missing referral code');
+                Log::info('No referral code provided in OAuth callback - proceeding without referral');
             }
 
             // Get Telegram user data from OAuth
@@ -500,8 +516,8 @@ class TelegramController extends Controller
                 return $this->redirectToAppWithError('Failed to get Telegram user data');
             }
 
-            // Add referral code to telegram data
-            $telegramData['referrer_id'] = $this->getReferrerId($referralCode);
+            // Add referral code to telegram data (can be null)
+            $telegramData['referrer_id'] = $referralCode ? $this->getReferrerId($referralCode) : null;
             
             // Process the login
             $user = $this->processTelegramLogin($telegramData, $request->ip());
@@ -522,6 +538,7 @@ class TelegramController extends Controller
             Log::info('OAuth callback successful, redirecting to app', [
                 'user_id' => $user->id,
                 'telegram_id' => $user->telegram_id,
+                'referral_code' => $referralCode ?: 'none',
                 'redirect_url' => $redirectUrl
             ]);
             
@@ -566,6 +583,10 @@ class TelegramController extends Controller
      */
     private function getReferrerId($referralCode)
     {
+        if (!$referralCode) {
+            return null;
+        }
+        
         $referrer = SheerappsAccount::where('referral_code', $referralCode)
             ->orWhere('id', $referralCode)
             ->first();

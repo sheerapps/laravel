@@ -189,7 +189,7 @@
         <p class="subtitle">Login with your Telegram account to access live 4D results and forecasts</p>
         
         <div class="referral-label">Referral ID (Optional):</div>
-        <input type="number" id="referralId" class="referral-input" placeholder="Enter referral ID if you have one">
+        <input type="number" id="referralId" class="referral-input" placeholder="Enter referral ID if you have one (optional)">
         
         <button id="loginBtn" class="telegram-button" onclick="initTelegramLogin()">
             <svg class="telegram-icon" viewBox="0 0 24 24" fill="currentColor">
