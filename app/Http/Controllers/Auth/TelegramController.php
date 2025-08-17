@@ -487,12 +487,19 @@ class TelegramController extends Controller
             if (!$referrer) {
                 Log::warning('Invalid referral code provided', [
                     'referral_code' => $referralCode,
-                    'ip' => $request->ip()
+                    'ip' => $request->ip(),
+                    'total_users' => SheerappsAccount::count(),
+                    'sample_referral_codes' => SheerappsAccount::select('referral_code')->limit(5)->pluck('referral_code')->toArray()
                 ]);
                 
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Invalid referral code. Please check and try again, or leave it empty to continue without a referral code.'
+                    'message' => 'Invalid referral code. Please check and try again, or leave it empty to continue without a referral code.',
+                    'debug_info' => [
+                        'referral_code_provided' => $referralCode,
+                        'total_users_in_system' => SheerappsAccount::count(),
+                        'note' => 'No users exist with this referral code yet'
+                    ]
                 ], 400);
             }
 

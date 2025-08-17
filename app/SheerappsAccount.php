@@ -57,9 +57,29 @@ class SheerappsAccount extends Model
      */
     public function generateUniqueReferralCode()
     {
+        $attempts = 0;
+        $maxAttempts = 100;
+        
         do {
-            $code = strtoupper(substr(md5(uniqid() . time()), 0, 8));
-        } while (static::where('referral_code', $code)->exists());
+            $attempts++;
+            
+            // Generate a more user-friendly code (6-8 characters, alphanumeric)
+            $code = strtoupper(substr(md5(uniqid() . time() . rand(1000, 9999)), 0, 8));
+            
+            // Ensure it's not too similar to existing codes
+            $similarCodes = static::where('referral_code', 'LIKE', substr($code, 0, 4) . '%')->count();
+            
+            // If we've tried too many times, use a different approach
+            if ($attempts > $maxAttempts) {
+                $code = 'REF' . strtoupper(substr(md5(uniqid() . microtime()), 0, 5));
+            }
+            
+        } while (static::where('referral_code', $code)->exists() && $attempts <= $maxAttempts);
+        
+        // If still not unique, add timestamp
+        if (static::where('referral_code', $code)->exists()) {
+            $code = $code . substr(time(), -2);
+        }
         
         return $code;
     }
