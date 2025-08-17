@@ -12,11 +12,11 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
-// Bootstrap Laravel
-$app = Application::configure(basePath: __DIR__)
+// Bootstrap Laravel (PHP 7.1 compatible)
+$app = Application::configure(__DIR__)
     ->withRouting(
-        web: __DIR__.'/routes/web.php',
-        api: __DIR__.'/routes/api.php',
+        __DIR__.'/routes/web.php',
+        __DIR__.'/routes/api.php'
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
