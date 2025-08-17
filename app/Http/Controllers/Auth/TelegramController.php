@@ -414,19 +414,50 @@ class TelegramController extends Controller
     }
 
     /**
+     * Test endpoint to verify API connectivity
+     */
+    public function test()
+    {
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Telegram API is working correctly',
+            'timestamp' => now()->toISOString(),
+            'server_info' => [
+                'php_version' => PHP_VERSION,
+                'laravel_version' => app()->version(),
+                'environment' => app()->environment()
+            ]
+        ]);
+    }
+
+    /**
      * Validate referral code before proceeding to Telegram OAuth
      */
     public function validateReferral(Request $request)
     {
         try {
+            // Log the incoming request for debugging
+            Log::info('Referral validation request received', [
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'request_data' => $request->all(),
+                'content_type' => $request->header('Content-Type')
+            ]);
+
             $validator = Validator::make($request->all(), [
                 'referral_code' => 'nullable|string|max:50' // Changed from required to nullable
             ]);
 
             if ($validator->fails()) {
+                Log::warning('Referral validation failed', [
+                    'errors' => $validator->errors(),
+                    'ip' => $request->ip()
+                ]);
+                
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Invalid referral code format'
+                    'message' => 'Invalid referral code format',
+                    'errors' => $validator->errors()
                 ], 400);
             }
 
@@ -454,6 +485,11 @@ class TelegramController extends Controller
                 ->first();
 
             if (!$referrer) {
+                Log::warning('Invalid referral code provided', [
+                    'referral_code' => $referralCode,
+                    'ip' => $request->ip()
+                ]);
+                
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Invalid referral code. Please check and try again, or leave it empty to continue without a referral code.'
@@ -461,6 +497,12 @@ class TelegramController extends Controller
             }
 
             if (!$referrer->isActive()) {
+                Log::warning('Inactive referral code provided', [
+                    'referral_code' => $referralCode,
+                    'referrer_id' => $referrer->id,
+                    'ip' => $request->ip()
+                ]);
+                
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Referral code is inactive. Please use a different code or leave it empty to continue without a referral code.'
@@ -486,10 +528,14 @@ class TelegramController extends Controller
             ]);
 
         } catch (\Exception $e) {
-            Log::error('Referral validation error: ' . $e->getMessage());
+            Log::error('Referral validation error: ' . $e->getMessage(), [
+                'ip' => $request->ip(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
             return response()->json([
                 'status' => 'error',
-                'message' => 'An error occurred while validating referral code'
+                'message' => 'An error occurred while validating referral code: ' . $e->getMessage()
             ], 500);
         }
     }
