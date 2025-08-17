@@ -185,11 +185,29 @@ try {
     echo "   ❌ Error generating OAuth URL: " . $e->getMessage() . "\n";
 }
 
+// Test 9: Test External API Endpoints
+echo "\n9. Testing External API Endpoints...\n";
+try {
+    $baseUrl = env('APP_URL', 'https://accounts.sheerapp.work');
+    
+    // Test test endpoint
+    $testResponse = file_get_contents($baseUrl . '/api/test-telegram');
+    if ($testResponse) {
+        echo "   ✅ Test endpoint accessible\n";
+    } else {
+        echo "   ❌ Test endpoint not accessible\n";
+    }
+    
+} catch (Exception $e) {
+    echo "   ❌ Error testing external endpoints: " . $e->getMessage() . "\n";
+}
+
 echo "\n=== Test Summary ===\n";
 echo "✅ All tests completed\n";
 echo "\nNext steps:\n";
 echo "1. Run migrations: php artisan migrate\n";
 echo "2. Set up your Telegram bot with BotFather\n";
-echo "3. Configure environment variables\n";
+echo "3. Configure environment variables in .env file\n";
 echo "4. Test the complete flow in your React Native app\n";
 echo "\nFor detailed setup instructions, see: TELEGRAM_OAUTH_SETUP_GUIDE.md\n";
+echo "\nStaging Domain: https://accounts.sheerapp.work\n";
