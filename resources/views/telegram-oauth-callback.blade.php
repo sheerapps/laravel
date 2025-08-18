@@ -85,11 +85,11 @@
             <h2>📱 Redirect to App</h2>
             <p>Click the button below to test redirecting back to your React Native app:</p>
             
-            <button class="redirect-btn" onclick="redirectToApp()">
+            <button id="successBtn" class="redirect-btn">
                 🚀 Redirect to App (Success)
             </button>
             
-            <button class="redirect-btn" onclick="redirectToAppError()" style="background: #f44336; margin-left: 10px;">
+            <button id="errorBtn" class="redirect-btn" style="background: #f44336; margin-left: 10px;">
                 ❌ Redirect to App (Error)
             </button>
         </div>
@@ -108,8 +108,11 @@
     </div>
 
     <script>
+        console.log('Script section loaded');
+        
         // Define functions first before they're used
         function redirectToApp() {
+            console.log('redirectToApp function called');
             try {
                 // Test successful login redirect
                 const testData = {
@@ -134,6 +137,7 @@
         }
         
         function redirectToAppError() {
+            console.log('redirectToAppError function called');
             try {
                 // Test error redirect
                 const errorUrl = 'sheerapps4d://telegram-login-error?error=Test error message';
@@ -148,9 +152,9 @@
         
         // Log all data for debugging
         console.log('Telegram OAuth Callback Data:', {
-            query: {{ json_encode(request()->query()) }},
-            post: {{ json_encode(request()->post()) }},
-            headers: {{ json_encode(request()->headers->all()) }}
+            query: @json(request()->query()),
+            post: @json(request()->post()),
+            headers: @json(request()->headers->all())
         });
         
         // Add event listeners after DOM is loaded
@@ -169,7 +173,22 @@
             } else {
                 console.error('❌ redirectToAppError function is NOT available');
             }
+            
+            // Also test global scope
+            console.log('Global scope test:');
+            console.log('- window.redirectToApp:', typeof window.redirectToApp);
+            console.log('- window.redirectToAppError:', typeof window.redirectToAppError);
+
+            // Add event listeners to buttons
+            document.getElementById('successBtn').addEventListener('click', redirectToApp);
+            document.getElementById('errorBtn').addEventListener('click', redirectToAppError);
         });
+        
+        // Make functions globally accessible
+        window.redirectToApp = redirectToApp;
+        window.redirectToAppError = redirectToAppError;
+        
+        console.log('Functions defined and made global');
     </script>
 </body>
 </html>
