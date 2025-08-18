@@ -108,31 +108,42 @@
     </div>
 
     <script>
+        // Define functions first before they're used
         function redirectToApp() {
-            // Test successful login redirect
-            const testData = {
-                username: 'Test User',
-                avatar: 'https://via.placeholder.com/100x100?text=User',
-                status: 'active',
-                token: 'test_token_' + Date.now(),
-                user_id: Math.floor(Math.random() * 1000),
-                referrer_id: null,
-                referral_count: 0
-            };
-            
-            const queryString = new URLSearchParams(testData).toString();
-            const redirectUrl = `sheerapps4d://telegram-login-success?${queryString}`;
-            
-            console.log('Redirecting to:', redirectUrl);
-            window.location.href = redirectUrl;
+            try {
+                // Test successful login redirect
+                const testData = {
+                    username: 'Test User',
+                    avatar: 'https://via.placeholder.com/100x100?text=User',
+                    status: 'active',
+                    token: 'test_token_' + Date.now(),
+                    user_id: Math.floor(Math.random() * 1000),
+                    referrer_id: null,
+                    referral_count: 0
+                };
+                
+                const queryString = new URLSearchParams(testData).toString();
+                const redirectUrl = `sheerapps4d://telegram-login-success?${queryString}`;
+                
+                console.log('Redirecting to:', redirectUrl);
+                window.location.href = redirectUrl;
+            } catch (error) {
+                console.error('Error in redirectToApp:', error);
+                alert('Error redirecting to app: ' + error.message);
+            }
         }
         
         function redirectToAppError() {
-            // Test error redirect
-            const errorUrl = 'sheerapps4d://telegram-login-error?error=Test error message';
-            
-            console.log('Redirecting to error:', errorUrl);
-            window.location.href = errorUrl;
+            try {
+                // Test error redirect
+                const errorUrl = 'sheerapps4d://telegram-login-error?error=Test error message';
+                
+                console.log('Redirecting to error:', errorUrl);
+                window.location.href = errorUrl;
+            } catch (error) {
+                console.error('Error in redirectToAppError:', error);
+                alert('Error redirecting to app: ' + error.message);
+            }
         }
         
         // Log all data for debugging
@@ -140,6 +151,24 @@
             query: {{ json_encode(request()->query()) }},
             post: {{ json_encode(request()->post()) }},
             headers: {{ json_encode(request()->headers->all()) }}
+        });
+        
+        // Add event listeners after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, functions are ready');
+            
+            // Test if functions are accessible
+            if (typeof redirectToApp === 'function') {
+                console.log('✅ redirectToApp function is available');
+            } else {
+                console.error('❌ redirectToApp function is NOT available');
+            }
+            
+            if (typeof redirectToAppError === 'function') {
+                console.log('✅ redirectToAppError function is available');
+            } else {
+                console.error('❌ redirectToAppError function is NOT available');
+            }
         });
     </script>
 </body>
