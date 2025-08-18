@@ -139,11 +139,24 @@
         function redirectToAppError() {
             console.log('redirectToAppError function called');
             try {
-                // Test error redirect
-                const errorUrl = 'sheerapps4d://telegram-login-error?error=Test error message';
+                // Test error redirect with simple message
+                const errorUrl = 'sheerapps4d://telegram-login-error?error=Login failed';
                 
                 console.log('Redirecting to error:', errorUrl);
+                console.log('Current window.location:', window.location.href);
+                
+                // Try different approaches
+                console.log('Attempting redirect...');
+                
+                // Method 1: Direct assignment
                 window.location.href = errorUrl;
+                
+                // Method 2: If first method doesn't work, try setTimeout
+                setTimeout(() => {
+                    console.log('Fallback redirect attempt...');
+                    window.location.href = errorUrl;
+                }, 100);
+                
             } catch (error) {
                 console.error('Error in redirectToAppError:', error);
                 alert('Error redirecting to app: ' + error.message);
