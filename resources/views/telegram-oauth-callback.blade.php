@@ -169,11 +169,47 @@
                 window.telegramUserData = telegramData;
                 
                 console.log('Telegram data stored:', telegramData);
+                return telegramData; // Return the data for automatic redirection
             } else {
                 statusDiv.className = 'status error';
                 statusDiv.textContent = '❌ Failed to extract Telegram data from URL fragment';
                 dataDiv.innerHTML = '<p>No valid Telegram OAuth data found in URL fragment.</p>';
+                return null; // Return null if data extraction fails
             }
+        }
+
+        // Get referral code from URL query parameters (Hermes compatible)
+        function getReferralCodeFromUrl() {
+            try {
+                const url = window.location.href;
+                const queryStart = url.indexOf('?');
+                if (queryStart === -1) return null;
+                
+                const queryString = url.substring(queryStart + 1);
+                const params = queryString.split('&');
+                
+                for (const param of params) {
+                    const [key, value] = param.split('=');
+                    if (key === 'referral_code') {
+                        return decodeURIComponent(value);
+                    }
+                }
+                return null;
+            } catch (error) {
+                console.error('Error parsing referral code:', error);
+                return null;
+            }
+        }
+
+        // Build query string manually (Hermes compatible)
+        function buildQueryString(params) {
+            const pairs = [];
+            for (const [key, value] of Object.entries(params)) {
+                if (value !== null && value !== undefined) {
+                    pairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+                }
+            }
+            return pairs.join('&');
         }
 
         // Redirect to app with success
@@ -182,7 +218,7 @@
             
             if (telegramData) {
                 // Build the success deep link with actual user data
-                const params = new URLSearchParams({
+                const params = {
                     username: telegramData.username || telegramData.first_name,
                     avatar: telegramData.photo_url || '',
                     status: 'active',
@@ -190,16 +226,17 @@
                     user_id: telegramData.id,
                     referrer_id: getReferralCodeFromUrl() || '',
                     referral_count: '0'
-                });
+                };
                 
-                const deepLink = `sheerapps4d://telegram-login-success?${params.toString()}`;
+                const queryString = buildQueryString(params);
+                const deepLink = `sheerapps4d://telegram-login-success?${queryString}`;
                 console.log('Redirecting to app with success:', deepLink);
                 
                 // Redirect to the app
                 window.location.href = deepLink;
             } else {
                 // Fallback to test data
-                const testParams = new URLSearchParams({
+                const testParams = {
                     username: 'Test User',
                     avatar: '',
                     status: 'active',
@@ -207,9 +244,10 @@
                     user_id: '12345',
                     referrer_id: getReferralCodeFromUrl() || '',
                     referral_count: '0'
-                });
+                };
                 
-                const testDeepLink = `sheerapps4d://telegram-login-success?${testParams.toString()}`;
+                const testQueryString = buildQueryString(testParams);
+                const testDeepLink = `sheerapps4d://telegram-login-success?${testQueryString}`;
                 console.log('Redirecting to app with test data:', testDeepLink);
                 
                 window.location.href = testDeepLink;
@@ -225,16 +263,10 @@
             window.location.href = deepLink;
         }
 
-        // Get referral code from URL query parameters
-        function getReferralCodeFromUrl() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('referral_code');
-        }
-
         // Auto-extract data when page loads
         window.addEventListener('load', function() {
             console.log('Page loaded, extracting Telegram data...');
-            extractAndProcess();
+            const extractedData = extractAndProcess();
             
             // Add debug info
             const debugDiv = document.getElementById('debugInfo');
@@ -244,6 +276,14 @@
                 <div class="data-item"><strong>Referral Code:</strong> ${getReferralCodeFromUrl() || 'None'}</div>
                 <div class="data-item"><strong>User Agent:</strong> ${navigator.userAgent}</div>
             `;
+            
+            // If data was extracted successfully, automatically redirect after a short delay
+            if (extractedData) {
+                console.log('✅ Telegram data extracted successfully, redirecting to app in 2 seconds...');
+                setTimeout(() => {
+                    redirectToApp();
+                }, 2000);
+            }
         });
     </script>
 </body>
