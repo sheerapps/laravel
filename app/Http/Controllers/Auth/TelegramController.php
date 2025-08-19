@@ -748,6 +748,9 @@ class TelegramController extends Controller
     private function processTelegramLogin($telegramData, $ipAddress)
     {
         try {
+            // Set timezone to Malaysia Kuala Lumpur
+            $malaysiaTime = Carbon::now('Asia/Kuala_Lumpur');
+            
             // Find or create user
             $user = SheerappsAccount::firstOrCreate(
                 ['telegram_id' => $telegramData['id']],
@@ -757,8 +760,10 @@ class TelegramController extends Controller
                     'photo_url' => $telegramData['photo_url'] ?? '',
                     'referrer_id' => $telegramData['referrer_id'],
                     'status' => 'active',
-                    'last_login_at' => Carbon::now(),
-                    'last_ip_address' => $ipAddress
+                    'last_login_at' => $malaysiaTime,
+                    'last_ip_address' => $ipAddress,
+                    'created_at' => $malaysiaTime,
+                    'updated_at' => $malaysiaTime
                 ]
             );
 
@@ -769,13 +774,14 @@ class TelegramController extends Controller
                     'username' => $telegramData['username'] ?? $user->username,
                     'photo_url' => $telegramData['photo_url'] ?? $user->photo_url,
                     'referrer_id' => $telegramData['referrer_id'] ?? $user->referrer_id,
-                    'last_login_at' => Carbon::now(),
-                    'last_ip_address' => $ipAddress
+                    'last_login_at' => $malaysiaTime,
+                    'last_ip_address' => $ipAddress,
+                    'updated_at' => $malaysiaTime
                 ]);
             }
 
-            // Update login info
-            $user->updateLoginInfo($ipAddress);
+            // Update login info with Malaysia timezone
+            $user->updateLoginInfo($ipAddress, $malaysiaTime);
 
             return $user;
 

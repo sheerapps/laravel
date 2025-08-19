@@ -33,7 +33,25 @@ class SheerappsAccount extends Model
             if (empty($model->referral_code)) {
                 $model->referral_code = $model->generateUniqueReferralCode();
             }
+            
+            // Set timezone to Malaysia Kuala Lumpur for timestamps
+            $malaysiaTime = Carbon::now('Asia/Kuala_Lumpur');
+            $model->created_at = $malaysiaTime;
+            $model->updated_at = $malaysiaTime;
         });
+        
+        static::updating(function ($model) {
+            // Update timestamp to Malaysia timezone
+            $model->updated_at = Carbon::now('Asia/Kuala_Lumpur');
+        });
+    }
+
+    /**
+     * Get current Malaysia time
+     */
+    public static function getMalaysiaTime()
+    {
+        return Carbon::now('Asia/Kuala_Lumpur');
     }
 
     /**
@@ -106,16 +124,20 @@ class SheerappsAccount extends Model
     /**
      * Update login information
      */
-    public function updateLoginInfo($ipAddress = null)
+    public function updateLoginInfo($ipAddress = null, $customTime = null)
     {
-        $this->last_login_at = Carbon::now();
+        // Use custom time if provided, otherwise use current time in Malaysia timezone
+        $loginTime = $customTime ?: Carbon::now('Asia/Kuala_Lumpur');
+        
+        $this->last_login_at = $loginTime;
         $this->last_ip_address = $ipAddress;
         
         // Add to login history (keep last 10 entries)
         $history = $this->login_history ?? [];
         $history[] = [
-            'timestamp' => Carbon::now()->toISOString(),
+            'timestamp' => $loginTime->toISOString(),
             'ip_address' => $ipAddress,
+            'timezone' => 'Asia/Kuala_Lumpur'
         ];
         
         // Keep only last 10 entries
