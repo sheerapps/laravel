@@ -14,22 +14,22 @@ class CreateSheerappsAccountsTable extends Migration
     public function up()
     {
         Schema::create('sheerapps_accounts', function (Blueprint $table) {
-            $table->increments('id'); // Laravel 5.8 uses increments() instead of id()
-            $table->string('referral_code')->nullable()->unique();
+            $table->increments('id');
+            $table->string('referral_code', 50)->nullable()->unique(); // Specify length
             $table->integer('telegram_id')->nullable()->unique();
-            $table->string('name');
-            $table->string('username')->nullable();
-            $table->string('email')->nullable()->unique();
-            $table->string('password')->nullable();
-            $table->string('loginMethod')->default('telegram');
+            $table->string('name', 255);
+            $table->string('username', 255)->nullable();
+            $table->string('email', 191)->nullable()->unique(); // Use 191 for MySQL compatibility
+            $table->string('password', 255)->nullable();
+            $table->string('loginMethod', 50)->default('telegram'); // Specify length
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('photo_url')->nullable();
-            $table->string('api_token')->nullable()->unique();
-            $table->unsignedInteger('referrer_id')->nullable(); // Use unsignedInteger for Laravel 5.8
-            $table->string('status')->default('active');
+            $table->string('photo_url', 500)->nullable(); // Specify length
+            $table->string('api_token', 80)->nullable()->unique(); // Specify length
+            $table->unsignedInteger('referrer_id')->nullable();
+            $table->string('status', 50)->default('active'); // Specify length
             $table->timestamp('last_login_at')->nullable();
-            $table->string('last_ip_address')->nullable();
-            $table->text('login_history')->nullable(); // Use text instead of json for Laravel 5.8
+            $table->string('last_ip_address', 45)->nullable(); // Specify length
+            $table->text('login_history')->nullable();
             $table->timestamps();
             
             // Foreign key constraint for self-referencing referral system
