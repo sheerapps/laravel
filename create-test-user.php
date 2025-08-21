@@ -175,14 +175,19 @@ try {
         ]
     ]);
     
-    $emailUser->save();
-    echo "   ✅ Email test user created successfully!\n";
-    echo "   ID: {$emailUser->id}\n";
-    echo "   Name: {$emailUser->name}\n";
-    echo "   Email: {$emailUser->email}\n";
-    echo "   Password: test123\n";
-    echo "   Referral Code: {$emailUser->referral_code}\n";
-    echo "   Login Method: {$emailUser->loginMethod}\n";
+    try {
+        $emailUser->save();
+        echo "   ✅ Email test user created successfully!\n";
+        echo "   ID: {$emailUser->id}\n";
+        echo "   Name: {$emailUser->name}\n";
+        echo "   Email: {$emailUser->email}\n";
+        echo "   Password: test123\n";
+        echo "   Referral Code: {$emailUser->referral_code}\n";
+        echo "   Login Method: {$emailUser->loginMethod}\n";
+    } catch (Exception $e) {
+        echo "   ❌ Error creating email user: " . $e->getMessage() . "\n";
+        echo "   This might be due to database constraints. Please check the schema.\n";
+    }
     
     echo "\n=== Test Users Created Successfully! ===\n";
     echo "You can now use:\n";
