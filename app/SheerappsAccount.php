@@ -9,17 +9,19 @@ use Carbon\Carbon;
 class SheerappsAccount extends Model
 {
     protected $fillable = [
-        'telegram_id', 'name', 'username', 'photo_url', 'api_token', 
-        'referrer_id', 'status', 'last_login_at', 'last_ip_address', 'login_history', 'referral_code'
+        'telegram_id', 'name', 'username', 'email', 'password', 'photo_url', 'api_token', 
+        'referrer_id', 'status', 'last_login_at', 'last_ip_address', 'login_history', 'referral_code',
+        'loginMethod', 'email_verified_at'
     ];
 
     protected $hidden = [
-        'api_token',
+        'api_token', 'password',
     ];
 
     protected $casts = [
         'last_login_at' => 'datetime',
         'login_history' => 'array',
+        'email_verified_at' => 'datetime',
     ];
 
     /**
@@ -32,6 +34,11 @@ class SheerappsAccount extends Model
         static::creating(function ($model) {
             if (empty($model->referral_code)) {
                 $model->referral_code = $model->generateUniqueReferralCode();
+            }
+            
+            // Set default login method if not specified
+            if (empty($model->loginMethod)) {
+                $model->loginMethod = 'telegram';
             }
             
             // Set timezone to Malaysia Kuala Lumpur for timestamps
@@ -137,7 +144,8 @@ class SheerappsAccount extends Model
         $history[] = [
             'timestamp' => $loginTime->toISOString(),
             'ip_address' => $ipAddress,
-            'timezone' => 'Asia/Kuala_Lumpur'
+            'timezone' => 'Asia/Kuala_Lumpur',
+            'method' => $this->loginMethod ?? 'telegram'
         ];
         
         // Keep only last 10 entries
@@ -179,5 +187,29 @@ class SheerappsAccount extends Model
         }
         
         return $chain;
+    }
+
+    /**
+     * Check if user registered with email
+     */
+    public function isEmailUser()
+    {
+        return $this->loginMethod === 'email';
+    }
+
+    /**
+     * Check if user registered with Telegram
+     */
+    public function isTelegramUser()
+    {
+        return $this->loginMethod === 'telegram';
+    }
+
+    /**
+     * Check if email is verified
+     */
+    public function isEmailVerified()
+    {
+        return !is_null($this->email_verified_at);
     }
 }

@@ -691,34 +691,15 @@ class TelegramController extends Controller
             // URL fragments are NOT sent to the server, so we can't access them here
             // This is a limitation of how web browsers work
             
-            // For now, we'll create a test user to ensure the flow works
-            // In production, you would need to handle this differently
+            // Since we can't access the URL fragment server-side, we need to handle this differently
+            // The React Native app should extract the data and send it to a different endpoint
             
-            Log::info('Creating test user data since OAuth data is in URL fragment', [
-                'note' => 'URL fragments are not accessible server-side'
+            Log::info('Cannot access Telegram OAuth data from server-side callback', [
+                'note' => 'URL fragments are not accessible server-side. Need client-side handling.'
             ]);
             
-            // Create a test user to demonstrate the flow
-            $telegramId = rand(100000000, 999999999);
-            $firstName = 'Telegram User';
-            $username = 'tg_user_' . $telegramId;
-            $photoUrl = '';
-            $hash = 'test_oauth_' . time();
-            
-            Log::info('Created test user data for demonstration', [
-                'telegram_id' => $telegramId,
-                'first_name' => $firstName,
-                'username' => $username
-            ]);
-
-            return [
-                'id' => $telegramId,
-                'first_name' => $firstName,
-                'username' => $username,
-                'photo_url' => $photoUrl,
-                'hash' => $hash,
-                'auth_date' => time()
-            ];
+            // Return null to indicate we need client-side processing
+            return null;
 
         } catch (\Exception $e) {
             Log::error('Error extracting Telegram user data: ' . $e->getMessage());
@@ -751,6 +732,14 @@ class TelegramController extends Controller
             // Set timezone to Malaysia Kuala Lumpur
             $malaysiaTime = Carbon::now('Asia/Kuala_Lumpur');
             
+            Log::info('Processing Telegram login with data:', [
+                'telegram_id' => $telegramData['id'],
+                'first_name' => $telegramData['first_name'],
+                'username' => $telegramData['username'] ?? '',
+                'referrer_id' => $telegramData['referrer_id'] ?? null,
+                'ip_address' => $ipAddress
+            ]);
+            
             // Find or create user
             $user = SheerappsAccount::firstOrCreate(
                 ['telegram_id' => $telegramData['id']],
@@ -760,12 +749,19 @@ class TelegramController extends Controller
                     'photo_url' => $telegramData['photo_url'] ?? '',
                     'referrer_id' => $telegramData['referrer_id'],
                     'status' => 'active',
+                    'loginMethod' => 'telegram', // Set login method
                     'last_login_at' => $malaysiaTime,
                     'last_ip_address' => $ipAddress,
                     'created_at' => $malaysiaTime,
                     'updated_at' => $malaysiaTime
                 ]
             );
+
+            Log::info('User found/created:', [
+                'user_id' => $user->id,
+                'was_recently_created' => $user->wasRecentlyCreated,
+                'existing_telegram_id' => $user->telegram_id
+            ]);
 
             // Update existing user information if needed
             if ($user->wasRecentlyCreated === false) {
@@ -774,19 +770,52 @@ class TelegramController extends Controller
                     'username' => $telegramData['username'] ?? $user->username,
                     'photo_url' => $telegramData['photo_url'] ?? $user->photo_url,
                     'referrer_id' => $telegramData['referrer_id'] ?? $user->referrer_id,
+                    'loginMethod' => 'telegram', // Ensure login method is set
                     'last_login_at' => $malaysiaTime,
                     'last_ip_address' => $ipAddress,
                     'updated_at' => $malaysiaTime
+                ]);
+                
+                Log::info('Updated existing user:', [
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'username' => $user->username
+                ]);
+            } else {
+                Log::info('Created new user:', [
+                    'user_id' => $user->id,
+                    'name' => $user->name,
+                    'username' => $user->username
                 ]);
             }
 
             // Update login info with Malaysia timezone
             $user->updateLoginInfo($ipAddress, $malaysiaTime);
+            
+            // Refresh user data from database
+            $user->refresh();
+            
+            Log::info('User login processed successfully:', [
+                'user_id' => $user->id,
+                'telegram_id' => $user->telegram_id,
+                'name' => $user->name,
+                'username' => $user->username,
+                'referrer_id' => $user->referrer_id,
+                'status' => $user->status,
+                'loginMethod' => $user->loginMethod,
+                'last_login_at' => $user->last_login_at,
+                'created_at' => $user->created_at,
+                'updated_at' => $user->updated_at
+            ]);
 
             return $user;
 
         } catch (\Exception $e) {
-            Log::error('Error processing Telegram login: ' . $e->getMessage());
+            Log::error('Error processing Telegram login: ' . $e->getMessage(), [
+                'telegram_data' => $telegramData,
+                'ip_address' => $ipAddress,
+                'trace' => $e->getTraceAsString()
+            ]);
             return null;
         }
     }
@@ -798,5 +827,105 @@ class TelegramController extends Controller
     {
         $errorUrl = 'sheerapps4d://telegram-login-error?error=' . urlencode($errorMessage);
         return redirect()->away($errorUrl);
+    }
+
+    /**
+     * Process Telegram OAuth data from React Native app
+     * This endpoint receives the Telegram user data that was extracted client-side
+     */
+    public function processOAuthData(Request $request)
+    {
+        try {
+            Log::info('=== PROCESSING TELEGRAM OAUTH DATA FROM REACT NATIVE ===');
+            Log::info('Request data received:', ['data' => $request->all()]);
+
+            // Validate the request
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|integer',
+                'first_name' => 'required|string|max:255',
+                'username' => 'nullable|string|max:255',
+                'photo_url' => 'nullable|string|max:500',
+                'auth_date' => 'required|integer',
+                'hash' => 'required|string',
+                'referral_code' => 'nullable|string|max:50'
+            ]);
+
+            if ($validator->fails()) {
+                Log::warning('Telegram OAuth data validation failed', [
+                    'errors' => $validator->errors()
+                ]);
+                
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid Telegram data',
+                    'errors' => $validator->errors()
+                ], 400);
+            }
+
+            $telegramData = $request->all();
+            $referralCode = $telegramData['referral_code'] ?? null;
+
+            // Get referrer ID if referral code was provided
+            $referrerId = null;
+            if ($referralCode) {
+                $referrerId = $this->getReferrerId($referralCode);
+                Log::info('Referrer ID found:', [
+                    'referral_code' => $referralCode, 
+                    'referrer_id' => $referrerId
+                ]);
+            }
+
+            // Add referrer ID to telegram data
+            $telegramData['referrer_id'] = $referrerId;
+
+            // Process the login
+            $user = $this->processTelegramLogin($telegramData, $request->ip());
+            
+            if (!$user) {
+                Log::error('Failed to process Telegram login');
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Failed to process login'
+                ], 500);
+            }
+
+            // Generate API token
+            $token = $user->generateApiToken();
+            
+            Log::info('User login processed successfully:', [
+                'user_id' => $user->id,
+                'telegram_id' => $user->telegram_id,
+                'referrer_id' => $referrerId,
+                'token_generated' => !empty($token),
+                'token_length' => strlen($token)
+            ]);
+
+            // Return success response with user data
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Telegram login successful',
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username ?: $user->name,
+                    'email' => $user->email,
+                    'avatar' => $user->photo_url ?: '',
+                    'status' => $user->status,
+                    'referrer_id' => $user->referrer_id ?: null,
+                    'referral_count' => $user->getReferralCount(),
+                    'token' => $token,
+                    'loginMethod' => 'telegram'
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error processing Telegram OAuth data: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred during login: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

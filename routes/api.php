@@ -41,3 +41,9 @@ Route::fallback(function () {
         'message' => 'Endpoint not found'
     ], 404);
 });
+
+// Email Authentication Routes
+Route::post('/check-email', 'Auth\EmailAuthController@checkEmail');
+Route::post('/email-login', 'Auth\EmailAuthController@emailLogin');
+Route::post('/email-register', 'Auth\EmailAuthController@emailRegister');
+Route::post('/verify-otp', 'Auth\EmailAuthController@verifyOTP');

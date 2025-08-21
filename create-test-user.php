@@ -8,6 +8,7 @@ $app->make('Illuminate\Contracts\Console\Kernel')->bootstrap();
 
 use App\SheerappsAccount;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 try {
     echo "=== Creating Test Users for Referral System ===\n\n";
@@ -148,8 +149,45 @@ try {
     echo "   You can now test this referral code in your React Native app!\n";
     echo "   Expected result: Success with referrer info\n\n";
     
-    echo "=== Test Users Created Successfully! ===\n";
-    echo "You can now use referral code '5555' in your app for testing.\n";
+    // 7. Create Email Test User
+    echo "\n7. Creating email test user...\n";
+    
+    $emailUser = new SheerappsAccount();
+    $emailUser->telegram_id = null; // No telegram ID for email users
+    $emailUser->name = 'Email Test User';
+    $emailUser->username = 'emailtest';
+    $emailUser->email = 'test@example.com';
+    $emailUser->password = Hash::make('test123');
+    $emailUser->photo_url = '';
+    $emailUser->api_token = bin2hex(random_bytes(32));
+    $emailUser->referrer_id = null;
+    $emailUser->status = 'active';
+    $emailUser->loginMethod = 'email';
+    $emailUser->email_verified_at = now();
+    // Let the system generate referral code automatically
+    $emailUser->last_login_at = now();
+    $emailUser->last_ip_address = '127.0.0.1';
+    $emailUser->login_history = json_encode([
+        [
+            'timestamp' => now()->toISOString(),
+            'ip_address' => '127.0.0.1',
+            'method' => 'email'
+        ]
+    ]);
+    
+    $emailUser->save();
+    echo "   ✅ Email test user created successfully!\n";
+    echo "   ID: {$emailUser->id}\n";
+    echo "   Name: {$emailUser->name}\n";
+    echo "   Email: {$emailUser->email}\n";
+    echo "   Password: test123\n";
+    echo "   Referral Code: {$emailUser->referral_code}\n";
+    echo "   Login Method: {$emailUser->loginMethod}\n";
+    
+    echo "\n=== Test Users Created Successfully! ===\n";
+    echo "You can now use:\n";
+    echo "- Referral code '5555' for Telegram testing\n";
+    echo "- Email 'test@example.com' with password 'test123' for email testing\n";
     
 } catch (Exception $e) {
     echo "ERROR: " . $e->getMessage() . "\n";
