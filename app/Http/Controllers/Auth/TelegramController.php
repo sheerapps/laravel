@@ -437,6 +437,136 @@ class TelegramController extends Controller
     }
 
     /**
+     * Process OAuth data from React Native app
+     */
+    public function processOAuthData(Request $request)
+    {
+        try {
+            Log::info('Processing OAuth data from React Native', [
+                'ip' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'request_data' => $request->all()
+            ]);
+
+            // Validate required fields
+            $validator = Validator::make($request->all(), [
+                'id' => 'required|integer',
+                'first_name' => 'required|string|max:255',
+                'username' => 'nullable|string|max:255',
+                'photo_url' => 'nullable|url|max:500',
+                'auth_date' => 'required|integer',
+                'hash' => 'required|string',
+                'referral_code' => 'nullable|string|max:50'
+            ]);
+
+            if ($validator->fails()) {
+                Log::warning('OAuth data validation failed', [
+                    'errors' => $validator->errors(),
+                    'ip' => $request->ip()
+                ]);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Invalid OAuth data'
+                ], 400);
+            }
+
+            $data = $request->all();
+            $referralCode = $data['referral_code'] ?? null;
+            $referrerId = null;
+
+            // Process referral code if provided
+            if ($referralCode) {
+                $referrer = SheerappsAccount::where('referral_code', $referralCode)->first();
+                if ($referrer && $referrer->isActive()) {
+                    $referrerId = $referrer->id;
+                    Log::info('Referral code processed', [
+                        'referral_code' => $referralCode,
+                        'referrer_id' => $referrerId
+                    ]);
+                } else {
+                    Log::warning('Invalid referral code provided', [
+                        'referral_code' => $referralCode,
+                        'telegram_id' => $data['id']
+                    ]);
+                }
+            }
+
+            // Find or create user
+            $user = SheerappsAccount::firstOrCreate(
+                ['telegram_id' => $data['id']],
+                [
+                    'name' => $data['first_name'],
+                    'username' => $data['username'] ?? '',
+                    'photo_url' => $data['photo_url'] ?? '',
+                    'referrer_id' => $referrerId,
+                    'status' => 'active',
+                    'loginMethod' => 'telegram',
+                    'last_login_at' => Carbon::now('Asia/Kuala_Lumpur'),
+                    'last_ip_address' => $request->ip()
+                ]
+            );
+
+            // Update existing user information if needed
+            if ($user->wasRecentlyCreated === false) {
+                $user->update([
+                    'name' => $data['first_name'],
+                    'username' => $data['username'] ?? $user->username,
+                    'photo_url' => $data['photo_url'] ?? $user->photo_url,
+                    'referrer_id' => $referrerId,
+                    'loginMethod' => 'telegram',
+                    'last_login_at' => Carbon::now('Asia/Kuala_Lumpur'),
+                    'last_ip_address' => $request->ip()
+                ]);
+            }
+
+            // Generate new API token
+            $token = $user->generateApiToken();
+            
+            // Update login info
+            $user->updateLoginInfo($request->ip());
+
+            // Log successful OAuth processing
+            Log::info('Successful OAuth data processing', [
+                'telegram_id' => $data['id'],
+                'username' => $data['username'],
+                'ip' => $request->ip(),
+                'user_id' => $user->id,
+                'referrer_id' => $referrerId,
+                'referral_code' => $referralCode
+            ]);
+
+            // Return user data for React Native
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Login successful',
+                'user' => [
+                    'user_id' => $user->id,
+                    'username' => $user->username,
+                    'name' => $user->name,
+                    'avatar' => $user->photo_url,
+                    'status' => $user->status,
+                    'token' => $token,
+                    'referrer_id' => $user->referrer_id,
+                    'referral_count' => $user->getReferralCount(),
+                    'loginMethod' => 'telegram'
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('OAuth data processing error: ' . $e->getMessage(), [
+                'ip' => $request->ip(),
+                'data' => $request->all(),
+                'trace' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred during OAuth processing'
+            ], 500);
+        }
+    }
+
+    /**
      * Validate referral code before proceeding to Telegram OAuth
      */
     public function validateReferral(Request $request)

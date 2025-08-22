@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 // Public routes (no authentication required)
 Route::post('/telegram-login', [TelegramController::class, 'login'])->name('telegram.login');
 Route::post('/validate-referral', [TelegramController::class, 'validateReferral'])->name('referral.validate');
+Route::post('/process-telegram-oauth', [TelegramController::class, 'processOAuthData'])->name('telegram.oauth.process');
 Route::get('/test-telegram', [TelegramController::class, 'test'])->name('telegram.test');
 
 // Protected routes (require authentication)
